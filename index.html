@@ -138,10 +138,13 @@
 
   </div>
 
-  <form class="contact-form">
-    <input type="text" placeholder="Name" required>
-    <input type="email" placeholder="Email" required>
-    <textarea rows="5" placeholder="Message"></textarea>
+  <form
+  class="contact-form"
+  action="https://formspree.io/f/xpqadplp"
+  method="POST">
+    <input type="text" name="name" placeholder="Name" required>
+    <input type="email" name="email" placeholder="Email" required>
+    <textarea name="message" rows="5" placeholder="Message" required></textarea>
     <button type="submit">Send Message</button>
   </form>
 </section>
