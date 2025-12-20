@@ -1,0 +1,289 @@
+:root {
+  --header-height: 96px;
+}
+
+/* Base */
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: #fff;
+  color: #1f1f1f;
+  padding-top: var(--header-height);
+}
+
+/* Header */
+.site-header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: var(--header-height);
+  background: #fff;
+  border-bottom: 1px solid #eee;
+  z-index: 1000;
+}
+.header-inner {
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding-bottom: 8px;
+}
+
+
+.social-icons {
+  display: flex;
+  gap: 18px;
+}
+.social-icons img {
+  width: 22px;
+  opacity: 0.85;
+  transition: transform 0.3s, opacity 0.3s;
+}
+.social-icons img:hover {
+  transform: scale(1.2);
+  opacity: 1;
+}
+
+/* HERO */
+.hero-collage {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(3, 220px);
+  gap: 18px;
+}
+.tile {
+  position: relative;
+  overflow: hidden;
+  border-radius: 18px;
+  background: #f6f6f6;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+.tile:hover {
+  transform: scale(1.05);
+  box-shadow: 0 30px 60px rgba(0,0,0,0.12);
+  z-index: 5;
+}
+.tile img, .tile video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.tile video {
+  object-fit: contain;
+  pointer-events: none;
+}
+.tile-small { grid-column: span 1; grid-row: span 1; }
+.tile-horizontal { grid-column: span 2; }
+.tile-vertical { grid-row: span 2; }
+.tile-intro { grid-column: 2 / span 2; grid-row: 2 / span 2; }
+.intro-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Libre Baskerville', serif;
+  font-size: 1.6rem;
+  color: #fff;
+  background: rgba(0,0,0,0.35);
+  text-align: center;
+  padding: 30px;
+}
+/* Hero Section Padding */
+#hero {
+  padding-top: 20px;  /* space above hero */
+  padding-bottom: 20px; /* space below hero */
+  padding-left: 20px; /* horizontal padding */
+  padding-right: 20px; /* horizontal padding */
+}
+
+
+/* Gallery */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  padding: 0 30px; /* <-- add horizontal padding */
+  margin: 0 auto;  /* center the gallery */
+}
+
+
+.gallery-item {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: transform 0.35s ease, box-shadow 0.35s ease, opacity 0.5s ease, transform 0.5s ease;
+  opacity: 1;
+}
+.gallery-item.hidden {
+  display: none;
+  opacity: 0;
+  transform: translateY(30px);
+}
+.gallery-item:hover {
+  transform: scale(1.08) translateY(-8px);
+  box-shadow: 0 30px 60px rgba(0,0,0,0.25);
+  z-index: 20;
+}
+.gallery-item.fade-in {
+  animation: fadeInUp 0.6s ease forwards;
+}
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Lightbox */
+.lightbox {
+  display: none;
+  position: fixed;
+  z-index: 5000;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.9);
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.lightbox.show {
+  display: flex;
+}
+.lightbox-content {
+  max-width: 90%;
+  max-height: 90%;
+}
+.lightbox .close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 2rem;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* Contact */
+.contact-form {
+  max-width: 520px;
+  margin: 40px auto 80px; /* increased spacing from gallery and footer */
+  display: grid;
+  gap: 20px;
+}
+
+.contact-form input,
+.contact-form textarea {
+  border: none;
+  border-bottom: 1px solid #ccc;
+  padding: 12px 8px;
+  font-size: 1rem;
+  background: #fafafa; /* subtle background */
+  border-radius: 6px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-color: #000;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+  outline: none;
+}
+
+.contact-form button {
+  margin-top: 20px;
+  padding: 14px;
+  background: #000;
+  color: #fff;
+  border: none;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.contact-form button:hover {
+  background: #333;
+}
+
+#contact h1 {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+  color: #222;
+}
+
+#contact p {
+  font-size: 1rem;
+  color: #222;
+  margin-bottom: 30px;
+}
+
+
+#loadMore {
+  margin-bottom: 50px; /* ensures gap between gallery and contact form */
+}
+
+
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 40px;
+  border-top: 1px solid #eee;
+}
+
+.contact-section {
+  background: url('../images/contact-bg.jpg') no-repeat center center; /* path to your image */
+  background-size: cover;
+  padding: 80px 0; /* adjust vertical padding as needed */
+  color: #fff; /* ensures text is readable on background */
+  text-shadow: 0 2px 6px rgba(0,0,0,0.3); /* optional: makes text pop */
+}
+
+.contact-section .contact-form input,
+.contact-section .contact-form textarea {
+  background: rgba(255,255,255,0.9); /* light transparent background for form fields */
+  color: #000;
+}
+.contact-section .contact-form button {
+  background: #000;
+  color: #fff;
+  font-weight: bold;
+}
+/* Navigation hover pop */
+.main-nav a {
+  margin-right: 32px;
+  text-decoration: none;
+  color: #000;
+  transition: transform 0.3s, color 0.3s;
+}
+
+.main-nav a:hover {
+  transform: scale(1.2);
+  color: #333; /* optional: darken on hover */
+}
+
+.brand a {
+  display: inline-block;
+  font-family: 'Libre Baskerville', serif;
+  letter-spacing: 0.15em;
+}
+
+.logo {
+  height: 60px; /* adjust as needed */
+  width: auto;
+  vertical-align: middle;
+  transition: transform 0.3s;
+}
+
+.logo:hover {
+  transform: scale(1.1);
+}
+html {
+  scroll-behavior: smooth;
+}
+
