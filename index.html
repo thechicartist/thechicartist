@@ -47,16 +47,21 @@
 <!-- HERO COLLAGE -->
 <section id="hero" class="hero-section">
   <div class="hero-collage">
-    <div class="tile tile-vertical"><img src="images/hero/hero-center.jpg"></div>
+    <div class="tile tile-vertical"><img src="images/hero/hero-left.jpeg"></div>
     <div class="tile tile-small"><video src="images/hero/video-2.MP4" muted autoplay loop playsinline></video></div>
     <a href="about.html" class="tile tile-intro">
       <img src="images/hero/hero-center.jpg">
-      <div class="intro-text">I paint romance, memories & modern weddings</div>
+      <div class="intro-text">
+        Hand-painted details for timeless celebrations
+        <span class="intro-cta">
+          my story →
+        </span>
+      </div>
     </a>
-    <div class="tile tile-horizontal"><img src="images/hero/hero-center.jpg"></div>
+    <div class="tile tile-horizontal"><img src="images/hero/hero-right-top.jpg"></div>
     <div class="tile tile-small"><video src="images/hero/video-1.mp4" muted loop autoplay playsinline></video></div>
-    <div class="tile tile-vertical"><img src="images/hero/hero-center.jpg"></div>
-    <div class="tile tile-small"><img src="images/hero/hero-center.jpg"></div>
+    <div class="tile tile-small"><img src="images/hero/hero-left-bottom.jpeg"></div>
+    <div class="tile tile-small"><img src="images/hero/hero-right-bottom.jpeg"></div>
   </div>
 </section>
 
@@ -75,46 +80,25 @@
   </div>
 
   <div class="gallery-grid">
-    <img src="images/portfolio-1.jpg" class="gallery-item">
-    <img src="images/portfolio-2.jpg" class="gallery-item">
-    <img src="images/portfolio-3.jpg" class="gallery-item">
-    <img src="images/portfolio-4.jpg" class="gallery-item">
-    <img src="images/portfolio-5.jpg" class="gallery-item">
-    <img src="images/portfolio-6.jpg" class="gallery-item">
-    <img src="images/portfolio-7.jpg" class="gallery-item">
-    <img src="images/portfolio-8.jpg" class="gallery-item">
-    <img src="images/portfolio-9.jpg" class="gallery-item">
-    <img src="images/portfolio-10.jpg" class="gallery-item">
-    <img src="images/portfolio-11.jpg" class="gallery-item">
-    <img src="images/portfolio-12.jpg" class="gallery-item">
-    <img src="images/portfolio-13.jpg" class="gallery-item">
-    <img src="images/portfolio-1.jpg" class="gallery-item">
-    <img src="images/portfolio-2.jpg" class="gallery-item">
-    <img src="images/portfolio-3.jpg" class="gallery-item">
-    <img src="images/portfolio-4.jpg" class="gallery-item">
-    <img src="images/portfolio-5.jpg" class="gallery-item">
-    <img src="images/portfolio-6.jpg" class="gallery-item">
-    <img src="images/portfolio-7.jpg" class="gallery-item">
-    <img src="images/portfolio-8.jpg" class="gallery-item">
-    <img src="images/portfolio-9.jpg" class="gallery-item">
-    <img src="images/portfolio-10.jpg" class="gallery-item">
-    <img src="images/portfolio-11.jpg" class="gallery-item">
-    <img src="images/portfolio-12.jpg" class="gallery-item">
-    <img src="images/portfolio-13.jpg" class="gallery-item">
-    <img src="images/portfolio-1.jpg" class="gallery-item">
-    <img src="images/portfolio-2.jpg" class="gallery-item">
-    <img src="images/portfolio-3.jpg" class="gallery-item">
-    <img src="images/portfolio-4.jpg" class="gallery-item">
-    <img src="images/portfolio-5.jpg" class="gallery-item">
-    <img src="images/portfolio-6.jpg" class="gallery-item">
-    <img src="images/portfolio-7.jpg" class="gallery-item">
-    <img src="images/portfolio-8.jpg" class="gallery-item">
-    <img src="images/portfolio-9.jpg" class="gallery-item">
-    <img src="images/portfolio-10.jpg" class="gallery-item">
-    <img src="images/portfolio-11.jpg" class="gallery-item">
-    <img src="images/portfolio-12.jpg" class="gallery-item">
-    <img src="images/portfolio-13.jpg" class="gallery-item">
-
+    <img src="images/gallery/g10.jpeg" class="gallery-item">
+    <img src="images/gallery/g2.jpeg" class="gallery-item">
+    <img src="images/gallery/g3.jpeg" class="gallery-item">
+    <img src="images/gallery/g4.jpeg" class="gallery-item">
+    <img src="images/gallery/g5.jpeg" class="gallery-item">
+    <img src="images/gallery/g6.jpeg" class="gallery-item">
+    <img src="images/gallery/g7.jpeg" class="gallery-item">
+    <img src="images/gallery/g8.jpeg" class="gallery-item">
+    <img src="images/gallery/g9.jpeg" class="gallery-item">
+    <img src="images/gallery/g1.jpeg" class="gallery-item">
+    <img src="images/gallery/g11.jpeg" class="gallery-item">
+    <img src="images/gallery/g12.jpeg" class="gallery-item">
+    <img src="images/gallery/g13.jpeg" class="gallery-item">
+    <img src="images/gallery/g14.jpeg" class="gallery-item">
+    <img src="images/gallery/g15.jpeg" class="gallery-item">
+    <img src="images/gallery/g16.JPG" class="gallery-item">
+    <img src="images/gallery/g17.jpg" class="gallery-item">
+    <img src="images/gallery/g18.jpeg" class="gallery-item">
+    <img src="images/gallery/g19.jpeg" class="gallery-item">
   </div>
 
   <div class="text-center mt-3">
@@ -154,7 +138,7 @@
   </form>
 </section>
 
-<footer>© The Chic Artist</footer>
+<footer>© 2026 The Chic Artist</footer>
 
 <script>
 document.querySelectorAll('[data-scroll]').forEach(link => {
@@ -210,15 +194,19 @@ function initGallery() {
 
   galleryItems.forEach((img, index) => {
     if(index < visibleCount){
-      img.style.display = 'block';
+      img.classList.remove('hidden');
       img.classList.add('fade-in');
     } else {
-      img.style.display = 'none';
+      img.classList.add('hidden');
       img.classList.remove('fade-in');
     }
   });
 
-  loadBtn.style.display = visibleCount >= galleryItems.length ? 'none' : 'inline-block';
+  loadBtn.style.display =
+  document.querySelectorAll('.gallery-item.hidden').length === 0
+    ? 'none'
+    : 'inline-block';
+
 }
 
 loadBtn.addEventListener('click', () => {
@@ -230,7 +218,7 @@ loadBtn.addEventListener('click', () => {
 
   galleryItems.forEach((img, index) => {
     if(index < visibleCount){
-      img.style.display = 'block';
+      img.classList.remove('hidden');
       img.classList.add('fade-in');
     }
   });
@@ -297,7 +285,6 @@ form.addEventListener('submit', async function (e) {
 });
 </script>
 <script>
-const form = document.querySelector('.contact-form');
 const submitBtn = form.querySelector('.submit-btn');
 
 form.addEventListener('submit', () => {

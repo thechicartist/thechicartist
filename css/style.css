@@ -48,36 +48,36 @@ body {
 .hero-collage {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(3, 220px);
+  grid-template-rows: repeat(3, 230px);
   gap: 18px;
 }
+
 @media (max-width: 768px) {
   .hero-collage {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 2 columns on mobile */
-    grid-auto-rows: 220px; /* keep all tiles same height as desktop images */
+    grid-template-columns: 1fr; /* single column */
+    grid-template-rows: auto;
     gap: 12px;
   }
 
-    /* Hide extra tiles: keep first 3 images + first video + intro */
-  .hero-collage .tile:not(.tile-intro):not(.video-tile):nth-child(6) {
+  /* Hide all tiles except the intro */
+  .hero-collage .tile:not(.tile-intro) {
     display: none;
   }
-  /* Reset all tile spans for mobile */
-  .tile-horizontal,
-  .tile-vertical,
-  .tile-intro,
-  .tile-small {
-    grid-column: auto !important;
-    grid-row: auto !important;
+
+  /* Make intro tile take full width */
+  .tile-intro {
+    grid-column: 1 / -1; /* full width */
+    grid-row: auto;
   }
 
-  .tile img,
-  .tile video {
-    height: 180px; /* adjust as needed */
+  .tile-intro img {
+    width: 100%;
+    height: auto;
     object-fit: cover;
   }
 }
+
 .tile {
   position: relative;
   overflow: hidden;
@@ -115,7 +115,23 @@ body {
   background: rgba(0,0,0,0.35);
   text-align: center;
   padding: 30px;
+    flex-direction: column;
+  gap: 12px;
 }
+.intro-cta {
+  font-size: 0.9rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.9;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.tile-intro:hover .intro-cta {
+  transform: translateX(6px);
+  opacity: 1;
+}
+
+
 /* Hero Section Padding */
 #hero {
   padding-top: 20px;  /* space above hero */
@@ -339,10 +355,11 @@ html {
 /* Mobile adjustments */
 @media (max-width: 768px) {
   .header-inner {
+    padding-top: 5px;
     flex-direction: column;
     align-items: center;
     padding-bottom: 10px;
-    gap: 5px;
+    gap: 2px;
   }
 
   .main-nav {
@@ -386,4 +403,103 @@ html {
 
 @keyframes spin {
   to { transform: rotate(360deg); }
+}
+/* Circular photo */
+.about-photo {
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 0 auto;
+  background: #f6f6f6; /* subtle background for empty space */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.about-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;   /* ✅ SHOW FULL IMAGE */
+}
+
+
+@media (max-width: 768px) {
+  .about-photo {
+    width: 220px;
+    height: 220px;
+  }
+}
+
+
+
+/* About Me Text Styling */
+.about-hero {
+  background: #fdfaf7; /* soft background */
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.about-hero h1 {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 2.2rem;
+  font-weight: 400;
+  color: #222;
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+.about-hero p {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.1rem;
+  color: #555;
+  max-width: 700px;
+  margin: 0 auto 10px;
+  line-height: 1.7;
+}
+
+/* Story Section */
+.about-story {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  line-height: 1.8;
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  color: #333;
+}
+
+.about-story p {
+  margin-bottom: 24px;
+}
+
+.about-story a {
+  color: #000;
+  text-decoration: underline;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.about-story a:hover {
+  color: #555;
+}
+
+/* Optional: subtle section dividers */
+.about-story p + p {
+  border-top: 1px solid #eee;
+  padding-top: 24px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .about-hero h1 {
+    font-size: 1.8rem;
+  }
+  .about-hero p {
+    font-size: 1rem;
+  }
+  .about-story {
+    padding: 30px 15px;
+    font-size: 0.95rem;
+  }
 }
