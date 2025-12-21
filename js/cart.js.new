@@ -1,0 +1,69 @@
+// Temporary new cart file (will replace after review)
+(function () {
+  // ===== Utilities =====
+  function qs(sel) { return document.querySelector(sel); }
+  function qsa(sel) { return Array.from(document.querySelectorAll(sel)); }
+
+  function onReady(fn) {
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fn);
+    else fn();
+  }
+
+  onReady(() => {
+    // simple cart state
+    let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    const cartIcon = qs('#cartIcon');
+    const cartCount = qs('#cartCount');
+    function saveCart(){ localStorage.setItem('cart', JSON.stringify(cart)); }
+    function updateCartCount(){ if (cartCount) cartCount.textContent = cart.length; }
+    updateCartCount();
+
+    qsa('.add-to-cart').forEach(btn => btn.addEventListener('click', () => {
+      const p = { id: btn.dataset.id, name: btn.dataset.name, price: Number(btn.dataset.price)||0, image: btn.dataset.image||'' };
+      cart.push(p); saveCart(); updateCartCount(); alert(`${p.name} added to cart`);
+    }));
+
+    if (cartIcon) cartIcon.addEventListener('click', () => window.location.href = 'cart.html');
+
+    // cart page
+    const cartPage = qs('#cartPage');
+    if (cartPage) {
+      const cartContainer = qs('#cartItems');
+      const totalBox = qs('#cartTotal');
+      const countrySelect = qs('#country');
+      const provinceSelect = qs('#province');
+      const orderForm = qs('#orderForm');
+      const orderItemsInput = qs('#orderItems');
+      const orderTotalInput = qs('#orderTotal');
+      const orderShippingInput = qs('#orderShipping');
+      const orderTaxInput = qs('#orderTax');
+      const paypalBox = qs('#paypal-button-container');
+
+      function subtotal(){ return cart.reduce((s,i)=>s+Number(i.price||0),0); }
+      function shipping(){ const c = countrySelect?countrySelect.value:''; return c==='Canada'?3: (c==='USA'?9:0); }
+      const taxRates = { 'ON':0.13, 'QC':0.14975, 'NS':0.15, 'NB':0.15, 'MB':0.12, 'BC':0.12, 'PE':0.15, 'SK':0.11, 'AB':0.05, 'NL':0.15, 'NT':0.05, 'YT':0.05, 'NU':0.05 };
+      function tax(){ if(!countrySelect||countrySelect.value!=='Canada'||!provinceSelect) return 0; return subtotal()* (taxRates[provinceSelect.value] ?? 0.05); }
+
+      function render(){ if(!cartContainer) return; cartContainer.innerHTML=''; if(cart.length===0){ cartContainer.innerHTML='<p>Your cart is empty.</p>'; if(totalBox) totalBox.innerText='Total: $0.00'; return; }
+        cart.forEach((it,idx)=>{ const d=document.createElement('div'); d.className='cart-item d-flex align-items-center mb-3'; d.innerHTML=`<img src="${it.image||''}" width="80" class="me-3 rounded"><div class="flex-grow-1"><strong>${it.name}</strong><p>$${Number(it.price).toFixed(2)}</p></div><button class="btn btn-sm btn-danger remove-item" data-index="${idx}">Remove</button>`; cartContainer.appendChild(d); });
+        qsa('.remove-item').forEach(b=>b.addEventListener('click',()=>{ const i=Number(b.dataset.index); if(!Number.isNaN(i)){ cart.splice(i,1); saveCart(); updateCartCount(); render(); }}));
+        const s=subtotal(), sh=shipping(), t=tax(), tot=s+sh+t; if(totalBox) totalBox.innerText = `Total: $${tot.toFixed(2)} (Subtotal: $${s.toFixed(2)} + Shipping: $${sh.toFixed(2)} + Tax: $${t.toFixed(2)})`;
+        if(orderItemsInput) orderItemsInput.value = cart.map(i=>`${i.name} ($${Number(i.price).toFixed(2)})`).join(', ');
+        if(orderTotalInput) orderTotalInput.value = tot.toFixed(2);
+        if(orderShippingInput) orderShippingInput.value = sh.toFixed(2);
+        if(orderTaxInput) orderTaxInput.value = t.toFixed(2);
+      }
+
+      if(countrySelect) countrySelect.addEventListener('change', ()=>{ if(countrySelect.value==='USA'||countrySelect.value==='Canada'){ if(paypalBox) paypalBox.style.display='block'; } else if(paypalBox){ paypalBox.style.display='none'; } render(); });
+      if(provinceSelect) provinceSelect.addEventListener('change', render);
+
+      if(typeof paypal!=='undefined'&&paypal.Buttons){ paypal.Buttons({ createOrder:(d,a)=>{ if(orderForm && !orderForm.checkValidity()){ orderForm.reportValidity(); return Promise.reject(new Error('invalid')); } const amount=(subtotal()+shipping()+tax()).toFixed(2); return a.order.create({ purchase_units:[{ amount:{ value: amount } }] }); }, onApprove:(d,a)=>a.order.capture().then(()=>{ if(orderForm) orderForm.submit(); cart=[]; saveCart(); updateCartCount(); render(); }) }).render('#paypal-button-container'); }
+
+      render();
+    }
+
+    // lightbox
+    (function(){ const sels=['.photo-grid img','.product-grid img','.category-grid img','.gallery-grid img','.gallery-item img']; let lb = qs('#lightbox')||qs('.lightbox'); if(!lb){ lb = document.createElement('div'); lb.id='lightbox'; lb.className='lightbox'; lb.innerHTML='<span class="close">&times;</span><img class="lightbox-content" id="lightbox-img">'; document.body.appendChild(lb);} const lbImg = lb.querySelector('.lightbox-content'); const closeBtn = lb.querySelector('.close'); function open(src,alt){ lb.classList.add('show'); if(lbImg){ lbImg.src=src; lbImg.alt=alt||''; } } function close(){ lb.classList.remove('show'); } if(closeBtn) closeBtn.addEventListener('click', close); lb.addEventListener('click', e=>{ if(e.target===lb) close(); }); document.addEventListener('keydown', e=>{ if(e.key==='Escape') close(); }); sels.forEach(s=> qsa(s).forEach(img=>{ if(img.dataset.lb) return; img.style.cursor='pointer'; img.addEventListener('click', ()=>open(img.src,img.alt)); img.dataset.lb='1'; })); })();
+
+  });
+})();

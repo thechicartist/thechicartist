@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Greeting Cards | The Chic Artist</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Cart JS -->
+  <script src="js/cart.js" defer></script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <div class="brand">
+      <a href="index.html">
+        <img src="images/logo.png" alt="The Chic Artist Logo" class="logo">
+      </a>
+    </div>
+
+
+    <nav class="main-nav d-md-flex">
+      <a href="index.html">Home</a>
+      <a href="wedding.html">Wedding</a>
+      <a href="bookmarks.html">Bookmarks</a>
+      <a href="cards.html">Greeting Cards</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+
+    <div class="social-icons">
+      <a href="https://www.instagram.com/the.chic.artist" target="_blank"><img src="images/icons/instagram.svg"></a>
+      <a href="https://www.youtube.com/@TheChicArtist" target="_blank"><img src="images/icons/youtube.svg"></a>
+      <a href="https://www.facebook.com/neetikaag" target="_blank"><img src="images/icons/facebook.svg"></a>
+      <a href="https://www.tiktok.com/@the.chic.artist" target="_blank"><img src="images/icons/tiktok.svg"></a>
+      <a href="https://thechicartiststudio.etsy.com" target="_blank"><img src="images/icons/etsy.svg"></a>
+    </div>
+
+    <!-- Cart Icon -->
+    <div class="cart-wrapper position-relative ms-3">
+      <img src="images/icons/cart.svg" id="cartIcon" style="width:28px; cursor:pointer;">
+      <span id="cartCount" style="top:-5px; right:-5px; font-size:0.7rem;">0</span>
+    </div>
+
+  </div>
+</header>
+
+<main class="main-content">
+
+<!-- INTRO -->
+<section class="page-intro text-center">
+  <h1>Greeting Cards</h1>
+  <p>Hand-painted sentiments for life’s meaningful moments</p>
+</section>
+
+<!-- PRODUCTS -->
+<section class="product-grid container">
+  <div class="product-item">
+    <img src="images/cards/c1.jpeg" alt="Card 1" class="img-fluid">
+    <div class="product-overlay">
+      <div class="product-overlay-inner">
+        <p class="product-price">$15.99</p>
+        <button class="btn btn-sm add-to-cart"
+                data-id="card1"
+                data-name="Cake slice card"
+                data-price="15.99"
+                data-image="images/cards/c1.jpeg">
+          Add to Cart
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="product-item">
+    <img src="images/cards/c2.jpeg" alt="Card 2" class="img-fluid">
+    <div class="product-overlay">
+      <div class="product-overlay-inner">
+        <p class="product-price">$25.99</p>
+        <button class="btn btn-sm add-to-cart"
+                data-id="card2"
+                data-name="Owl card"
+                data-price="25.99"
+                data-image="images/cards/c2.jpeg">
+          Add to Cart
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="product-item">
+    <img src="images/cards/c3.jpeg" alt="Card 3" class="img-fluid">
+    <div class="product-overlay">
+      <div class="product-overlay-inner">
+        <p class="product-price">$5.99</p>
+        <button class="btn btn-sm add-to-cart"
+                data-id="card3"
+                data-name="Card 3"
+                data-price="5.99"
+                data-image="images/cards/c3.jpeg">
+          Add to Cart
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="product-item">
+    <img src="images/cards/c4.jpeg" alt="Card 4" class="img-fluid">
+    <div class="product-overlay">
+      <div class="product-overlay-inner">
+        <p class="product-price">$5.99</p>
+        <button class="btn btn-sm add-to-cart"
+                data-id="card4"
+                data-name="Card 4"
+                data-price="5.99"
+                data-image="images/cards/c4.jpeg">
+          Add to Cart
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="product-item">
+    <img src="images/cards/c5.jpeg" alt="Card 5" class="img-fluid">
+    <div class="product-overlay">
+      <div class="product-overlay-inner">
+        <p class="product-price">$5.99</p>
+        <button class="btn btn-sm add-to-cart"
+                data-id="card5"
+                data-name="Card 5"
+                data-price="5.99"
+                data-image="images/cards/c5.jpeg">
+          Add to Cart
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="product-item">
+    <img src="images/cards/c6.jpeg" alt="Card 6" class="img-fluid">
+    <div class="product-overlay">
+      <div class="product-overlay-inner">
+        <p class="product-price">$5.99</p>
+        <button class="btn btn-sm add-to-cart"
+                data-id="card6"
+                data-name="Card 6"
+                data-price="5.99"
+                data-image="images/cards/c6.jpeg">
+          Add to Cart
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  
+
+</section>
+
+</main>
+
+<footer class="py-4 bg-light text-center text-muted">
+  © 2026 The Chic Artist
+</footer>
+
+<!-- central cart logic is loaded once from the head via js/cart.js (deferred) -->
+</body>
+</html>

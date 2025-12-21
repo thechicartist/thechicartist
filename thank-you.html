@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Thank You | The Chic Artist</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="index.html">
+      <img src="images/logo.png" class="logo" alt="The Chic Artist">
+    </a>
+  </div>
+</header>
+
+<main class="container thank-you-page" style="max-width:700px; margin:60px auto; text-align:center;">
+  <h1>Thank you for your order ✨</h1>
+  <p>Your payment was successful.</p>
+
+  <div id="orderSummary" style="margin-top:30px; text-align:left;"></div>
+
+  <p style="margin-top:40px;">
+    You’ll receive a confirmation email shortly.<br>
+    If you have questions, feel free to contact me.
+  </p>
+
+  <a href="index.html" class="btn btn-dark mt-4">Back to Home</a>
+</main>
+
+<footer class="py-4 bg-light text-center text-muted">
+  © 2026 The Chic Artist
+</footer>
+
+<script>
+const order = JSON.parse(sessionStorage.getItem('lastOrder'));
+
+if (!order) {
+  document.getElementById('orderSummary').innerHTML =
+    '<p>No order details found.</p>';
+} else {
+  const itemsHtml = order.items
+    .map(i => `<li>${i.name} — $${i.price.toFixed(2)}</li>`)
+    .join('');
+
+  document.getElementById('orderSummary').innerHTML = `
+    <h3>Order Summary</h3>
+    <ul>${itemsHtml}</ul>
+    <p><strong>Total Paid:</strong> $${order.total}</p>
+  `;
+
+  sessionStorage.removeItem('lastOrder');
+}
+</script>
+
+</body>
+</html>

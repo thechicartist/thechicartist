@@ -28,7 +28,9 @@
 
     <nav class="main-nav d-flex d-md-flex justify-content-center">
       <a href="#" data-scroll="top">Home</a>
-      <a href="#" data-scroll="gallery">Gallery</a>
+      <a href="wedding.html">Wedding</a>
+      <a href="bookmarks.html">Bookmarks</a>
+      <a href="cards.html">Greeting Cards</a>
       <a href="#" data-scroll="contact">Contact</a>
     </nav>
 
@@ -39,6 +41,14 @@
       <a href="https://www.tiktok.com/@the.chic.artist" target="_blank"><img src="images/icons/tiktok.svg"></a>
       <a href="https://thechicartiststudio.etsy.com" target="_blank"><img src="images/icons/etsy.svg"></a>
     </div>
+
+    <!-- Cart Icon -->
+    <div class="cart-wrapper position-relative ms-3">
+      <img src="images/icons/cart.svg" id="cartIcon" style="width:28px; cursor:pointer;">
+      <span id="cartCount" style="top:-5px; right:-5px; font-size:0.7rem;">0</span>
+    </div>
+
+
   </div>
 </header>
 
@@ -54,7 +64,7 @@
       <div class="intro-text">
         Hand-painted details for timeless celebrations
         <span class="intro-cta">
-          my story →
+          my story >>
         </span>
       </div>
     </a>
@@ -73,38 +83,55 @@
   </div>
 </section>
 
-<!-- GALLERY -->
-<section id="gallery" class="main-content">
-  <div class="container text-center mb-4">
-    
-  </div>
+<!-- Catagory section -->
+<section id="gallery" class="category-section">
+  <div class="container">
 
-  <div class="gallery-grid">
-    <img src="images/gallery/g10.jpeg" class="gallery-item">
-    <img src="images/gallery/g2.jpeg" class="gallery-item">
-    <img src="images/gallery/g3.jpeg" class="gallery-item">
-    <img src="images/gallery/g4.jpeg" class="gallery-item">
-    <img src="images/gallery/g5.jpeg" class="gallery-item">
-    <img src="images/gallery/g6.jpeg" class="gallery-item">
-    <img src="images/gallery/g7.jpeg" class="gallery-item">
-    <img src="images/gallery/g8.jpeg" class="gallery-item">
-    <img src="images/gallery/g9.jpeg" class="gallery-item">
-    <img src="images/gallery/g1.jpeg" class="gallery-item">
-    <img src="images/gallery/g11.jpeg" class="gallery-item">
-    <img src="images/gallery/g12.jpeg" class="gallery-item">
-    <img src="images/gallery/g13.jpeg" class="gallery-item">
-    <img src="images/gallery/g14.jpeg" class="gallery-item">
-    <img src="images/gallery/g15.jpeg" class="gallery-item">
-    <img src="images/gallery/g16.JPG" class="gallery-item">
-    <img src="images/gallery/g17.jpg" class="gallery-item">
-    <img src="images/gallery/g18.jpeg" class="gallery-item">
-    <img src="images/gallery/g19.jpeg" class="gallery-item">
-  </div>
+    <!-- Weddings -->
+    <div class="category-row">
+      <h2>Weddings</h2>
+      <div class="category-grid">
+        <img src="images/wedding/w1.jpeg">
+        <img src="images/wedding/w2.jpeg">
+        <img src="images/wedding/w3.jpeg">
+        <img src="images/wedding/w4.jpeg">
+        <img src="images/wedding/w5.jpeg">
+        <img src="images/wedding/w6.jpeg">
+        <a href="wedding.html" class="category-arrow">>></a>
+      </div>
+    </div>
 
-  <div class="text-center mt-3">
-    <button id="loadMore" class="btn btn-dark">Load More</button>
+    <!-- Bookmarks -->
+    <div class="category-row">
+      <h2>Bookmarks</h2>
+      <div class="category-grid">
+        <img src="images/bookmarks/b1.jpeg">
+        <img src="images/bookmarks/b2.jpeg">
+        <img src="images/bookmarks/b3.jpeg">
+        <img src="images/bookmarks/b4.jpeg">
+        <img src="images/bookmarks/b5.jpeg">
+        <img src="images/bookmarks/b5.jpeg">
+        <a href="bookmarks.html" class="category-arrow">>></a>
+      </div>
+    </div>
+
+    <!-- Greeting Cards -->
+    <div class="category-row">
+      <h2>Greeting Cards</h2>
+      <div class="category-grid">
+        <img src="images/cards/c1.jpeg">
+        <img src="images/cards/c2.jpeg">
+        <img src="images/cards/c3.jpeg">
+        <img src="images/cards/c4.jpeg">
+        <img src="images/cards/c5.jpeg">
+        <img src="images/cards/c6.jpeg">
+        <a href="cards.html" class="category-arrow">>></a>
+      </div>
+    </div>
+
   </div>
 </section>
+
 
 <!-- Lightbox Modal -->
 <div id="lightbox" class="lightbox">
@@ -171,84 +198,6 @@ document.querySelectorAll('[data-scroll]').forEach(link => {
 
 
 <script>
-// ===== Gallery Load More with Animation =====
-const galleryItems = document.querySelectorAll('.gallery-item');
-const loadBtn = document.getElementById('loadMore');
-
-function imagesPerRow() {
-  const width = window.innerWidth;
-  if(width >= 1200) return 5;
-  if(width >= 992) return 4;
-  if(width >= 768) return 3;
-  return 2;
-}
-
-let rowsToShow = 3; // default rows
-let visibleCount = 0;
-
-function initGallery() {
-  const perRow = imagesPerRow();
-  
-  // Show at least 3 rows, or all if less
-  visibleCount = Math.min(rowsToShow * perRow, galleryItems.length);
-
-  galleryItems.forEach((img, index) => {
-    if(index < visibleCount){
-      img.classList.remove('hidden');
-      img.classList.add('fade-in');
-    } else {
-      img.classList.add('hidden');
-      img.classList.remove('fade-in');
-    }
-  });
-
-  loadBtn.style.display =
-  document.querySelectorAll('.gallery-item.hidden').length === 0
-    ? 'none'
-    : 'inline-block';
-
-}
-
-loadBtn.addEventListener('click', () => {
-  const perRow = imagesPerRow();
-  visibleCount += rowsToShow * perRow;
-  
-  // Limit visibleCount to total items
-  visibleCount = Math.min(visibleCount, galleryItems.length);
-
-  galleryItems.forEach((img, index) => {
-    if(index < visibleCount){
-      img.classList.remove('hidden');
-      img.classList.add('fade-in');
-    }
-  });
-
-  // Hide button if all images are shown
-  if(visibleCount >= galleryItems.length) loadBtn.style.display = 'none';
-});
-
-window.addEventListener('resize', initGallery);
-initGallery();
-
-
-// ===== Lightbox =====
-const lightbox = document.getElementById('lightbox');
-const lightboxImg = document.getElementById('lightbox-img');
-const closeBtn = document.querySelector('.lightbox .close');
-
-galleryItems.forEach(img => {
-  img.addEventListener('click', () => {
-    lightbox.classList.add('show');
-    lightboxImg.src = img.src;
-  });
-});
-
-closeBtn.addEventListener('click', () => lightbox.classList.remove('show'));
-lightbox.addEventListener('click', e => {
-  if(e.target === lightbox) lightbox.classList.remove('show');
-});
-</script>
-<script>
 const form = document.getElementById('contactForm');
 
 form.addEventListener('submit', async function (e) {
@@ -292,5 +241,6 @@ form.addEventListener('submit', () => {
 });
 </script>
 
+<script src="js/cart.js"></script>
 </body>
 </html>

@@ -19,7 +19,7 @@
 <header class="site-header">
   <div class="container header-inner">
     <div class="brand">
-      <a href="index.html#top">
+      <a href="index.html">
         <img src="images/logo.png" alt="The Chic Artist Logo" class="logo">
       </a>
     </div>
@@ -27,7 +27,9 @@
 
     <nav class="main-nav d-md-flex">
       <a href="index.html">Home</a>
-      <a href="index.html#portfolio">Portfolio</a>
+      <a href="wedding.html">Wedding</a>
+      <a href="bookmarks.html">Bookmarks</a>
+      <a href="cards.html">Greeting Cards</a>
       <a href="index.html#contact">Contact</a>
     </nav>
 
@@ -38,6 +40,13 @@
       <a href="https://www.tiktok.com/@the.chic.artist" target="_blank"><img src="images/icons/tiktok.svg"></a>
       <a href="https://thechicartiststudio.etsy.com" target="_blank"><img src="images/icons/etsy.svg"></a>
     </div>
+
+    <!-- Cart Icon -->
+    <div class="cart-wrapper position-relative ms-3">
+      <img src="images/icons/cart.svg" id="cartIcon" style="width:28px; cursor:pointer;">
+      <span id="cartCount" style="top:-5px; right:-5px; font-size:0.7rem;">0</span>
+    </div>
+
   </div>
 </header>
 
@@ -70,8 +79,9 @@
 </main>
 
 <footer class="py-4 bg-light text-center text-muted">
-  © The Chic Artist
+  © 2026 The Chic Artist
 </footer>
 
+<script src="js/cart.js"></script>
 </body>
 </html>
