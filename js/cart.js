@@ -44,9 +44,12 @@
       const orderShippingInput = qs('#orderShipping');
       const orderTaxInput = qs('#orderTax');
       const orderProvinceInput = qs('#orderProvince');
+      const orderZipInput = qs('#orderZip');
+      const orderCountryInput = qs('#orderCountry');
       const orderForm = qs('#orderForm');
       const countrySelect = qs('#country');
       const provinceSelect = qs('#province');
+      const zipInput = qs('#zip');
       const paypalBox = qs('#paypal-button-container');
       const shippingMsg = qs('#shippingMsg');
       const payerEmailInput = qs('#payerEmail');
@@ -72,6 +75,18 @@
 
           let country = '';
           let province = '';
+          let zip = '';
+
+          place.address_components.forEach(c => {
+            if (c.types.includes('postal_code')) {
+              zip = c.long_name;
+            }
+          });
+
+          // Fill zip field
+          const zipInput = document.getElementById('zip');
+          if (zipInput) zipInput.value = zip;
+
 
           place.address_components.forEach(c => {
             if (c.types.includes('country')) {
@@ -171,6 +186,8 @@
         if (orderShippingInput) orderShippingInput.value = sh.toFixed(2);
         if (orderTaxInput) orderTaxInput.value = tax.toFixed(2);
         if (orderProvinceInput) orderProvinceInput.value = provinceSelect ? provinceSelect.value : '';
+        if (orderZipInput) orderZipInput.value = zipInput ? zipInput.value : '';
+        if (orderCountryInput) orderCountryInput.value = countrySelect ? countrySelect.value : '';
 
       }
 
@@ -271,6 +288,8 @@
                 shipping: getShipping().toFixed(2),
                 tax: computeTax().toFixed(2),
                 province: provinceSelect?.value || '',
+                zip: zipInput?.value || '',
+                country: countrySelect?.value || '',
                 payerEmail: customerEmailInput?.value || details.payer?.email_address || ''
               };
 
@@ -284,6 +303,8 @@
               if (orderShippingInput) orderShippingInput.value = orderData.shipping;
               if (orderTaxInput) orderTaxInput.value = orderData.tax;
               if (orderProvinceInput) orderProvinceInput.value = orderData.province;
+              if (orderZipInput) orderZipInput.value = orderData.zip;
+              if (orderCountryInput) orderCountryInput.value = orderData.country;
               if (payerEmailInput) payerEmailInput.value = orderData.payerEmail;
 
               // Clear cart immediately

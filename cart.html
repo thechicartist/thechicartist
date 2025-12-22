@@ -89,9 +89,10 @@
     <input type="hidden" name="order_shipping" id="orderShipping">
     <input type="hidden" name="order_tax" id="orderTax">
     <input type="hidden" name="order_province" id="orderProvince">
+    <input type="hidden" name="order_zip" id="orderZip">
+    <input type="hidden" name="order_country" id="orderCountry">
     <input type="hidden" name="payment_method" value="PayPal">
     <input type="hidden" name="payer_email" id="payerEmail">
-    <input type="hidden" name="invoice_html" id="invoiceHtml">
 
     <!-- Customer Email -->
     <div class="mb-3">
@@ -111,20 +112,14 @@
       />
     </div>
 
-    <!-- Country Selection -->
     <div class="mb-3">
-      <select name="country" id="country" required class="form-select" disabled>
-        <option value="">Select Country</option>
-        <option value="USA">USA</option>
-        <option value="Canada">Canada</option>
-        <option value="Other">Other</option>
-      </select>
+      <input type="text" value="zip code" id="zip" name="zip" class="form-control" readonly>
     </div>
 
     <!-- Province / State Selection -->
     <div class="mb-3">
       <select name="province" id="province" class="form-select" disabled>
-        <option value="">Select Province / State</option>
+        <option value="">Province / State</option>
         <optgroup label="Canada">
           <option value="ON">Ontario</option>
           <option value="QC">Quebec</option>
@@ -192,6 +187,16 @@
           <option value="WI">Wisconsin</option>
           <option value="WY">Wyoming</option>
         </optgroup>
+      </select>
+    </div>
+
+    <!-- Country Selection -->
+    <div class="mb-3">
+      <select name="country" id="country" required class="form-select" disabled>
+        <option value="">Country</option>
+        <option value="USA">USA</option>
+        <option value="Canada">Canada</option>
+        <option value="Other">Other</option>
       </select>
     </div>
 
