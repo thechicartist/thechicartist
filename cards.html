@@ -21,14 +21,16 @@
 
 <header class="site-header">
   <div class="container header-inner">
+
+    <!-- Brand / Logo -->
     <div class="brand">
-      <a href="index.html">
+      <a href="index.html" class="logo-link" data-scroll="top">
         <img src="images/logo.png" alt="The Chic Artist Logo" class="logo">
       </a>
     </div>
 
-
-    <nav class="main-nav d-md-flex">
+    <!-- Desktop Nav -->
+    <nav class="main-nav d-flex justify-content-center">
       <a href="index.html">Home</a>
       <a href="wedding.html">Wedding</a>
       <a href="bookmarks.html">Bookmarks</a>
@@ -36,22 +38,43 @@
       <a href="index.html#contact">Contact</a>
     </nav>
 
-    <div class="social-icons">
-      <a href="https://www.instagram.com/the.chic.artist" target="_blank"><img src="images/icons/instagram.svg"></a>
-      <a href="https://www.youtube.com/@TheChicArtist" target="_blank"><img src="images/icons/youtube.svg"></a>
-      <a href="https://www.facebook.com/neetikaag" target="_blank"><img src="images/icons/facebook.svg"></a>
-      <a href="https://www.tiktok.com/@the.chic.artist" target="_blank"><img src="images/icons/tiktok.svg"></a>
-      <a href="https://thechicartiststudio.etsy.com" target="_blank"><img src="images/icons/etsy.svg"></a>
-    </div>
+    <!-- Social Icons + Cart -->
+    <div class="header-right d-flex align-items-center">
+      <div class="social-icons d-flex">
+        <a href="https://www.instagram.com/the.chic.artist" target="_blank"><img src="images/icons/instagram.svg"></a>
+        <a href="https://www.youtube.com/@TheChicArtist" target="_blank"><img src="images/icons/youtube.svg"></a>
+        <a href="https://www.facebook.com/neetikaag" target="_blank"><img src="images/icons/facebook.svg"></a>
+        <a href="https://www.tiktok.com/@the.chic.artist" target="_blank"><img src="images/icons/tiktok.svg"></a>
+        <a href="https://thechicartiststudio.etsy.com" target="_blank"><img src="images/icons/etsy.svg"></a>
+      </div>
 
-    <!-- Cart Icon -->
-    <div class="cart-wrapper position-relative ms-3">
-      <img src="images/icons/cart.svg" id="cartIcon" style="width:28px; cursor:pointer;">
-      <span id="cartCount" style="top:-5px; right:-5px; font-size:0.7rem;">0</span>
+      <!-- Cart Icon -->
+      <div class="cart-wrapper position-relative ms-3">
+        <img src="images/icons/cart.svg" id="cartIcon" style="width:28px; cursor:pointer;">
+        <span id="cartCount" style="top:-5px; right:-5px; font-size:0.7rem;">0</span>
+      </div>
+
+      <!-- Mobile Hamburger -->
+      <div class="mobile-menu-icon ms-3" onclick="toggleMobileMenu()">☰</div>
     </div>
 
   </div>
 </header>
+
+<!-- Mobile Side Console -->
+<div id="mobileSideConsole" class="mobile-side-console">
+  <ul>
+    <li><a href="index.html" data-scroll="top">Home</a></li>
+    <li><a href="wedding.html">Wedding</a></li>
+    <li><a href="bookmarks.html">Bookmarks</a></li>
+    <li><a href="cards.html">Greeting Cards</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+</div>
+
+<!-- Overlay -->
+<div id="mobileMenuOverlay" class="mobile-menu-overlay"></div>
+
 
 <main class="main-content">
 
@@ -163,7 +186,16 @@
 <footer class="py-4 bg-light text-center text-muted">
   © 2026 The Chic Artist
 </footer>
+<script>
+function toggleMobileMenu() {
+  const menu = document.getElementById('mobileSideConsole');
+  const overlay = document.getElementById('mobileMenuOverlay');
+  menu.classList.toggle('active');
+  overlay.classList.toggle('active');
+}
 
-<!-- central cart logic is loaded once from the head via js/cart.js (deferred) -->
+// Close menu when overlay is clicked
+document.getElementById('mobileMenuOverlay').addEventListener('click', toggleMobileMenu);
+</script>
 </body>
 </html>

@@ -36,6 +36,8 @@
       const provinceSelect = qs('#province');
       const paypalBox = qs('#paypal-button-container');
       const shippingMsg = qs('#shippingMsg');
+      const payerEmailInput = qs('#payerEmail');
+      const customerEmailInput = qs('#customerEmail');  
 
       function subtotal(){ return cart.reduce((s,i)=>s+Number(i.price||0),0); }
       function getShipping(){ const c = countrySelect?countrySelect.value:''; return c==='Canada'?3: (c==='USA'?9:0); }
@@ -78,63 +80,76 @@
               return actions.reject();
             }
 
+            if (!customerEmailInput?.value) {
+              alert('Please enter your email before proceeding.');
+              return actions.reject();
+            }
+
             const amount = (subtotal() + getShipping() + computeTax()).toFixed(2);
 
             return actions.order.create({
               purchase_units: [{
                 amount: { value: amount },
                 description: 'Order from The Chic Artist'
-              }],
-              application_context: {
-                brand_name: 'The Chic Artist',
-                user_action: 'PAY_NOW'
-              }
+              }]
             });
           },
-
           onApprove: (data, actions) => {
-            return actions.order.capture().then(details => {
+            return actions.order.capture().then(async details => {
+              console.log('PayPal order captured:', details);
 
+              // Build order data
               const orderData = {
                 items: cart,
                 total: (subtotal() + getShipping() + computeTax()).toFixed(2),
-                payer: details.payer?.email_address || ''
+                shipping: getShipping().toFixed(2),
+                tax: computeTax().toFixed(2),
+                province: provinceSelect?.value || '',
+                payerEmail: customerEmailInput?.value || details.payer?.email_address || ''
               };
 
               // Save for Thank You page
               sessionStorage.setItem('lastOrder', JSON.stringify(orderData));
+              console.log('Order data saved to sessionStorage');
 
               // Populate hidden Formspree fields
-              if (orderItemsInput) {
-                orderItemsInput.value = cart
-                  .map(i => `${i.name} ($${Number(i.price).toFixed(2)})`)
-                  .join(', ');
-              }
+              if (orderItemsInput) orderItemsInput.value = cart.map(i => `${i.name} ($${Number(i.price).toFixed(2)})`).join(', ');
+              if (orderTotalInput) orderTotalInput.value = orderData.total;
+              if (orderShippingInput) orderShippingInput.value = orderData.shipping;
+              if (orderTaxInput) orderTaxInput.value = orderData.tax;
+              if (orderProvinceInput) orderProvinceInput.value = orderData.province;
+              if (payerEmailInput) payerEmailInput.value = orderData.payerEmail;
 
-              if (orderTotalInput) {
-                orderTotalInput.value = orderData.total;
-              }
-
-              // Send email silently
-              fetch(orderForm.action, {
-                method: 'POST',
-                body: new FormData(orderForm),
-                headers: { 'Accept': 'application/json' }
-              });
-
-              // Clear cart AFTER sending
+              // Clear cart immediately
               cart = [];
               saveCart();
               updateCartCount();
 
-              // Redirect customer
+              // Send email to Formspree
+              try {
+                const response = await fetch(orderForm.action, {
+                  method: 'POST',
+                  body: new FormData(orderForm),
+                  headers: { 'Accept': 'application/json' }
+                });
+
+                if (!response.ok) {
+                  console.warn('Formspree email failed', response);
+                } else {
+                  console.log('Formspree email sent successfully');
+                }
+              } catch (err) {
+                console.error('Error sending Formspree email', err);
+              }
+
+              // Redirect after everything is done
               window.location.href = 'thank-you.html';
             });
           },
 
 
+
           onCancel: (data) => {
-            // USER CLOSED PAYPAL
             alert('Payment was cancelled. Your cart is still saved.');
           },
 
@@ -142,13 +157,36 @@
             console.error('PayPal error', err);
             alert('Payment failed. Please try again or use another method.');
           }}).render('#paypal-button-container'); 
-        }
+      }
 
       render();
     }
 
     // lightbox
-    (function(){ const sels = ['.photo-grid img','.product-grid img','.category-grid img','.gallery-grid img','.gallery-item img']; let lb = qs('#lightbox')||qs('.lightbox'); if(!lb){ lb = document.createElement('div'); lb.id='lightbox'; lb.className='lightbox'; lb.innerHTML = '<span class="close">&times;</span><img class="lightbox-content" id="lightbox-img">'; document.body.appendChild(lb); } const lbImg = lb.querySelector('.lightbox-content'); const closeBtn = lb.querySelector('.close'); function open(src,alt){ lb.classList.add('show'); if(lbImg){ lbImg.src = src; lbImg.alt = alt||''; } } function close(){ lb.classList.remove('show'); } if(closeBtn) closeBtn.addEventListener('click', close); lb.addEventListener('click', e=>{ if(e.target===lb) close(); }); document.addEventListener('keydown', e=>{ if(e.key==='Escape') close(); }); sels.forEach(s=> qsa(s).forEach(img=>{ if(img.dataset.lbAttached) return; img.style.cursor='pointer'; img.addEventListener('click', ()=>open(img.src,img.alt)); img.dataset.lbAttached='1'; })); })();
+    (function(){
+      const sels = ['.photo-grid img','.product-grid img','.category-grid img','.gallery-grid img','.gallery-item img'];
+      let lb = qs('#lightbox')||qs('.lightbox'); 
+      if(!lb){ 
+        lb = document.createElement('div'); 
+        lb.id='lightbox'; 
+        lb.className='lightbox'; 
+        lb.innerHTML = '<span class="close">&times;</span><img class="lightbox-content" id="lightbox-img">'; 
+        document.body.appendChild(lb); 
+      } 
+      const lbImg = lb.querySelector('.lightbox-content'); 
+      const closeBtn = lb.querySelector('.close'); 
+      function open(src,alt){ lb.classList.add('show'); if(lbImg){ lbImg.src = src; lbImg.alt = alt||''; } } 
+      function close(){ lb.classList.remove('show'); } 
+      if(closeBtn) closeBtn.addEventListener('click', close); 
+      lb.addEventListener('click', e=>{ if(e.target===lb) close(); }); 
+      document.addEventListener('keydown', e=>{ if(e.key==='Escape') close(); }); 
+      sels.forEach(s=> qsa(s).forEach(img=>{ 
+        if(img.dataset.lbAttached) return; 
+        img.style.cursor='pointer'; 
+        img.addEventListener('click', ()=>open(img.src,img.alt)); 
+        img.dataset.lbAttached='1'; 
+      }));
+    })();
 
   });
 })();
