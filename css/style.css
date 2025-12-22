@@ -358,7 +358,7 @@ html {
 }
 
 /* Mobile adjustments */
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .header-inner {
     padding-top: 5px;
     flex-direction: column;
@@ -429,7 +429,7 @@ html {
 }
 
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .about-photo {
     width: 220px;
     height: 220px;
@@ -496,7 +496,7 @@ html {
 }
 
 /* Responsive adjustments */
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .about-hero h1 {
     font-size: 1.8rem;
   }
@@ -574,7 +574,7 @@ html {
   .category-grid img:nth-of-type(-n+2) { display: block; }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .category-grid img,
   .product-grid img,
   .photo-grid img {
@@ -816,7 +816,7 @@ html {
   margin: 0 auto;       /* centers the content */
   padding: 0 20px;      /* optional side padding */
 }
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .header-inner {
     flex-direction: column;
     align-items: center;
@@ -877,7 +877,7 @@ html {
 }
 
 /* Responsive Adjustments */
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .main-nav {
     display: none; /* hide desktop menu */
   }
@@ -902,7 +902,7 @@ html {
 }
 
 /* Mobile adjustments */
-@media (max-width: 768px) {
+@media (max-width: 767px) {
 
   .header-inner {
     flex-direction: column;
