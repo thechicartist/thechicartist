@@ -3,7 +3,7 @@
   function qs(s) { return document.querySelector(s); }
   function qsa(s) { return Array.from(document.querySelectorAll(s)); }
   function onReady(fn) { if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fn); else fn(); }
-
+  
 
 
   onReady(() => {
@@ -225,25 +225,27 @@
           createOrder: (data, actions) => {
             if (orderForm && !orderForm.checkValidity()) {
               orderForm.reportValidity();
-              return actions.reject();
+              return Promise.reject(new Error('Cart is Empty'));
+
             }
 
             if (!customerEmailInput?.value) {
               alert('Please enter your email before proceeding.');
-              return actions.reject();
+              return Promise.reject(new Error('Invalid email address'));
+
             }
 
-            const amount = (subtotal() + getShipping() + computeTax()).toFixed(2);
+                  const amount = (subtotal() + getShipping() + computeTax()).toFixed(2);
 
-            return actions.order.create({
-              purchase_units: [{
+                  return actions.order.create({
+                    purchase_units: [{
                 amount: {
                   value: amount,
                   currency_code: currentCurrency
                 },
-                description: 'Order from The Chic Artist'
-              }]
-            });
+                      description: 'Order from The Chic Artist'
+                    }]
+                  });
           },
 
           onApprove: (data, actions) => {
@@ -302,13 +304,17 @@
 
 
 
-          onCancel: () => {
-            alert('Payment cancelled. Your cart is still saved.');
-          },
-
           onError: err => {
             console.error('PayPal error', err);
-            alert('Payment failed. Please try again.');
+            const errDiv = document.getElementById('paypalError');
+            if (errDiv) {
+              alert('Payment failed. ' + (err || ''));
+            }
+          },
+
+          onCancel: data => {
+            console.log('Payment cancelled by user', data);
+            alert('Payment cancelled. Your cart is still saved.');
           }
 
         }).render('#paypal-button-container');
