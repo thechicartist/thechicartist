@@ -172,14 +172,9 @@
   © 2026 The Chic Artist
 </footer>
 
-<script>
-function addToCart(name, price) {
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
-  cart.push({ name, price });
-  localStorage.setItem("cart", JSON.stringify(cart));
-  alert("Added to cart ✨");
-}
-</script>
+<!-- Toast Notification -->
+<div id="cartToast" class="cart-toast">Added to cart ✨</div>
+
 <script src="js/cart.js"></script>
 <script>
 function toggleMobileMenu() {

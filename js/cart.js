@@ -13,12 +13,23 @@
     const cartCount = qs('#cartCount');
     function saveCart() { localStorage.setItem('cart', JSON.stringify(cart)); }
     function updateCartCount() { if (cartCount) cartCount.textContent = cart.length; }
+    function showCartToast(message) {
+      const toast = document.getElementById('cartToast');
+      if (!toast) return;
+
+      toast.textContent = message;
+      toast.classList.add('show');
+
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2000); // 2 seconds
+    }
     updateCartCount();
 
     // Add to cart
     qsa('.add-to-cart').forEach(btn => btn.addEventListener('click', () => {
       const p = { id: btn.dataset.id, name: btn.dataset.name, price: Number(btn.dataset.price) || 0, image: btn.dataset.image || '' };
-      cart.push(p); saveCart(); updateCartCount(); alert(`${p.name} added to cart`);
+      cart.push(p); saveCart(); updateCartCount(); showCartToast(`${p.name} added to cart ✨`);
     }));
 
     if (cartIcon) { cartIcon.style.cursor = 'pointer'; cartIcon.addEventListener('click', () => window.location.href = 'cart.html'); }
