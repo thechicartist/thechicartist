@@ -93,14 +93,29 @@
     <input type="hidden" name="payer_email" id="payerEmail">
     <input type="hidden" name="invoice_html" id="invoiceHtml">
 
+    <div id="paypalError" style="color:red; margin-top:10px;"></div>
+
     <!-- Customer Email -->
     <div class="mb-3">
       <input type="email" name="email" id="customerEmail" placeholder="Email" required class="form-control">
     </div>
 
+        <!-- Shipping Address -->
+    <div class="mb-3">
+      <input
+        type="text"
+        id="address"
+        name="address"
+        placeholder="Start typing your shipping address"
+        autocomplete="off"
+        required
+        class="form-control"
+      />
+    </div>
+
     <!-- Country Selection -->
     <div class="mb-3">
-      <select name="country" id="country" required class="form-select">
+      <select name="country" id="country" required class="form-select" disabled>
         <option value="">Select Country</option>
         <option value="USA">USA</option>
         <option value="Canada">Canada</option>
@@ -110,7 +125,7 @@
 
     <!-- Province / State Selection -->
     <div class="mb-3">
-      <select name="province" id="province" class="form-select">
+      <select name="province" id="province" class="form-select" disabled>
         <option value="">Select Province / State</option>
         <optgroup label="Canada">
           <option value="ON">Ontario</option>
@@ -180,11 +195,6 @@
           <option value="WY">Wyoming</option>
         </optgroup>
       </select>
-    </div>
-
-    <!-- Shipping Address -->
-    <div class="mb-3">
-      <textarea name="address" placeholder="Full Shipping Address" required class="form-control"></textarea>
     </div>
 
   </form>
