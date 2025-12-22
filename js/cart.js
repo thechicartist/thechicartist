@@ -3,6 +3,8 @@
   function qs(s){ return document.querySelector(s); }
   function qsa(s){ return Array.from(document.querySelectorAll(s)); }
   function onReady(fn){ if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', fn); else fn(); }
+  
+
 
   onReady(()=>{
     // Cart state
@@ -39,12 +41,51 @@
       const payerEmailInput = qs('#payerEmail');
       const customerEmailInput = qs('#customerEmail');  
 
+      // ===== PayPal currency handling =====
+      let currentCurrency = 'USD';
+      let paypalLoadedCurrency = null;
+
+      function getCurrencyByCountry(country) {
+        if (country === 'Canada') return 'CAD';
+        if (country === 'USA') return 'USD';
+        return null;
+      }
+
+      function loadPayPalSDK(currency) {
+        if (paypalLoadedCurrency === currency) return;
+
+        paypalLoadedCurrency = currency;
+
+        // Remove old SDK
+        const oldScript = document.getElementById('paypal-sdk');
+        if (oldScript) oldScript.remove();
+
+        // Clear previous buttons
+        if (paypalBox) paypalBox.innerHTML = '';
+
+        const script = document.createElement('script');
+        script.id = 'paypal-sdk';
+        script.src = `https://www.paypal.com/sdk/js?client-id=ARXieRvyprGI6jMyKMWlaH1JCoVq-K07TzcNBwJMmMsZv9z-0jsh2KBx3eY9y9FQrPqcl_spRXxZR1Ma&disable-funding=credit&currency=${currency}`;
+        script.onload = renderPayPalButtons;
+        document.body.appendChild(script);
+      }
+
+
       function subtotal(){ return cart.reduce((s,i)=>s+Number(i.price||0),0); }
       function getShipping(){ const c = countrySelect?countrySelect.value:''; return c==='Canada'?3: (c==='USA'?9:0); }
       const taxRates = { 'ON':0.13,'QC':0.14975,'NS':0.15,'NB':0.15,'MB':0.12,'BC':0.12,'PE':0.15,'SK':0.11,'AB':0.05,'NL':0.15,'NT':0.05,'YT':0.05,'NU':0.05 };
       function computeTax(){ if(!countrySelect||countrySelect.value!=='Canada'||!provinceSelect) return 0; const base = subtotal() + getShipping(); return base * (taxRates[provinceSelect.value] ?? 0.05); }
 
       function render(){
+        if(paypalBox){
+        if(cart.length > 0 && countrySelect && (countrySelect.value === 'Canada' || countrySelect.value === 'USA')){
+            paypalBox.style.display = 'block';
+            if(shippingMsg) shippingMsg.innerText = `Delivery available. Shipping: $${getShipping().toFixed(2)}.`;
+        } else {
+            paypalBox.style.display = 'none';
+            if(shippingMsg) shippingMsg.innerText = '';
+        }
+    }
         if(!cartContainer) return;
         cartContainer.innerHTML='';
         if(cart.length===0){ cartContainer.innerHTML='<p>Your cart is empty.</p>'; if(totalBox) totalBox.innerText='Total: $0.00'; return; }
@@ -62,6 +103,7 @@
         if(orderShippingInput) orderShippingInput.value = sh.toFixed(2);
         if(orderTaxInput) orderTaxInput.value = tax.toFixed(2);
         if(orderProvinceInput) orderProvinceInput.value = provinceSelect?provinceSelect.value:'';
+        
       }
 
       // province/state options extraction
@@ -69,10 +111,59 @@
       if(provinceSelect){ const cg = provinceSelect.querySelector('optgroup[label="Canada"]'); const ug = provinceSelect.querySelector('optgroup[label="USA"]'); if(cg) canadaHTML = Array.from(cg.querySelectorAll('option')).map(o=>o.outerHTML).join(''); if(ug) usaHTML = Array.from(ug.querySelectorAll('option')).map(o=>o.outerHTML).join(''); provinceSelect.innerHTML = placeholder; }
       function setProvince(country){ if(!provinceSelect) return; if(country==='Canada'){ provinceSelect.innerHTML = placeholder + canadaHTML; provinceSelect.required = true; provinceSelect.style.display='inline-block'; } else if(country==='USA'){ provinceSelect.innerHTML = placeholder + usaHTML; provinceSelect.required = false; provinceSelect.style.display='inline-block'; } else { provinceSelect.innerHTML = placeholder; provinceSelect.required = false; provinceSelect.style.display='none'; provinceSelect.value=''; } }
 
-      if(countrySelect) countrySelect.addEventListener('change', ()=>{ const v = countrySelect.value; if(v==='USA'||v==='Canada'){ if(paypalBox) paypalBox.style.display='block'; if(shippingMsg) shippingMsg.innerText = `Delivery available. Shipping: $${getShipping().toFixed(2)}.`; } else { if(paypalBox) paypalBox.style.display='none'; if(shippingMsg) shippingMsg.innerText = 'Delivery not available outside USA & Canada.'; } setProvince(v); render(); });
+      if (countrySelect) {
+        countrySelect.addEventListener('change', () => {
+          const country = countrySelect.value;
+          const currency = getCurrencyByCountry(country);
+
+          if (!currency) {
+            paypalBox.style.display = 'none';
+            shippingMsg.innerText = 'Delivery not available.';
+            return;
+          }
+
+          currentCurrency = currency;
+          paypalBox.style.display = 'block';
+          shippingMsg.innerText = `Delivery available. Paying in ${currency}.`;
+
+          setProvince(country);
+          render();
+
+          loadPayPalSDK(currency);
+        });
+      }
+
+
       if(provinceSelect) provinceSelect.addEventListener('change', render);
 
-      if(typeof paypal !== 'undefined' && paypal.Buttons){ 
+      function renderPayPalButtons() {
+
+        const paypalBox = document.querySelector('#paypal-button-container');
+        const emptyMsg = document.querySelector('#emptyCartMsg') || document.createElement('p');
+
+        emptyMsg.id = 'emptyCartMsg';
+        emptyMsg.style.color = '#555';
+        emptyMsg.style.fontStyle = 'italic';
+        emptyMsg.style.marginTop = '10px';
+
+        if (!paypalBox) return;
+        
+        // Clear previous button
+        paypalBox.innerHTML = '';
+        
+        if (cart.length === 0) {
+          paypalBox.style.display = 'none';
+          emptyMsg.textContent = 'Your cart is empty. Add items to proceed.';
+          paypalBox.parentNode.insertBefore(emptyMsg, paypalBox.nextSibling);
+          return;
+        } else {
+          paypalBox.style.display = 'block';
+          if (emptyMsg.parentNode) emptyMsg.parentNode.removeChild(emptyMsg);
+        }
+
+
+        if (typeof paypal === 'undefined' || !paypalBox) return;
+
         paypal.Buttons({
           createOrder: (data, actions) => {
             if (orderForm && !orderForm.checkValidity()) {
@@ -89,11 +180,15 @@
 
             return actions.order.create({
               purchase_units: [{
-                amount: { value: amount },
+                amount: {
+                  value: amount,
+                  currency_code: currentCurrency
+                },
                 description: 'Order from The Chic Artist'
               }]
             });
           },
+
           onApprove: (data, actions) => {
             return actions.order.capture().then(async details => {
               console.log('PayPal order captured:', details);
@@ -102,6 +197,7 @@
               const orderData = {
                 items: cart,
                 total: (subtotal() + getShipping() + computeTax()).toFixed(2),
+                currency: currentCurrency,
                 shipping: getShipping().toFixed(2),
                 tax: computeTax().toFixed(2),
                 province: provinceSelect?.value || '',
@@ -113,8 +209,8 @@
               console.log('Order data saved to sessionStorage');
 
               // Populate hidden Formspree fields
-              if (orderItemsInput) orderItemsInput.value = cart.map(i => `${i.name} ($${Number(i.price).toFixed(2)})`).join(', ');
-              if (orderTotalInput) orderTotalInput.value = orderData.total;
+              if (orderItemsInput) orderItemsInput.value = cart.map(i => `${i.name} ($${i.price})`).join(', ');
+              if (orderTotalInput) orderTotalInput.value = `${orderData.total} ${currentCurrency}`;
               if (orderShippingInput) orderShippingInput.value = orderData.shipping;
               if (orderTaxInput) orderTaxInput.value = orderData.tax;
               if (orderProvinceInput) orderProvinceInput.value = orderData.province;
@@ -149,15 +245,18 @@
 
 
 
-          onCancel: (data) => {
-            alert('Payment was cancelled. Your cart is still saved.');
+          onCancel: () => {
+            alert('Payment cancelled. Your cart is still saved.');
           },
 
-          onError: (err) => {
+          onError: err => {
             console.error('PayPal error', err);
-            alert('Payment failed. Please try again or use another method.');
-          }}).render('#paypal-button-container'); 
+            alert('Payment failed. Please try again.');
+          }
+
+        }).render('#paypal-button-container');
       }
+
 
       render();
     }

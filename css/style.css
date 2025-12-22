@@ -362,13 +362,12 @@ html {
   .header-inner {
     padding-top: 5px;
     flex-direction: column;
-    align-items: center;
     padding-bottom: 10px;
     gap: 2px;
   }
 
   .main-nav {
-    justify-content: center;
+    justify-content: stretch;
   }
 
   .social-icons {
@@ -514,6 +513,10 @@ html {
 
 .category-row {
   margin-bottom: 60px;
+  font-family: 'Libre Baskerville', serif; /* or 'Playfair Display', serif */
+  font-size: 1rem;
+  font-weight: 500;  /* lighter for elegance */
+  color: #222;
 }
 
 .category-grid {
@@ -819,12 +822,11 @@ html {
 @media (max-width: 767px) {
   .header-inner {
     flex-direction: column;
-    align-items: center;
-    padding: 10px 20px;
+    padding: 10px 10px;
   }
 
   .main-nav {
-    justify-content: center;
+    justify-content: stretch;
     gap: 12px;
   }
 
@@ -903,12 +905,17 @@ html {
 
 /* Mobile adjustments */
 @media (max-width: 767px) {
+  .site-header {
+      height: auto;
+      overflow: visible;
+      padding-top: env(safe-area-inset-top);
+    }
 
   .header-inner {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 12px 20px;
+    padding: 12px 10px;
     gap: 8px; /* space between logo and social icons */
   }
     .brand {
@@ -920,7 +927,7 @@ html {
     justify-content: center;
   }
 
-.main-nav {
+  .main-nav {
     display: none !important;  /* <- ensures nav disappears */
   }
 
@@ -1000,5 +1007,20 @@ html {
   }
   .social-icons img {
     width: 20px;
+  }
+}
+.text-divider {
+  font-family: 'Libre Baskerville', serif; /* or 'Playfair Display', serif */
+  font-size: 1rem;
+  font-weight: 40;  /* lighter for elegance */
+  color: #222;
+  margin-top: 40px; /* adjust the value as needed */
+  margin-bottom: -50px; /* reduced space below the section */
+
+}
+@media (max-width: 767px) {
+  .text-divider {
+    margin-top: 20px;   /* smaller top margin on mobile */
+    margin-bottom: -55px; /* smaller bottom margin on mobile */
   }
 }
