@@ -246,15 +246,6 @@ function toggleMobileMenu() {
 // Close menu when overlay is clicked
 document.getElementById('mobileMenuOverlay').addEventListener('click', toggleMobileMenu);
 
-// Close menu when a link inside is clicked
-document.querySelectorAll('#mobileSideConsole a').forEach(link => {
-  link.addEventListener('click', () => {
-    const menu = document.getElementById('mobileSideConsole');
-    const overlay = document.getElementById('mobileMenuOverlay');
-    menu.classList.remove('active');
-    overlay.classList.remove('active');
-  });
-});
 
 </script>
 
