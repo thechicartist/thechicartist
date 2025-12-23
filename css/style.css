@@ -113,12 +113,11 @@ body {
   inset: 0;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: end;
   font-family: 'Libre Baskerville', serif;
   font-size: 1.6rem;
-  color: #fff;
-  background: rgba(0,0,0,0.35);
-  text-align: center;
+  color: #111;
+  text-align:center;
   padding: 30px;
     flex-direction: column;
   gap: 12px;
@@ -126,7 +125,6 @@ body {
 .intro-cta {
   font-size: 0.9rem;
   letter-spacing: 0.08em;
-  text-transform: uppercase;
   opacity: 0.9;
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
@@ -812,6 +810,7 @@ html {
   width: 100%;          /* background stretches full width */
   background: #fff;     /* header background */
   box-sizing: border-box;
+  padding-bottom: 10px;
 }
 
 .header-inner, footer .container {

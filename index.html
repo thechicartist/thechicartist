@@ -85,7 +85,7 @@
       <div class="intro-text">
         Hand-painted details for timeless celebrations
         <span class="intro-cta">
-          my story >>
+          Hi, I’m Neetika >>
         </span>
       </div>
     </a>
@@ -217,7 +217,53 @@
   </form>
 </section>
 
-<footer>© 2026 The Chic Artist</footer>
+
+<footer class="py-4 text-center text-muted position-relative">
+  © 2026 The Chic Artist
+
+  <!-- FAQ Toggle -->
+  <div id="footerFaqToggle" 
+       style="position:absolute; right:40px; top:50%; transform:translateY(-50%); cursor:pointer; font-weight:500; color:#555;">
+    FAQ &#x25B2; <!-- small triangle as icon -->
+  </div>
+
+  <!-- Footer FAQ panel -->
+  <div id="footerFaqPanel" 
+       style="position:absolute; right:20px; bottom:50px; width:300px; max-height:0; overflow:hidden; background:#fff; box-shadow:0 4px 10px rgba(0,0,0,0.1); border-radius:8px; transition:max-height 0.4s ease;">
+    <div style="padding:1rem; font-size:0.9rem; color:#333;">
+      <p><strong>Where do you ship?</strong><br>We currently ship within Canada & USA. For other countries, <a href="index.html#contact">contact us</a> or order via <a href="https://thechicartiststudio.etsy.com" target="_blank">Etsy</a>.</p>
+      <p><strong>Does shipping include tracking?</strong><br>USA orders include tracking; Canadian Lettermail does not.</p>
+      <p><strong>Do you accept returns/exchanges?</strong><br>All items are custom-made. Returns/exchanges are not offered.</p>
+      <p><strong>Custom pieces?</strong><br>Contact us via the <a href="index.html#contact">form</a> to create your unique design.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const faqToggle = document.getElementById('footerFaqToggle');
+  const faqPanel = document.getElementById('footerFaqPanel');
+  let faqOpen = false;
+
+  faqToggle.addEventListener('click', () => {
+    faqOpen = !faqOpen;
+    if (faqOpen) {
+      faqPanel.style.maxHeight = faqPanel.scrollHeight + 'px';
+      faqToggle.innerHTML = 'FAQ &#x25BC;'; // down arrow
+    } else {
+      faqPanel.style.maxHeight = '0';
+      faqToggle.innerHTML = 'FAQ &#x25B2;'; // up arrow
+    }
+  });
+
+  // Optional: close FAQ when clicking outside
+  document.addEventListener('click', (e) => {
+    if (faqOpen && !faqPanel.contains(e.target) && e.target !== faqToggle) {
+      faqPanel.style.maxHeight = '0';
+      faqToggle.innerHTML = 'FAQ &#x25B2;';
+      faqOpen = false;
+    }
+  });
+</script>
 
 <script>
 document.querySelectorAll('[data-scroll]').forEach(link => {
@@ -294,6 +340,7 @@ form.addEventListener('submit', () => {
 </script>
 
 <script src="js/cart.js"></script>
+
 <script>
 function toggleMobileMenu() {
   const menu = document.getElementById('mobileSideConsole');
@@ -304,6 +351,17 @@ function toggleMobileMenu() {
 
 // Close menu when overlay is clicked
 document.getElementById('mobileMenuOverlay').addEventListener('click', toggleMobileMenu);
+
+// Close menu when a link inside is clicked
+document.querySelectorAll('#mobileSideConsole a').forEach(link => {
+  link.addEventListener('click', () => {
+    const menu = document.getElementById('mobileSideConsole');
+    const overlay = document.getElementById('mobileMenuOverlay');
+    menu.classList.remove('active');
+    overlay.classList.remove('active');
+  });
+});
+
 </script>
 
 
