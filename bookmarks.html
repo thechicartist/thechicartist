@@ -82,90 +82,12 @@
   <p>All bookmarks are 2*6 inches</p>
 </section>
 
+
 <!-- PRODUCTS -->
 <section class="product-grid container">
-  <div class="product-item">
-    <img src="images/bookmarks/b1.jpeg" alt="Bookmark 1" class="img-fluid">
-    <div class="product-overlay">
-      <div class="product-overlay-inner">
-        <p class="product-price">$7.99</p>
-        <button class="btn btn-sm add-to-cart"
-                data-id="bookmark1"
-                data-name="Flower bookmark"
-                data-price="7.99"
-                data-image="images/bookmarks/b1.jpeg">
-          Add to Cart
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <div class="product-item">
-    <img src="images/bookmarks/b2.jpeg" alt="bookmark 2" class="img-fluid">
-    <div class="product-overlay">
-      <div class="product-overlay-inner">
-        <p class="product-price">$15.99</p>
-        <button class="btn btn-sm add-to-cart"
-                data-id="bookmark2"
-                data-name="Coffee set bookmark"
-                data-price="15.99"
-                data-image="images/bookmarks/b2.jpeg">
-          Add to Cart
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <div class="product-item">
-    <img src="images/bookmarks/b3.jpeg" alt="bookmark 3" class="img-fluid">
-    <div class="product-overlay">
-      <div class="product-overlay-inner">
-        <p class="product-price">$15.99</p>
-        <button class="btn btn-sm add-to-cart"
-                data-id="bookmark3"
-                data-name="Sunflower Set bookmark"
-                data-price="15.99"
-                data-image="images/bookmarks/b3.jpeg">
-          Add to Cart
-        </button>
-      </div>
-    </div>
-  </div>
- <div class="product-item">
-    <img src="images/bookmarks/b4.jpeg" alt="bookmark 4" class="img-fluid">
-    <div class="product-overlay">
-      <div class="product-overlay-inner">
-        <p class="product-price">$15.99</p>
-        <button class="btn btn-sm add-to-cart"
-                data-id="bookmark4"
-                data-name="Honeycomb set bookmark"
-                data-price="15.99"
-                data-image="images/bookmarks/b4.jpeg">
-          Add to Cart
-        </button>
-      </div>
-    </div>
-  </div>
-  <div class="product-item">
-    <img src="images/bookmarks/b5.jpeg" alt="bookmark 5" class="img-fluid">
-    <div class="product-overlay">
-      <div class="product-overlay-inner">
-        <p class="product-price">$7.99</p>
-        <button class="btn btn-sm add-to-cart"
-                data-id="bookmark5"
-                data-name="Strawberry bookmark"
-                data-price="7.99"
-                data-image="images/bookmarks/b5.jpeg">
-          Add to Cart
-        </button>
-      </div>
-    </div>
-  </div>
-
-
-
-  
+  <div id="bookmarkGrid" class="row"></div>
 </section>
+
 
 </main>
 
@@ -219,7 +141,9 @@
 <!-- Toast Notification -->
 <div id="cartToast" class="cart-toast">Added to cart ✨</div>
 
+<script src="js/bookmarks.js"></script>
 <script src="js/cart.js"></script>
+
 
 <script>
 function toggleMobileMenu() {
@@ -234,6 +158,7 @@ document.getElementById('mobileMenuOverlay').addEventListener('click', toggleMob
 
 
 </script>
+
 
 </body>
 </html>

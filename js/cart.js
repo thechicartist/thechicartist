@@ -27,10 +27,23 @@
     updateCartCount();
 
     // Add to cart
-    qsa('.add-to-cart').forEach(btn => btn.addEventListener('click', () => {
-      const p = { id: btn.dataset.id, name: btn.dataset.name, price: Number(btn.dataset.price) || 0, image: btn.dataset.image || '' };
-      cart.push(p); saveCart(); updateCartCount(); showCartToast(`${p.name} added to cart ✨`);
-    }));
+    document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.add-to-cart');
+    if (!btn) return;
+
+    const p = {
+      id: btn.dataset.id,
+      name: btn.dataset.name,
+      price: Number(btn.dataset.price) || 0,
+      image: btn.dataset.image || ''
+    };
+
+    cart.push(p);
+    saveCart();
+    updateCartCount();
+    showCartToast(`${p.name} added to cart ✨`);
+  });
+
 
     if (cartIcon) { cartIcon.style.cursor = 'pointer'; cartIcon.addEventListener('click', () => window.location.href = 'cart.html'); }
 

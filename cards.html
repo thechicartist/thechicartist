@@ -13,9 +13,6 @@
 
   <!-- CSS -->
   <link rel="stylesheet" href="css/style.css">
-
-  <!-- Cart JS -->
-  <script src="js/cart.js" defer></script>
 </head>
 <body>
 
@@ -86,100 +83,9 @@
 </section>
 
 <!-- PRODUCTS -->
-<section class="product-grid container">
-  <div class="product-item">
-    <img src="images/cards/c1.jpeg" alt="Card 1" class="img-fluid">
-    <div class="product-overlay">
-      <div class="product-overlay-inner">
-        <p class="product-price">$15.99</p>
-        <button class="btn btn-sm add-to-cart"
-                data-id="card1"
-                data-name="Cake slice card"
-                data-price="15.99"
-                data-image="images/cards/c1.jpeg">
-          Add to Cart
-        </button>
-      </div>
-    </div>
-  </div>
-  <div class="product-item">
-    <img src="images/cards/c2.jpeg" alt="Card 2" class="img-fluid">
-    <div class="product-overlay">
-      <div class="product-overlay-inner">
-        <p class="product-price">$25.99</p>
-        <button class="btn btn-sm add-to-cart"
-                data-id="card2"
-                data-name="Owl card"
-                data-price="25.99"
-                data-image="images/cards/c2.jpeg">
-          Add to Cart
-        </button>
-      </div>
-    </div>
-  </div>
-  <div class="product-item">
-    <img src="images/cards/c3.jpeg" alt="Card 3" class="img-fluid">
-    <div class="product-overlay">
-      <div class="product-overlay-inner">
-        <p class="product-price">$5.99</p>
-        <button class="btn btn-sm add-to-cart"
-                data-id="card3"
-                data-name="Card 3"
-                data-price="5.99"
-                data-image="images/cards/c3.jpeg">
-          Add to Cart
-        </button>
-      </div>
-    </div>
-  </div>
-  <div class="product-item">
-    <img src="images/cards/c4.jpeg" alt="Card 4" class="img-fluid">
-    <div class="product-overlay">
-      <div class="product-overlay-inner">
-        <p class="product-price">$5.99</p>
-        <button class="btn btn-sm add-to-cart"
-                data-id="card4"
-                data-name="Card 4"
-                data-price="5.99"
-                data-image="images/cards/c4.jpeg">
-          Add to Cart
-        </button>
-      </div>
-    </div>
-  </div>
-  <div class="product-item">
-    <img src="images/cards/c5.jpeg" alt="Card 5" class="img-fluid">
-    <div class="product-overlay">
-      <div class="product-overlay-inner">
-        <p class="product-price">$5.99</p>
-        <button class="btn btn-sm add-to-cart"
-                data-id="card5"
-                data-name="Card 5"
-                data-price="5.99"
-                data-image="images/cards/c5.jpeg">
-          Add to Cart
-        </button>
-      </div>
-    </div>
-  </div>
-  <div class="product-item">
-    <img src="images/cards/c6.jpeg" alt="Card 6" class="img-fluid">
-    <div class="product-overlay">
-      <div class="product-overlay-inner">
-        <p class="product-price">$5.99</p>
-        <button class="btn btn-sm add-to-cart"
-                data-id="card6"
-                data-name="Card 6"
-                data-price="5.99"
-                data-image="images/cards/c6.jpeg">
-          Add to Cart
-        </button>
-      </div>
-    </div>
-  </div>
-  
-  
 
+<section class="product-grid container">
+  <div id="cardGrid" class="row"></div>
 </section>
 
 </main>
@@ -248,7 +154,9 @@ document.getElementById('mobileMenuOverlay').addEventListener('click', toggleMob
 
 
 </script>
-
+<!-- JS -->
+<script src="js/cart.js" defer></script>
+<script src="js/cards.js" defer></script>
 
 </body>
 </html>
