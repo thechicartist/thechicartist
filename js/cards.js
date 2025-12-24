@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   for (let i = 1; i <= 45; i++) {
     const col = document.createElement('div');
-    const price = (i ==2 || i == 3 || i ==4) ? 39.99 : 8.99;
+    const price = (i == 2) ? 39.99 : 15.99;
     col.className = 'col-6 col-md-4 col-lg-2 mb-4';
 
     col.innerHTML = `
