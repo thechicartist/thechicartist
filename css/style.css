@@ -101,7 +101,6 @@ body {
   object-fit: cover;
 }
 .tile video {
-  object-fit: contain;
   pointer-events: none;
 }
 .tile-small { grid-column: span 1; grid-row: span 1; }
@@ -841,8 +840,6 @@ html {
 /* Hide mobile menu icon by default */
 .mobile-menu-icon {
   display: none;
-  font-size: 28px;
-  cursor: pointer;
 }
 
 /* Mobile Side Console */
@@ -888,7 +885,11 @@ html {
   }
 
   .mobile-menu-icon {
-    display: block;
+    display: flex;
+    cursor: pointer;
+    font-size: 1.6rem;
+    position: absolute;
+    left: 8px;   /* use 8px if you want it tighter */
   }
 
   /* Optional: adjust spacing of social icons on mobile */
@@ -932,10 +933,6 @@ html {
 
   .main-nav {
     display: none !important;  /* <- ensures nav disappears */
-  }
-
-  .mobile-menu-icon {
-    display: block;
   }
 
   .social-icons {
