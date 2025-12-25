@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Bookmarks | The Chic Artist</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="images/favicon.png">
+  <title>Bookmarks | The Chic Artist</title>
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville&family=Inter:wght@300;400&display=swap" rel="stylesheet">
@@ -13,7 +14,7 @@
 
   <!-- CSS -->
   <link rel="stylesheet" href="css/style.css">
-  
+
 </head>
 <body>
 
@@ -156,6 +157,15 @@ function toggleMobileMenu() {
 // Close menu when overlay is clicked
 document.getElementById('mobileMenuOverlay').addEventListener('click', toggleMobileMenu);
 
+// Close menu when a link inside is clicked
+document.querySelectorAll('#mobileSideConsole a').forEach(link => {
+  link.addEventListener('click', () => {
+    const menu = document.getElementById('mobileSideConsole');
+    const overlay = document.getElementById('mobileMenuOverlay');
+    menu.classList.remove('active');
+    overlay.classList.remove('active');
+  });
+});
 
 </script>
 

@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="images/favicon.png">
   <title>About Me | The Chic Artist</title>
 
   <!-- Google Fonts -->
@@ -162,6 +163,15 @@ function toggleMobileMenu() {
 document.getElementById('mobileMenuOverlay').addEventListener('click', toggleMobileMenu);
 
 
+// Close menu when a link inside is clicked
+document.querySelectorAll('#mobileSideConsole a').forEach(link => {
+  link.addEventListener('click', () => {
+    const menu = document.getElementById('mobileSideConsole');
+    const overlay = document.getElementById('mobileMenuOverlay');
+    menu.classList.remove('active');
+    overlay.classList.remove('active');
+  });
+});
 </script>
 
 </body>

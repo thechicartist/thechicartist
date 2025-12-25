@@ -173,6 +173,13 @@
       const taxRates = { 'ON': 0.13, 'QC': 0.14975, 'NS': 0.15, 'NB': 0.15, 'MB': 0.12, 'BC': 0.12, 'PE': 0.15, 'SK': 0.11, 'AB': 0.05, 'NL': 0.15, 'NT': 0.05, 'YT': 0.05, 'NU': 0.05 };
       function computeTax() { if (!countrySelect || countrySelect.value !== 'Canada' || !provinceSelect) return 0; const base = subtotal() + getShipping(); return base * (taxRates[provinceSelect.value] ?? 0.05); }
 
+      function getProductPage(productId) {
+        if (productId.startsWith('card')) return 'cards.html';
+        if (productId.startsWith('bookmark')) return 'bookmarks.html';
+        // add more types if needed
+        return 'index.html'; // fallback
+      }
+
       function render() {
         if (paypalBox) {
           if (cart.length > 0 && countrySelect && (countrySelect.value === 'Canada' || countrySelect.value === 'USA')) {
@@ -188,7 +195,18 @@
         if (cart.length === 0) { cartContainer.innerHTML = '<p>Your cart is empty.</p>'; if (totalBox) totalBox.innerText = 'Total: $0.00'; return; }
         cart.forEach((it, idx) => {
           const d = document.createElement('div'); d.className = 'cart-item d-flex align-items-center mb-3';
-          d.innerHTML = ` <img src="${it.image || ''}" alt="${it.name}" width="80" class="me-3 rounded"> <div class="flex-grow-1"><strong>${it.name}</strong><p>$${Number(it.price).toFixed(2)}</p></div><button class="btn btn-sm btn-danger remove-item" data-index="${idx}">Remove</button>`;
+
+          
+          d.innerHTML = `
+            <a href="${getProductPage(it.id)}#${it.id}">
+              <img src="${it.image || ''}" alt="${it.name}" width="80" class="me-3 rounded">
+            </a>
+            <div class="flex-grow-1">
+              <strong>${it.name}</strong>
+              <p>$${Number(it.price).toFixed(2)}</p>
+            </div>
+            <button class="btn btn-sm btn-danger remove-item" data-index="${idx}">Remove</button>
+          `;
           cartContainer.appendChild(d);
         });
         qsa('.remove-item').forEach(b => b.addEventListener('click', () => { const i = Number(b.dataset.index); if (!Number.isNaN(i)) { cart.splice(i, 1); saveCart(); updateCartCount(); render(); } }));

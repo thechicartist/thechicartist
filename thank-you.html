@@ -2,14 +2,16 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Weddings | The Chic Artist</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="images/favicon.png">
+  <title>Thank You | The Chic Artist</title>
 
+  
   <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville&family=Inter:wght@300;400&display=swap" rel="stylesheet">
   <!-- Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
-  <!-- Flatpickr datepicker (allows click-to-open) -->
+    <!-- Flatpickr datepicker (allows click-to-open) -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
 <body>
@@ -152,7 +154,7 @@ if (!order) {
   document.getElementById('orderSummary').innerHTML = `
     <h3>Order Summary</h3>
     <ul style="list-style:none; padding-left:0;">${itemsHtml}</ul>
-    <p><strong>Total Paid:</strong> $${order.total}</p>
+    <p><strong>Total Amount Paid:</strong> $${order.total}</p>
   `;
 
 
@@ -171,6 +173,15 @@ function toggleMobileMenu() {
 // Close menu when overlay is clicked
 document.getElementById('mobileMenuOverlay').addEventListener('click', toggleMobileMenu);
 
+// Close menu when a link inside is clicked
+document.querySelectorAll('#mobileSideConsole a').forEach(link => {
+  link.addEventListener('click', () => {
+    const menu = document.getElementById('mobileSideConsole');
+    const overlay = document.getElementById('mobileMenuOverlay');
+    menu.classList.remove('active');
+    overlay.classList.remove('active');
+  });
+});
 
 </script>
 

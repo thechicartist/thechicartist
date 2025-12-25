@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <img src="images/bookmarks/b${i}.jpeg"
              alt="Bookmark ${i}"
              class="img-fluid"
+             id="bookmark${i}"
              loading="lazy">
 
         <div class="product-overlay">
