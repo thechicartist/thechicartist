@@ -141,14 +141,20 @@ if (!order) {
     '<p>No order details found.</p>';
 } else {
   const itemsHtml = order.items
-    .map(i => `<li>${i.name} — $${i.price.toFixed(2)}</li>`)
+    .map(i => `
+      <li style="display:flex; align-items:center; margin-bottom:10px;">
+        <img src="${i.image}" alt="${i.name}" style="width:60px; height:auto; margin-right:10px; border-radius:4px;">
+        <span>${i.name} — $${i.price.toFixed(2)}</span>
+      </li>
+    `)
     .join('');
 
   document.getElementById('orderSummary').innerHTML = `
     <h3>Order Summary</h3>
-    <ul>${itemsHtml}</ul>
-    <p><strong>Total amount Paid:</strong> $${order.total}</p>
+    <ul style="list-style:none; padding-left:0;">${itemsHtml}</ul>
+    <p><strong>Total Paid:</strong> $${order.total}</p>
   `;
+
 
   sessionStorage.removeItem('lastOrder');
 }

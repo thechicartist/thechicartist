@@ -53,6 +53,7 @@
       const cartContainer = qs('#cartItems');
       const totalBox = qs('#cartTotal');
       const orderItemsInput = qs('#orderItems');
+      const orderImagesInput = qs('#orderImages');
       const orderTotalInput = qs('#orderTotal');
       const orderShippingInput = qs('#orderShipping');
       const orderTaxInput = qs('#orderTax');
@@ -194,7 +195,8 @@
 
         const s = subtotal(); const sh = getShipping(); const tax = computeTax(); const tot = s + sh + tax;
         if (totalBox) totalBox.innerText = `Total: $${tot.toFixed(2)} (Subtotal: $${s.toFixed(2)} + Shipping: $${sh.toFixed(2)} + Tax: $${tax.toFixed(2)})`;
-        if (orderItemsInput) orderItemsInput.value = cart.map(i => `${i.name} ($${Number(i.price).toFixed(2)})`).join(', ');
+        if (orderItemsInput) orderItemsInput.value = cart.map(i => `${i.name} ($${Number(i.price).toFixed(2)})`).join(', '); 
+        if (orderImagesInput) orderImagesInput.value = cart.map(i => i.image).join(', ');
         if (orderTotalInput) orderTotalInput.value = tot.toFixed(2);
         if (orderShippingInput) orderShippingInput.value = sh.toFixed(2);
         if (orderTaxInput) orderTaxInput.value = tax.toFixed(2);
@@ -309,9 +311,11 @@
               // Save for Thank You page
               sessionStorage.setItem('lastOrder', JSON.stringify(orderData));
               console.log('Order data saved to sessionStorage');
+              const orderImagesInput = document.getElementById('orderImages');
 
               // Populate hidden Formspree fields
-              if (orderItemsInput) orderItemsInput.value = cart.map(i => `${i.name} ($${i.price})`).join(', ');
+              if (orderItemsInput) orderItemsInput.value = cart.map(i => `${i.name} ($${i.price})`).join(', ');    
+              if (orderImagesInput) orderImagesInput.value = orderData.items.map(i => i.image).join(',');
               if (orderTotalInput) orderTotalInput.value = `${orderData.total} ${currentCurrency}`;
               if (orderShippingInput) orderShippingInput.value = orderData.shipping;
               if (orderTaxInput) orderTaxInput.value = orderData.tax;
