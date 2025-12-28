@@ -3,9 +3,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (!grid) return;
 
-  for (let i = 1; i <= 130; i++) {
+  for (let i = 129; i >=1; i--) {
     const col = document.createElement('div');
-    const price = (i ==2 || i == 3 || i ==4) ? 39.99 : 8.99;
+    const price = (i ==115) ? 39.99 : (i==126 || i==124) ? 25.99 : (i== 49 || i == 128 || i==45) ? 11.99 : (i==129) ? 9.99 : 8.99;
     col.className = 'col-6 col-md-4 col-lg-2 mb-4';
 
     col.innerHTML = `

@@ -393,7 +393,7 @@
 
     // lightbox
     (function () {
-      const sels = ['.photo-grid img', '.product-grid img', '.category-grid img', '.gallery-grid img', '.gallery-item img'];
+      const sels = ['.photo-grid img', '.product-grid img', '.category-grid img'];
       let lb = qs('#lightbox') || qs('.lightbox');
       if (!lb) {
         lb = document.createElement('div');
