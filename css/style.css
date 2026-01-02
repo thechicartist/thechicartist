@@ -117,10 +117,10 @@ body {
   color: #111;
   padding: 10px 18px;
   border-radius: 10px;
-
-  font-family: 'Inter', sans-serif;
-  font-size: 0.9rem;
-  font-weight: 500;
+  font-family: "Allura", cursive;
+  font-style: normal;
+  font-size: 2.0rem;
+  font-weight: 400;
   text-decoration: none;
 
   box-shadow: 0 6px 20px rgba(0,0,0,0.15);
@@ -232,14 +232,14 @@ body {
 }
 
 #contact h1 {
-  font-family: 'Libre Baskerville', serif;
-  font-size: 2.2rem;
+  font-family: "Allura", cursive;
+  font-size: 3.7rem;
   margin-bottom: 10px;
   color: #222;
 }
 #contact h2 {
-  font-family: 'Libre Baskerville', serif;
-  font-size: 2.2rem;
+  font-family: "Allura", cursive;
+  font-size: 3.0rem;
   margin-bottom: 10px;
   color: #222;
 }
@@ -486,7 +486,7 @@ html {
 
 .category-row {
   margin-bottom: 60px;
-  font-family: 'Libre Baskerville', serif; /* or 'Playfair Display', serif */
+  font-family: "Allura", sans-serif;
   font-size: 1rem;
   font-weight: 500;  /* lighter for elegance */
   color: #222;
@@ -618,6 +618,11 @@ html {
 .page-intro {
   padding: 80px 20px 40px;
   font-family: 'Libre Baskerville', serif;
+}
+
+#page-intro-id h1 {
+  font-family: "Allura", cursive;
+  font-size: 3.5rem;
 }
 
 .product-grid {
@@ -855,10 +860,41 @@ html {
   font-size: 1.1rem;
 }
 
-/* Responsive Adjustments */
-@media (max-width: 767px) {
+/* Header fixes */
+.header-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end; /* align items to bottom on desktop */
+  flex-wrap: wrap;
+  height: 100%;
+}
+
+/* Mobile adjustments */
+@media (max-width: 1024px) {
+  .site-header {
+      height: auto;
+      overflow: visible;
+      padding-top: env(safe-area-inset-top);
+    }
+
+  .header-inner {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 10px;
+    gap: 8px; /* space between logo and social icons */
+  }
+  .brand {
+    margin-bottom: 4px;
+  }
+
+  .social-icons {
+    gap: 12px;
+    justify-content: center;
+  }
+
   .main-nav {
-    display: none; /* hide desktop menu */
+    display: none !important;  /* <- ensures nav disappears */
   }
 
   .mobile-menu-icon {
@@ -873,48 +909,6 @@ html {
   .social-icons img {
     width: 24px;
     margin-right: 10px;
-  }
-}
-/* Header fixes */
-.header-inner {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end; /* align items to bottom on desktop */
-  flex-wrap: wrap;
-  height: 100%;
-}
-
-/* Mobile adjustments */
-@media (max-width: 767px) {
-  .site-header {
-      height: auto;
-      overflow: visible;
-      padding-top: env(safe-area-inset-top);
-    }
-
-  .header-inner {
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 12px 10px;
-    gap: 8px; /* space between logo and social icons */
-  }
-    .brand {
-    margin-bottom: 4px;
-  }
-
-  .social-icons {
-    gap: 12px;
-    justify-content: center;
-  }
-
-  .main-nav {
-    display: none !important;  /* <- ensures nav disappears */
-  }
-
-  .social-icons {
-    margin: 0;
-    gap: 12px;
   }
 }
 
@@ -988,13 +982,20 @@ html {
 }
 .text-divider {
   font-family: 'Libre Baskerville', serif; /* or 'Playfair Display', serif */
-  font-size: 1rem;
+  font-size: 1.0rem;
   font-weight: 40;  /* lighter for elegance */
   color: #222;
   margin-top: 40px; /* adjust the value as needed */
   margin-bottom: -50px; /* reduced space below the section */
 
 }
+
+#main-text h3 {
+  font-family: "Allura", cursive;
+  font-size: 3.0rem;
+
+}
+
 @media (max-width: 767px) {
   .text-divider {
     margin-top: 20px;   /* smaller top margin on mobile */
@@ -1024,4 +1025,10 @@ html {
 .cart-toast.show {
   opacity: 1;
   transform: translateY(0);
+}
+
+.passions-conflict-regular {
+  font-family: "Passions Conflict", cursive;
+  font-weight: 400;
+  font-style: normal;
 }

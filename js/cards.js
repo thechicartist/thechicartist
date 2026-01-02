@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     col.innerHTML = `
       <div class="product-item">
         <img src="images/cards/c${i}.jpeg"
-             alt="Hand-painted watercolor card ${i}"
+             alt="Hand-painted watercolor painting ${i}"
              class="img-fluid"
              id ="card${i}"
              loading="lazy">
@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             <button class="btn btn-sm add-to-cart"
                     data-id="card${i}"
-                    data-name="Hand-painted card ${i}"
+                    data-name="Hand-painted watercolor painting ${i}"
                     data-price="${price}"
                     data-image="images/cards/c${i}.jpeg">
               Add to Cart
