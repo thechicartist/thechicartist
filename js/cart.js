@@ -300,12 +300,15 @@
 
                   return actions.order.create({
                     purchase_units: [{
-                amount: {
-                  value: amount,
-                  currency_code: currentCurrency
-                },
+                      amount: {
+                        value: amount,
+                        currency_code: currentCurrency
+                      },
                       description: 'Order from The Chic Artist'
-                    }]
+                    }],
+                    application_context: {
+                      shipping_preference: 'NO_SHIPPING'
+                    }
                   });
           },
 
