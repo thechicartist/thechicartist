@@ -170,7 +170,7 @@
 
       function subtotal() { return cart.reduce((s, i) => s + Number(i.price || 0), 0); }
       function getShipping() { const c = countrySelect ? countrySelect.value : ''; return c === 'Canada' ? 3 : (c === 'USA' ? 7 : 0); }
-      const taxRates = { 'ON': 0.13, 'QC': 0.14975, 'NS': 0.15, 'NB': 0.15, 'MB': 0.12, 'BC': 0.12, 'PE': 0.15, 'SK': 0.11, 'AB': 0.05, 'NL': 0.15, 'NT': 0.05, 'YT': 0.05, 'NU': 0.05 };
+      const taxRates = { 'ON': 0.13, 'QC': 0.05, 'NS': 0.15, 'NB': 0.15, 'MB': 0.05, 'BC': 0.05, 'PE': 0.15, 'SK': 0.05, 'AB': 0.05, 'NL': 0.15, 'NT': 0.05, 'YT': 0.05, 'NU': 0.05 };
       function computeTax() { if (!countrySelect || countrySelect.value !== 'Canada' || !provinceSelect) return 0; const base = subtotal() + getShipping(); return base * (taxRates[provinceSelect.value] ?? 0.05); }
 
       function getProductPage(productId) {
@@ -182,7 +182,7 @@
 
       function render() {
         if (paypalBox) {
-          if (cart.length > 0 && countrySelect && (countrySelect.value === 'Canada' || countrySelect.value === 'USA')) {
+          if (cart.length > 0 && countrySelect && ((countrySelect.value === 'Canada' && provinceSelect && provinceSelect.value !== 'SK')|| countrySelect.value === 'USA')) {
             paypalBox.style.display = 'block';
             if (shippingMsg) shippingMsg.innerText = `Delivery available. Shipping: $${getShipping().toFixed(2)}.`;
           } else {
