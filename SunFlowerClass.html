@@ -15,17 +15,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/png" href="images/favicon.png">
-  <title>Cart | The Chic Artist</title>
+  <title>Hand-Painted Watercolor Cards | The Chic Artist</title>
+  
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Allura&display=swap" rel="stylesheet">
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital@0;1&family=Inter:wght@300;400&display=swap" rel="stylesheet">
 
   <!-- Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
-  <script src="js/cart.js" defer></script>
-</head>
 
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
 <body>
 
 <header class="site-header">
@@ -86,82 +90,106 @@
 <!-- Overlay -->
 <div id="mobileMenuOverlay" class="mobile-menu-overlay"></div>
 
-<main class="container cart-page">
-<h4>Note:</h4>
-<p>All Canadian Deliveries are done using standard Canada post shipping, if you need expedited or tracked shipping, please <a href="index.html#contact">contact us</a> directly.</p>
-<p>All USA Deliveries have tracking included.</p>
-<p>For deliveries to all other countries, please <a href="index.html#contact">contact us</a> directly or place order via <a href="https://thechicartiststudio.etsy.com" class="text-decoration-underline">etsy</a>.</p>
-<h6>All items are custom-made and due to the nature of the work, <strong>returns/exchanges are not offered</strong>, however, all orders are shipped with utmost care and very well packed. </h6>
-<section class="cart-page" id="cartPage">
-  <h1>Your Cart</h1>
-  <div id="cartItems"></div>
-  <p id="cartTotal"></p>
 
-  <!-- ORDER FORM -->
-  <form
-    action="https://formspree.io/f/xpqadplp"
-    method="POST"
-    id="orderForm"
-  >
+<main class="main-content">
 
-    <!-- Hidden order fields -->
-    <input type="hidden" name="form_type" value="Shop Order">
-    <input type="hidden" name="order_items" id="orderItems">
-    <input type="hidden" name="order_total" id="orderTotal">
-    <input type="hidden" name="order_shipping" id="orderShipping">
-    <input type="hidden" name="order_tax" id="orderTax">
-    <input type="hidden" name="order_province" id="orderProvince">
-    <input type="hidden" name="order_zip" id="orderZip">
-    <input type="hidden" name="order_country" id="orderCountry">
-    <input type="hidden" name="payment_method" value="PayPal">
-    <input type="hidden" name="payer_email" id="payerEmail">
-    <input type="hidden" name="orderImages" id="orderImages">
-    <input type="hidden" name="_replyto" value="thechicartiststudio@gmail.com">
-    <input type="hidden" name="_subject" value="New Order from The Chic Artist">
+<!-- INTRO -->
+<section class="page-intro text-center" id ="page-intro-id">
+  <h1>Live classes with the Chic Artist</h1>
+  <h4>Watercolor Floral Bookmark Live Workshop – Sunflower Edition</h4>
+  <div class="product-tagline" style="max-width:700px; margin:1rem auto 0; text-align: justify; font-size:1.1rem; color:#555;">
+      <p>
+      Join me for a cozy, creative watercolor session where we'll paint my 
+      <strong>signature sunflower bookmark</strong> set — a design loved for its warmth,
+      softness, and joyful flow.
+      
+    </p>
+      <p>
+      In this workshop, you'll learn how to create loose, expressive sunflowers using
+      simple brush movements, gentle color blending, and an intuitive approach to watercolor.
+      We'll focus on enjoying the process, building confidence, and letting the paint do its
+      magic — no pressure, no perfection required.
+    </p>
+      <p>
+      By the end of the session, you'll walk away with a set of hand-painted sunflower bookmarks
+      that feel personal, beautiful, and truly one of a kind — perfect to keep, gift, or treasure
+      between the pages of your favorite book.
+    </p>
+      <p>
+      This workshop is beginner-friendly and designed to feel calm, inspiring, and deeply
+      satisfying — just you, your brush, and sunflowers in bloom.
+    </p>
+    <p style="margin-top:1rem auto; text-align: center;">
+      ✨ No prior watercolor experience needed<br>
+      ✨ Slow, guided, and confidence-building<br>
+      ✨ A creative keepsake you'll love using again and again
+    </p>
 
-
-
-    <!-- Customer Email -->
-    <div class="mb-3">
-      <input type="email" name="email" id="customerEmail" placeholder="Email" required class="form-control">
+    <div style="margin-bottom:0.5rem; text-align: center;"> 
+      <h3 >Workshop Details</h3>
+      <p>
+        <strong>Date:</strong> March 3rd, 2026<br>
+        <strong>Format:</strong> Live Online on Zoom<br>
+        <strong>Time:</strong> 12:30 PM – 2:00 PM (EST)
+      </p>
     </div>
+       
+  </div>
 
-        <!-- Shipping Address -->
-    <div class="mb-3">
-      <input
-        type="text"
-        id="address"
-        name="address"
-        placeholder="Start typing your shipping address"
-        autocomplete="off"
-        required
-        class="form-control"
-      />
-    </div>
-
-    <div class="mb-3">
-      <input type="text" value="zip code" id="zip" name="zip" class="form-control" readonly>
-    </div>
-
-    <!-- Province / State Selection -->
-    <div class="mb-3">
-      <input type="text" name="province" id="province" class="form-control" disabled placeholder="Province / State">
-        
-      </select>
-    </div>
-
-    <!-- Country Selection -->
-    <div class="mb-3">
-      <input type="text" name="country" id="country" required class="form-control" disabled placeholder="Country">
-      </select>
-    </div>
-
-  </form>
-
-  <!-- PAYPAL -->
-  <div id="paypal-button-container" style="display:none;"></div>
-  <p id="shippingMsg"></p>
 </section>
+      <!-- TERMS AND CONDITIONS LINK -->
+<section class="text-center" style="margin:1rem 0;">
+  <p>Please review our <a href="terms-and-conditions.html" style="text-decoration:underline;">Terms and Conditions</a> before registering for the class.</p>
+
+<script async
+  src="https://js.stripe.com/v3/buy-button.js">
+</script>
+
+<stripe-buy-button
+  buy-button-id="buy_btn_1T2CvSRFA2XXM1pyxW9ViE1O"
+  publishable-key="pk_live_51T1bBWRFA2XXM1py15w04tOZ4kp83j8M3hULtRnhOe6uYtUozO3kQoKYZqhZPr5Jv39iS9LDyvb5fpWKv4BXlVXw00EdglA3rn"
+>
+</stripe-buy-button>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container text-center mb-4">
+    <div class="container text-center mb-4">
+
+
+
+            
+  <h5>Please finish this form after completing the purchase</h5>
+  
+
+
+<form
+  class="contact-form"
+  id="contactForm"
+  action="https://docs.google.com/forms/d/e/1FAIpQLSfe_L_c0Wo_Baw7kfz39Apx9iImS8vma8s61jkS91xztC2XgQ/formResponse"
+  method="POST"
+  target="hidden_iframe">
+    <input type="text" name="entry.351760709" placeholder="Name" required>
+    <input type="email" name="entry.2067966118" placeholder="Email" required>
+    <input type="text" name="entry.1321479987" placeholder="State and Country" required>
+    <input type="text" name="entry.268337238" placeholder="Your TimeZone" required>
+
+
+
+
+
+    <input type="text" name="entry.1002569657" placeholder="Transaction ID" required>
+
+    
+    <button type="submit" class="submit-btn">
+      <span class="btn-text">Register Now</span>
+      <span class="spinner"></span>
+    </button>
+
+</section>
+
+
 
 </main>
 
@@ -178,12 +206,11 @@
   <div id="footerFaqPanel" 
        style="position:absolute; right:20px; bottom:50px; width:300px; max-height:0; overflow:hidden; background:#fff; box-shadow:0 4px 10px rgba(0,0,0,0.1); border-radius:8px; transition:max-height 0.4s ease;">
     <div style="padding:1rem; font-size:0.9rem; color:#333;">
-      <p><strong>Where do you ship?</strong><br>We currently ship within Canada (Except SK) & USA. For other locations, <a href="index.html#contact">contact us</a> or order via <a href="https://thechicartiststudio.etsy.com" target="_blank">Etsy</a>.</p>
+      <p><strong>Where do you ship?</strong><br>We currently ship within Canada & USA. For other countries, <a href="index.html#contact">contact us</a> or order via <a href="https://thechicartiststudio.etsy.com" target="_blank">Etsy</a>.</p>
       <p><strong>Does shipping include tracking?</strong><br>USA orders include tracking; Canadian Lettermail does not.</p>
       <p><strong>Do you accept returns/exchanges?</strong><br>All items are custom-made. Returns/exchanges are not offered.</p>
       <p><strong>Custom pieces?</strong><br>Contact us via the <a href="index.html#contact">form</a> to create your unique design.</p>
     </div>
-
   </div>
 </footer>
 
@@ -212,7 +239,11 @@
   });
 </script>
 
+<!-- Toast Notification -->
+<div id="cartToast" class="cart-toast">Added to cart ✨</div>
 
+<script src="js/cards.js"></script>
+<script src="js/cart.js"></script>
 
 <script>
 function toggleMobileMenu() {
@@ -236,6 +267,8 @@ document.querySelectorAll('#mobileSideConsole a').forEach(link => {
 });
 
 </script>
+
+
 
 </body>
 </html>
