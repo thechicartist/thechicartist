@@ -150,20 +150,27 @@
     province: 'entry.69235671',
     country:  'entry.1320686186',
     zip:      'entry.829073282',
+    address:  'entry.186903765',  // ← Add your actual Google Form address field entry ID here
   };
 
   async function sendOrderEmail(order) {
     try {
+      // Recover address details saved by cart.js before Stripe redirect
+      let pendingAddress = {};
+      try { pendingAddress = JSON.parse(sessionStorage.getItem('pendingOrderAddress') || '{}'); } catch {}
+      sessionStorage.removeItem('pendingOrderAddress');
+
       const body = new FormData();
-      body.append(FORM_FIELDS.name,     order.payerName || order.payerEmail?.split('@')[0] || 'Customer');
-      body.append(FORM_FIELDS.email,    order.payerEmail  || '');
+      body.append(FORM_FIELDS.name,     pendingAddress.name     || order.payerName || order.payerEmail?.split('@')[0] || 'Customer');
+      body.append(FORM_FIELDS.email,    pendingAddress.email    || order.payerEmail  || '');
       body.append(FORM_FIELDS.items,    (order.items || []).map(i => `${i.name} ($${Number(i.price).toFixed(2)})`).join(', '));
       body.append(FORM_FIELDS.total,    `${order.total} ${order.currency || ''}`);
       body.append(FORM_FIELDS.shipping, order.shipping    || '');
       body.append(FORM_FIELDS.tax,      order.tax         || '');
-      body.append(FORM_FIELDS.province, order.province    || '');
-      body.append(FORM_FIELDS.country,  order.country     || '');
-      body.append(FORM_FIELDS.zip,      order.zip         || '');
+      body.append(FORM_FIELDS.province, pendingAddress.province || order.province    || '');
+      body.append(FORM_FIELDS.country,  pendingAddress.country  || order.country     || '');
+      body.append(FORM_FIELDS.zip,      pendingAddress.zip      || order.zip         || '');
+      body.append(FORM_FIELDS.address,  pendingAddress.address  || '');
 
       // Google Forms blocks CORS but the submission still goes through
       await fetch(GOOGLE_FORM_ACTION_URL, {

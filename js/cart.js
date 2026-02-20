@@ -333,6 +333,17 @@
       if (stripeBtn) { stripeBtn.disabled = true; stripeBtn.textContent = 'Redirecting to payment…'; }
 
       try {
+        // Save address details to sessionStorage so thank-you.html can include them in the order notification
+        const pendingAddress = {
+          address:  qs('#address')?.value  || '',
+          zip:      zipInput?.value        || '',
+          province: province,
+          country:  country,
+          name:     customerNameInput?.value || '',
+          email:    customerEmailInput?.value || ''
+        };
+        sessionStorage.setItem('pendingOrderAddress', JSON.stringify(pendingAddress));
+
         const response = await fetch(`${WORKER_URL}/create-checkout-session`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
