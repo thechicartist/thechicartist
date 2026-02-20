@@ -286,10 +286,7 @@
           const data = await response.json();
 
           if (data.url) {
-            // Clear cart before redirecting to Stripe
-            cart = [];
-            saveCart();
-            updateCartCount();
+            // Don't clear cart here — clear it only after successful payment on thank-you page
             window.location.href = data.url;
           } else {
             throw new Error(data.error || 'Failed to create checkout session');

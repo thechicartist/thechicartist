@@ -221,6 +221,9 @@
       <p><strong>Total Paid:</strong> $${order.total} ${order.currency || ''}</p>
     `;
 
+    // Clear cart now that payment is confirmed
+    localStorage.removeItem('cart');
+
     // Send order notification email via Google Form
     sendOrderEmail(order);
   }
