@@ -15,17 +15,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/png" href="images/favicon.png">
-  <title>Cart | The Chic Artist</title>
+  <title>Watercolor E-Books | The Chic Artist</title>
+  
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Allura&display=swap" rel="stylesheet">
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital@0;1&family=Inter:wght@300;400&display=swap" rel="stylesheet">
 
   <!-- Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
-  <script src="js/cart.js" defer></script>
-</head>
 
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
 <body>
 
 <header class="site-header">
@@ -45,6 +49,7 @@
       <a href="bookmarks.html">Bookmarks</a>
       <a href="cards.html">Paintings</a>
       <a href="OnlineClass.html">OnlineClass</a>
+      <a href="ebooks.html">E-Books</a>
       <a href="index.html#contact">Contact</a>
     </nav>
 
@@ -79,6 +84,7 @@
     <li><a href="bookmarks.html">Bookmarks</a></li>
     <li><a href="cards.html">Paintings</a></li>
     <li><a href="OnlineClass.html">OnlineClass</a></li>
+    <li><a href="ebooks.html">E-Books</a></li>
     <li><a href="index.html#contact">Contact</a></li>
   </ul>
 </div>
@@ -86,104 +92,34 @@
 <!-- Overlay -->
 <div id="mobileMenuOverlay" class="mobile-menu-overlay"></div>
 
-<main class="container cart-page">
-<h4>Note:</h4>
-<p>All Canadian Deliveries are done using standard Canada post shipping, if you need expedited or tracked shipping, please <a href="index.html#contact">contact us</a> directly.</p>
-<p>All USA Deliveries have tracking included.</p>
-<p>For deliveries to all other countries, please <a href="index.html#contact">contact us</a> directly or place order via <a href="https://thechicartiststudio.etsy.com" class="text-decoration-underline">etsy</a>.</p>
-<h6>All items are custom-made and due to the nature of the work, <strong>returns/exchanges are not offered</strong>, however, all orders are shipped with utmost care and very well packed. </h6>
-<section class="cart-page" id="cartPage">
-  <h1>Your Cart</h1>
-  <div id="cartItems"></div>
-  <p id="cartTotal"></p>
 
-  <!-- ORDER FORM -->
-  <form
-    action="https://formspree.io/f/xpqadplp"
-    method="POST"
-    id="orderForm"
-  >
+<main class="main-content">
 
-    <!-- Hidden order fields -->
-    <input type="hidden" name="form_type" value="Shop Order">
-    <input type="hidden" name="order_items" id="orderItems">
-    <input type="hidden" name="order_total" id="orderTotal">
-    <input type="hidden" name="order_shipping" id="orderShipping">
-    <input type="hidden" name="order_tax" id="orderTax">
-    <input type="hidden" name="order_province" id="orderProvince">
-    <input type="hidden" name="order_zip" id="orderZip">
-    <input type="hidden" name="order_country" id="orderCountry">
-    <input type="hidden" name="payment_method" value="PayPal">
-    <input type="hidden" name="payer_email" id="payerEmail">
-    <input type="hidden" name="orderImages" id="orderImages">
-    <input type="hidden" name="_replyto" value="thechicartiststudio@gmail.com">
-    <input type="hidden" name="_subject" value="New Order from The Chic Artist">
-
-
-
-    <!-- Customer Email -->
-    <div class="mb-3">
-      <input type="email" name="email" id="customerEmail" placeholder="Email" required class="form-control">
-    </div>
-
-        <!-- Shipping Address -->
-    <div class="mb-3">
-      <input
-        type="text"
-        id="address"
-        name="address"
-        placeholder="Start typing your shipping address"
-        autocomplete="off"
-        required
-        class="form-control"
-      />
-    </div>
-
-    <div class="mb-3">
-      <input type="text" value="zip code" id="zip" name="zip" class="form-control" readonly>
-    </div>
-
-    <!-- Province / State Selection -->
-    <div class="mb-3">
-      <input type="text" name="province" id="province" class="form-control" disabled placeholder="Province / State">
-        
-      </select>
-    </div>
-
-    <!-- Country Selection -->
-    <div class="mb-3">
-      <input type="text" name="country" id="country" required class="form-control" disabled placeholder="Country">
-      </select>
-    </div>
-
-  </form>
-
-  <!-- PAYPAL -->
-  <div id="paypal-button-container" style="display:none;"></div>
-  <p id="shippingMsg"></p>
+<section class="page-intro text-center" id="page-intro-id">
+  <h1>Watercolor E-Books</h1>
+  <p class="product-tagline">Downloadable guides to help you paint with confidence</p>
+  <p>Each e-book is a <strong>PDF download</strong> delivered instantly to your email after purchase.</p>
 </section>
+
+<section class="product-grid container">
+  <div id="ebookGrid" class="row"></div>
+</section>
+
 
 </main>
 
 <footer class="py-4 text-center text-muted position-relative">
-  © 2026 The Chic Artist
+  &copy; 2026 The Chic Artist &nbsp;&middot;&nbsp;
+  <a href="terms-and-conditions.html" style="color:#888; text-decoration:underline; font-size:0.85rem;">Terms &amp; Conditions</a>
 
-  <!-- FAQ Toggle -->
-  <div id="footerFaqToggle" 
-       style="position:absolute; right:40px; top:50%; transform:translateY(-50%); cursor:pointer; font-weight:500; color:#555;">
-    FAQ &#x25B2; <!-- small triangle as icon -->
-  </div>
-
-  <!-- Footer FAQ panel -->
-  <div id="footerFaqPanel" 
-       style="position:absolute; right:20px; bottom:50px; width:300px; max-height:0; overflow:hidden; background:#fff; box-shadow:0 4px 10px rgba(0,0,0,0.1); border-radius:8px; transition:max-height 0.4s ease;">
+  <div id="footerFaqToggle" style="position:absolute; right:40px; top:50%; transform:translateY(-50%); cursor:pointer; font-weight:500; color:#555;">FAQ &#x25B2;</div>
+  <div id="footerFaqPanel" style="position:absolute; right:20px; bottom:50px; width:300px; max-height:0; overflow:hidden; background:#fff; box-shadow:0 4px 10px rgba(0,0,0,0.1); border-radius:8px; transition:max-height 0.4s ease;">
     <div style="padding:1rem; font-size:0.9rem; color:#333;">
-      <p><strong>Where do you ship?</strong><br>We currently ship within Canada (Except SK) & USA. For other locations, <a href="index.html#contact">contact us</a> or order via <a href="https://thechicartiststudio.etsy.com" target="_blank">Etsy</a>.</p>
+      <p><strong>Where do you ship?</strong><br>Canada (except SK) &amp; USA. For other locations, <a href="index.html#contact">contact us</a> or order via <a href="https://thechicartiststudio.etsy.com" target="_blank">Etsy</a>.</p>
       <p><strong>Does shipping include tracking?</strong><br>USA orders include tracking; Canadian Lettermail does not.</p>
-      <p><strong>Do you accept returns/exchanges?</strong><br>All items are custom-made. Returns/exchanges are not offered.</p>
-      <p><strong>Custom pieces?</strong><br>Contact us via the <a href="index.html#contact">form</a> to create your unique design.</p>
+      <p><strong>Do you accept returns?</strong><br>All items are custom-made. Returns/exchanges are not offered.</p>
+      <p><strong>Custom pieces?</strong><br>Contact us via the <a href="index.html#contact">form</a>.</p>
     </div>
-
   </div>
 </footer>
 
@@ -212,7 +148,12 @@
   });
 </script>
 
+<!-- Toast Notification -->
+<div id="cartToast" class="cart-toast">Added to cart ✨</div>
 
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/ebooks.js"></script>
 
 <script>
 function toggleMobileMenu() {
@@ -236,6 +177,8 @@ document.querySelectorAll('#mobileSideConsole a').forEach(link => {
 });
 
 </script>
+
+
 
 </body>
 </html>

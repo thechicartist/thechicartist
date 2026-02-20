@@ -90,6 +90,7 @@
 
     let currentCurrency = 'USD';
 
+
     // ── Pricing helpers ──
     function subtotal() { return cart.reduce((s, i) => s + Number(i.price || 0), 0); }
 
@@ -109,7 +110,8 @@
     function isAllowed(country, province) {
       const cartType = getCartType();
       if (country === 'Canada' && province === 'SK') return false;
-      if (cartType === 'digital') return ['Canada', 'USA', 'UK'].includes(country);
+      //if (cartType === 'digital') return ['Canada', 'USA', 'UK'].includes(country);
+      if (cartType === 'digital') return ['Canada', 'USA'].includes(country);
       return ['Canada', 'USA'].includes(country);
     }
 
@@ -147,7 +149,7 @@
             shippingMsg.innerText = 'Sorry, we do not deliver to Saskatchewan.';
           } else if (!allowed) {
             shippingMsg.innerText = cartType === 'digital'
-              ? 'Online classes are available in Canada, USA and UK only.'
+              ? 'Online classes are available in Canada and USA only.'
               : 'Delivery available in Canada and USA only.';
           } else {
             shippingMsg.innerText = cartType === 'digital'
@@ -245,7 +247,8 @@
 
       const autocomplete = new google.maps.places.Autocomplete(addressInput, {
         types: ['address'],
-        componentRestrictions: { country: ['us', 'ca', 'uk'] },
+        //componentRestrictions: { country: ['us', 'ca', 'uk'] },
+        componentRestrictions: { country: ['us', 'ca'] },
         fields: ['address_components']
       });
 

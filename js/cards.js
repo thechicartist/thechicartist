@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     data-id="${product.id}"
                     data-name="${product.name}"
                     data-price="${product.price}"
+                    data-type="physical"
                     data-image="${product.images[0]}">
               Add to Cart
             </button>

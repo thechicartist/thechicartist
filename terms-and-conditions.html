@@ -7,52 +7,59 @@
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'G-80D8EZFDSB');
+    gtag("js", new Date());
+    gtag("config", "G-80D8EZFDSB");
   </script>
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/png" href="images/favicon.png">
-  <title>Terms and Conditions | The Chic Artist</title>
-  
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+  <title>Terms &amp; Conditions | The Chic Artist</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital@0;1&family=Inter:wght@300;400&display=swap" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Allura&display=swap" rel="stylesheet">
-
-
-  <!-- Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-  <!-- CSS -->
   <link rel="stylesheet" href="css/style.css">
+  <style>
+    .terms-page { max-width:860px; margin:0 auto; padding:0 24px 80px; }
+    .terms-page h2 { font-family:"Libre Baskerville",serif; font-size:1.4rem; font-weight:400; color:#222; margin-top:48px; margin-bottom:12px; padding-bottom:8px; border-bottom:1px solid #eee; }
+    .terms-page h3 { font-family:"Libre Baskerville",serif; font-size:1.05rem; font-weight:400; color:#333; margin-top:28px; margin-bottom:8px; }
+    .terms-page p  { font-size:0.95rem; color:#444; line-height:1.85; margin-bottom:14px; }
+    .terms-page ul { padding-left:1.4rem; margin-bottom:14px; }
+    .terms-page ul li { font-size:0.95rem; color:#444; line-height:1.85; margin-bottom:8px; }
+    .terms-toc { background:#fdfaf7; border:1px solid #ede8e0; border-radius:12px; padding:20px 28px; margin:32px 0 48px; }
+    .terms-toc p  { font-size:0.82rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:#888; margin-bottom:10px; }
+    .terms-toc ol { padding-left:1.2rem; margin:0; }
+    .terms-toc li { font-size:0.9rem; line-height:2.1; }
+    .terms-toc a  { color:#444; text-decoration:none; transition:color 0.2s; }
+    .terms-toc a:hover { color:#000; text-decoration:underline; }
+    .terms-updated { font-size:0.82rem; color:#aaa; margin-bottom:32px; }
+    .terms-badge { display:inline-block; font-size:0.68rem; font-weight:600; text-transform:uppercase; letter-spacing:0.1em; padding:3px 10px; border-radius:20px; margin-right:8px; vertical-align:middle; }
+    .badge-physical { background:#e8f0fe; color:#3a5fc8; }
+    .badge-digital  { background:#fce8f3; color:#b5367a; }
+    .badge-all      { background:#f0f0f0; color:#555; }
+  </style>
 </head>
 <body>
 
 <header class="site-header">
   <div class="container header-inner">
-
-    <!-- Brand / Logo -->
     <div class="brand">
       <a href="index.html" class="logo-link" data-scroll="top">
         <img src="images/logo.png" alt="The Chic Artist Logo" class="logo">
       </a>
     </div>
-
-    <!-- Desktop Nav -->
     <nav class="main-nav d-flex justify-content-center">
       <a href="index.html">Home</a>
       <a href="wedding.html">Wedding</a>
       <a href="bookmarks.html">Bookmarks</a>
       <a href="cards.html">Paintings</a>
+      <a href="ebooks.html">E-Books</a>
       <a href="OnlineClass.html">OnlineClass</a>
       <a href="index.html#contact">Contact</a>
     </nav>
-
-    <!-- Social Icons + Cart -->
     <div class="header-right d-flex align-items-center">
       <div class="social-icons d-flex">
         <a href="https://www.instagram.com/the.chic.artist" target="_blank"><img src="images/icons/instagram.svg"></a>
@@ -61,152 +68,214 @@
         <a href="https://www.tiktok.com/@the.chic.artist" target="_blank"><img src="images/icons/tiktok.svg"></a>
         <a href="https://thechicartiststudio.etsy.com" target="_blank"><img src="images/icons/etsy.svg"></a>
       </div>
-
-      <!-- Cart Icon -->
       <div class="cart-wrapper position-relative ms-3">
         <img src="images/icons/cart.svg" id="cartIcon" style="width:28px; cursor:pointer;">
         <span id="cartCount" style="top:-5px; right:-5px; font-size:0.7rem;">0</span>
       </div>
-
-      <!-- Mobile Hamburger -->
-      <div class="mobile-menu-icon ms-3" onclick="toggleMobileMenu()">☰</div>
+      <div class="mobile-menu-icon ms-3" onclick="toggleMobileMenu()">&#9776;</div>
     </div>
-
   </div>
 </header>
 
-<!-- Mobile Side Console -->
 <div id="mobileSideConsole" class="mobile-side-console">
   <ul>
     <li><a href="index.html" data-scroll="top">Home</a></li>
     <li><a href="wedding.html">Wedding</a></li>
     <li><a href="bookmarks.html">Bookmarks</a></li>
     <li><a href="cards.html">Paintings</a></li>
+    <li><a href="ebooks.html">E-Books</a></li>
     <li><a href="OnlineClass.html">OnlineClass</a></li>
     <li><a href="index.html#contact">Contact</a></li>
   </ul>
 </div>
-
-<!-- Overlay -->
 <div id="mobileMenuOverlay" class="mobile-menu-overlay"></div>
-
 
 <main class="main-content">
 
-<!-- PAGE HEADER -->
-<section class="page-intro text-center">
-  <h1>Terms and Conditions</h1>
-  <p class="product-tagline">Please read our terms and conditions carefully</p>
-</section>
+  <section class="page-intro text-center" id="page-intro-id">
+    <h1>Terms &amp; Conditions</h1>
+    <p class="product-tagline">Please read carefully before placing an order or registering for a class.</p>
+  </section>
 
+  <div class="terms-page">
 
-<!-- TERMS AND CONDITIONS CONTENT -->
-<section class="page-content" style="max-width:900px; margin:3rem auto; padding:0 2rem;">
-  
-  <div class="terms-section">
-    
-    <h2>Online Classes - Terms and Conditions</h2>
-    
+    <p class="terms-updated">Last updated: February 2026 &nbsp;&middot;&nbsp; The Chic Artist Studio &nbsp;&middot;&nbsp; thechicartiststudio@gmail.com</p>
 
-    <p>By purchasing a class, you agree to the following terms and conditions:</p>
-    
-    <ul style="line-height:2; margin-top:1.5rem;">
-      <li><strong>All Classes are non-refundable.</strong></li>
-      <li><strong>Class Access:</strong> Upon purchase, you will receive a zoom link via email. Access is granted for a limited time, typically for the duration of the class.</li>
-      
-      <li><strong>Live Participation:</strong> You are expected to attend at the scheduled times. Recordings will not be available if you cannot attend live.</li>
-      
-      <li><strong>Content Usage:</strong> The class materials are for your personal use only. You may not share, distribute, or resell the materials without explicit permission from The Chic Artist.</li>
-      
-      <li><strong>Technical Requirements:</strong> You are responsible for ensuring you have the necessary technology and internet connection to access the class materials and participate in live sessions.</li>
-      
-      <li><strong>Code of Conduct:</strong> You are expected to conduct yourself in a respectful and professional manner during live sessions and when interacting with other participants.</li>
-      
-      <li><strong>Right to Remove Participants:</strong> The Chic Artist reserves the right to remove any participant who violates this code of conduct.</li>
+    <div class="terms-toc">
+      <p>Contents</p>
+      <ol>
+        <li><a href="#general">General Information</a></li>
+        <li><a href="#physical">Physical Products &mdash; Bookmarks &amp; Paintings</a></li>
+        <li><a href="#digital-classes">Digital Products &mdash; Online Classes</a></li>
+        <li><a href="#digital-ebooks">Digital Products &mdash; E-Books</a></li>
+        <li><a href="#payment">Payment &amp; Pricing</a></li>
+        <li><a href="#returns">Returns, Refunds &amp; Cancellations</a></li>
+        <li><a href="#intellectual-property">Intellectual Property</a></li>
+        <li><a href="#liability">Limitation of Liability</a></li>
+        <li><a href="#privacy">Privacy</a></li>
+        <li><a href="#governing-law">Governing Law</a></li>
+        <li><a href="#contact-us">Contact Us</a></li>
+      </ol>
+    </div>
+
+    <h2 id="general"><span class="terms-badge badge-all">All Products</span>1. General Information</h2>
+    <p>These Terms and Conditions (&ldquo;Terms&rdquo;) govern all purchases and interactions with The Chic Artist Studio, operated by Neetika (&ldquo;we&rdquo;, &ldquo;us&rdquo;, &ldquo;our&rdquo;). By placing an order or registering for a class, you (&ldquo;customer&rdquo;, &ldquo;you&rdquo;) confirm that you have read, understood, and agree to these Terms in full.</p>
+    <p>We sell two categories of products:</p>
+    <ul>
+      <li><strong>Physical products</strong> &mdash; original hand-painted watercolor bookmarks and paintings, shipped to your address.</li>
+      <li><strong>Digital products</strong> &mdash; live online watercolor workshops (delivered via Zoom) and downloadable e-books (delivered as PDF files via email).</li>
     </ul>
+    <p>We reserve the right to update these Terms at any time. The version posted on this page at the time of your purchase governs that transaction.</p>
+
+    <h2 id="physical"><span class="terms-badge badge-physical">Physical</span>2. Physical Products &mdash; Bookmarks &amp; Paintings</h2>
+    <h3>2.1 Product Description</h3>
+    <p>All bookmarks and paintings are original, hand-painted watercolor artworks. Because each piece is painted by hand, minor natural variations in color, brushwork, and texture are inherent to the medium and are not considered defects. Product photographs are taken in natural light and represent the item as accurately as possible; slight color differences between your screen and the physical piece are normal.</p>
+    <p>Bookmarks are <strong>2 &times; 6 inches</strong> and ship with a high-quality protective sleeve. Paintings are <strong>5 &times; 7 inches</strong> and are unframed unless otherwise stated. Paintings may be requested as greeting cards at no additional cost (blank interior, white envelope included) &mdash; simply note this at checkout or contact us.</p>
+
+    <h3>2.2 Order Processing</h3>
+    <p>Orders are typically processed and dispatched within <strong>5&ndash;10 business days</strong> of payment confirmation. During busy periods (holidays, special events) processing may take longer &mdash; we will communicate any delays by email.</p>
+
+    <h3>2.3 Shipping &amp; Delivery</h3>
+    <ul>
+      <li><strong>Canada (except SK):</strong> Standard Canada Post Lettermail. Estimated 5&ndash;10 business days. Lettermail does <em>not</em> include tracking. Expedited or tracked shipping is available on request &mdash; please <a href="index.html#contact">contact us</a> before ordering for a quote.</li>
+      <li><strong>Saskatchewan (SK), Canada:</strong> We do not currently ship to Saskatchewan via this website. Please <a href="index.html#contact">contact us</a> or order via <a href="https://thechicartiststudio.etsy.com" target="_blank">Etsy</a>.</li>
+      <li><strong>USA:</strong> Tracked international shipping. Estimated 7&ndash;14 business days. Tracking is included.</li>
+      <li><strong>All other countries:</strong> Not available through this website. Please <a href="index.html#contact">contact us</a> or order via <a href="https://thechicartiststudio.etsy.com" target="_blank">Etsy</a>.</li>
+    </ul>
+    <p>We are not responsible for delays caused by postal services, customs, or events outside our control. Risk of loss passes to you upon handover to the carrier.</p>
+
+    <h3>2.4 Customs &amp; Import Duties</h3>
+    <p>For USA orders, any applicable import duties, taxes, or customs fees are the sole responsibility of the customer and are not included in our pricing or shipping charges.</p>
+
+    <h2 id="digital-classes"><span class="terms-badge badge-digital">Digital</span>3. Digital Products &mdash; Online Classes</h2>
+    <h3>3.1 What You Receive</h3>
+    <p>Online classes are live, instructor-led watercolor workshops delivered over Zoom. After successful payment you will receive a Zoom link and joining instructions at the email address provided at checkout. Please ensure your email address is correct before completing your purchase.</p>
+
+    <h3>3.2 Access &amp; Participation</h3>
+    <ul>
+      <li>The Zoom link is personal to you and must not be shared with others.</li>
+      <li>Classes run at the scheduled date and time shown on the product page. You are responsible for converting the time to your local timezone.</li>
+      <li><strong>Recordings:</strong> Classes are not recorded. If you cannot attend live, a recording will not be available. Please check your availability carefully before purchasing.</li>
+      <li>You are responsible for having a stable internet connection, a working camera and audio setup, and all listed materials before the class begins.</li>
+    </ul>
+
+    <h3>3.3 Materials</h3>
+    <p>A full materials list is published on each class product page. Sourcing materials is the customer&apos;s responsibility. The Chic Artist does not supply physical materials and is not responsible if you are unable to fully participate due to missing materials.</p>
+
+    <h3>3.4 Code of Conduct</h3>
+    <p>All participants must behave respectfully toward the instructor and fellow participants. The Chic Artist reserves the right to remove any participant who engages in disruptive, abusive, or inappropriate behaviour, without refund.</p>
+
+    <h3>3.5 Cancellation by Us</h3>
+    <p>In the rare event that we must cancel a scheduled class (e.g. instructor illness, technical failure beyond our control), all registered participants will be notified promptly by email and offered either a full refund or a credit toward a future class of equal value.</p>
+
+    <h3>3.6 Refund Policy for Classes</h3>
+    <p><strong>All class purchases are non-refundable.</strong> We encourage you to review the class details, date, time, and materials list carefully before purchasing. If you have any questions, please <a href="index.html#contact">contact us</a> before buying.</p>
+
+    <h2 id="digital-ebooks"><span class="terms-badge badge-digital">Digital</span>4. Digital Products &mdash; E-Books</h2>
+    <h3>4.1 What You Receive</h3>
+    <p>E-books are digital files in PDF format, delivered to the email address provided at checkout after payment is confirmed. Please check your spam/junk folder if you do not receive the download email within 24 hours of purchase. Contact us if you experience any delivery issues.</p>
+
+    <h3>4.2 Licence &amp; Permitted Use</h3>
+    <p>Upon purchase you receive a <strong>personal, non-exclusive, non-transferable licence</strong> to download, store, and use the e-book for your own personal, non-commercial purposes only. You may not:</p>
+    <ul>
+      <li>Share, distribute, resell, or make the file available to any third party.</li>
+      <li>Upload the file to any website, platform, or cloud storage service accessible to others.</li>
+      <li>Use the content to create commercial derivative products without written permission.</li>
+      <li>Remove or alter any copyright or watermark notices within the file.</li>
+    </ul>
+    <p>Breach of these licence terms may result in legal action under applicable copyright law.</p>
+
+    <h3>4.3 Refund Policy for E-Books</h3>
+    <p><strong>All e-book purchases are final and non-refundable.</strong> Because e-books are delivered instantly as digital files and cannot be returned, refunds are not available once the file has been delivered. Please review the product description thoroughly before purchasing. If you experience a verified technical issue preventing access to your file, contact us and we will assist you promptly.</p>
+
+    <h3>4.4 File Format &amp; Compatibility</h3>
+    <p>E-books are delivered in PDF format, compatible with all major operating systems and PDF readers (Adobe Acrobat, Apple Preview, Google Chrome, etc.). We cannot guarantee compatibility with every third-party e-reader device or application.</p>
+
+    <h2 id="payment"><span class="terms-badge badge-all">All Products</span>5. Payment &amp; Pricing</h2>
+    <p>All prices are displayed in Canadian Dollars (CAD) unless otherwise specified. For USA customers the equivalent USD amount is shown and charged at checkout. Payments are processed securely through <strong>Stripe</strong>. We do not store or have access to your card details.</p>
+    <p>Applicable Canadian taxes (GST/HST/PST) are calculated based on your province at checkout. USA orders are not subject to Canadian tax; any local taxes or duties are the customer&apos;s responsibility.</p>
+    <p>Prices may change without notice. The price confirmed at the time of checkout is the final price charged.</p>
+
+    <h2 id="returns"><span class="terms-badge badge-all">All Products</span>6. Returns, Refunds &amp; Cancellations</h2>
+    <h3>Physical Products</h3>
+    <p><strong>Returns and exchanges are not accepted</strong> on any physical products. All items are custom-made, hand-painted originals and cannot be restocked or resold.</p>
+    <p>If your order arrives visibly damaged due to shipping, please contact us within <strong>7 days of delivery</strong> with photographic evidence of the damage to both the item and its packaging. We will review each case individually and, at our discretion, offer a replacement or store credit.</p>
+    <p>If your order does not arrive within the estimated delivery window, please contact us and we will investigate with the carrier.</p>
+
+    <h3>Digital Products (Classes &amp; E-Books)</h3>
+    <p><strong>All digital product sales are final and non-refundable</strong>, consistent with consumer protection regulations for digital goods that have been accessed or delivered. The sole exception is a class cancelled by us (see Section 3.5).</p>
+
+    <h2 id="intellectual-property"><span class="terms-badge badge-all">All Products</span>7. Intellectual Property</h2>
+    <p>All artwork, images, videos, written content, class materials, and e-book content on this website are the exclusive intellectual property of The Chic Artist Studio, protected by copyright. No content may be reproduced, distributed, or used commercially without prior written permission.</p>
+    <p>Purchasing a product does not transfer any intellectual property rights. You may share photographs of your own artwork created during our classes on social media, with credit to <strong>@the.chic.artist</strong>.</p>
+
+    <h2 id="liability"><span class="terms-badge badge-all">All Products</span>8. Limitation of Liability</h2>
+    <p>To the fullest extent permitted by applicable law, The Chic Artist Studio is not liable for any indirect, incidental, or consequential damages arising from use of our products or services. Our total liability for any single order is limited to the amount paid for that order. Nothing in these Terms excludes liability for fraud or personal injury caused by our negligence.</p>
+
+    <h2 id="privacy"><span class="terms-badge badge-all">All Products</span>9. Privacy</h2>
+    <p>We collect only the personal information required to process your order or class registration (name, email, shipping address). This data is used solely to fulfil your purchase and communicate with you about it. We do not sell your personal information. Data is shared only with payment processors (Stripe) and shipping carriers (Canada Post) as required to complete your order.</p>
+    <p>You may request deletion of your personal data at any time by emailing us.</p>
+
+    <h2 id="governing-law"><span class="terms-badge badge-all">All Products</span>10. Governing Law</h2>
+    <p>These Terms are governed by the laws of the Province of Ontario and the applicable federal laws of Canada. Any disputes shall be subject to the exclusive jurisdiction of the courts of Ontario, Canada.</p>
+
+    <h2 id="contact-us"><span class="terms-badge badge-all">All Products</span>11. Contact Us</h2>
+    <p>For any questions about these Terms, your order, or our products:</p>
+    <ul>
+      <li><strong>Email:</strong> <a href="mailto:thechicartiststudio@gmail.com">thechicartiststudio@gmail.com</a></li>
+      <li><strong>Contact form:</strong> <a href="index.html#contact">thechicartist.com/#contact</a></li>
+      <li><strong>Etsy:</strong> <a href="https://thechicartiststudio.etsy.com" target="_blank">thechicartiststudio.etsy.com</a></li>
+    </ul>
+    <p>We aim to respond within 2&ndash;3 business days.</p>
+
   </div>
-
-</section>
-
 </main>
 
-
 <footer class="py-4 text-center text-muted position-relative">
-  © 2026 The Chic Artist
+  &copy; 2026 The Chic Artist &nbsp;&middot;&nbsp;
+  <a href="terms-and-conditions.html" style="color:#888; text-decoration:underline; font-size:0.85rem;">Terms &amp; Conditions</a>
 
-  <!-- FAQ Toggle -->
-  <div id="footerFaqToggle" 
-       style="position:absolute; right:40px; top:50%; transform:translateY(-50%); cursor:pointer; font-weight:500; color:#555;">
-    FAQ &#x25B2; <!-- small triangle as icon -->
-  </div>
-
-  <!-- Footer FAQ panel -->
-  <div id="footerFaqPanel" 
-       style="position:absolute; right:20px; bottom:50px; width:300px; max-height:0; overflow:hidden; background:#fff; box-shadow:0 4px 10px rgba(0,0,0,0.1); border-radius:8px; transition:max-height 0.4s ease;">
+  <div id="footerFaqToggle" style="position:absolute; right:40px; top:50%; transform:translateY(-50%); cursor:pointer; font-weight:500; color:#555;">FAQ &#x25B2;</div>
+  <div id="footerFaqPanel" style="position:absolute; right:20px; bottom:50px; width:300px; max-height:0; overflow:hidden; background:#fff; box-shadow:0 4px 10px rgba(0,0,0,0.1); border-radius:8px; transition:max-height 0.4s ease;">
     <div style="padding:1rem; font-size:0.9rem; color:#333;">
-      <p><strong>Where do you ship?</strong><br>We currently ship within Canada & USA. For other countries, <a href="index.html#contact">contact us</a> or order via <a href="https://thechicartiststudio.etsy.com" target="_blank">Etsy</a>.</p>
+      <p><strong>Where do you ship?</strong><br>Canada (except SK) &amp; USA. For other locations, <a href="index.html#contact">contact us</a> or order via <a href="https://thechicartiststudio.etsy.com" target="_blank">Etsy</a>.</p>
       <p><strong>Does shipping include tracking?</strong><br>USA orders include tracking; Canadian Lettermail does not.</p>
-      <p><strong>Do you accept returns/exchanges?</strong><br>All items are custom-made. Returns/exchanges are not offered.</p>
-      <p><strong>Custom pieces?</strong><br>Contact us via the <a href="index.html#contact">form</a> to create your unique design.</p>
+      <p><strong>Do you accept returns?</strong><br>All items are custom-made. Returns/exchanges are not offered.</p>
+      <p><strong>Custom pieces?</strong><br>Contact us via the <a href="index.html#contact">form</a>.</p>
     </div>
   </div>
 </footer>
 
 <script>
-  const faqToggle = document.getElementById('footerFaqToggle');
-  const faqPanel = document.getElementById('footerFaqPanel');
+  const faqToggle = document.getElementById("footerFaqToggle");
+  const faqPanel  = document.getElementById("footerFaqPanel");
   let faqOpen = false;
-
-  faqToggle.addEventListener('click', () => {
+  faqToggle.addEventListener("click", () => {
     faqOpen = !faqOpen;
-    if (faqOpen) {
-      faqPanel.style.maxHeight = faqPanel.scrollHeight + 'px';
-      faqToggle.innerHTML = 'FAQ &#x25BC;'; // down arrow
-    } else {
-      faqPanel.style.maxHeight = '0';
-      faqToggle.innerHTML = 'FAQ &#x25B2;'; // up arrow
-    }
+    faqPanel.style.maxHeight = faqOpen ? faqPanel.scrollHeight + "px" : "0";
+    faqToggle.innerHTML = faqOpen ? "FAQ &#x25BC;" : "FAQ &#x25B2;";
   });
-   // Optional: close FAQ when clicking outside
-  document.addEventListener('click', (e) => {
+  document.addEventListener("click", e => {
     if (faqOpen && !faqPanel.contains(e.target) && e.target !== faqToggle) {
-      faqPanel.style.maxHeight = '0';
-      faqToggle.innerHTML = 'FAQ &#x25B2;';
+      faqPanel.style.maxHeight = "0";
+      faqToggle.innerHTML = "FAQ &#x25B2;";
       faqOpen = false;
     }
   });
 </script>
-
-<!-- Toast Notification -->
-<div id="cartToast" class="cart-toast">Added to cart ✨</div>
-
-<script src="js/cards.js"></script>
+<div id="cartToast" class="cart-toast">Added to cart &#10024;</div>
+<script src="js/products.js"></script>
 <script src="js/cart.js"></script>
-
 <script>
 function toggleMobileMenu() {
-  const menu = document.getElementById('mobileSideConsole');
-  const overlay = document.getElementById('mobileMenuOverlay');
-  menu.classList.toggle('active');
-  overlay.classList.toggle('active');
+  document.getElementById("mobileSideConsole").classList.toggle("active");
+  document.getElementById("mobileMenuOverlay").classList.toggle("active");
 }
-
-// Close menu when overlay is clicked
-document.getElementById('mobileMenuOverlay').addEventListener('click', toggleMobileMenu);
-
-// Close menu when a link inside is clicked
-document.querySelectorAll('#mobileSideConsole a').forEach(link => {
-  link.addEventListener('click', () => {
-    const menu = document.getElementById('mobileSideConsole');
-    const overlay = document.getElementById('mobileMenuOverlay');
-    menu.classList.remove('active');
-    overlay.classList.remove('active');
-  });
-});
-
+document.getElementById("mobileMenuOverlay").addEventListener("click", toggleMobileMenu);
+document.querySelectorAll("#mobileSideConsole a").forEach(l => l.addEventListener("click", () => {
+  document.getElementById("mobileSideConsole").classList.remove("active");
+  document.getElementById("mobileMenuOverlay").classList.remove("active");
+}));
 </script>
-
-
-
 </body>
 </html>

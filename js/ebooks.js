@@ -1,16 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const grid = document.getElementById('OnlineClassGrid');
+  const grid = document.getElementById('ebookGrid');
   if (!grid) return;
 
-  // Get all digital products from PRODUCTS
-  const classes = Object.values(PRODUCTS).filter(p => p.category === 'class');
+  // Get only e-book products
+  const ebooks = Object.values(PRODUCTS).filter(p => p.category === 'ebook');
 
-  if (classes.length === 0) {
-    grid.innerHTML = '<p class="text-center">No classes available at this time. Check back soon!</p>';
+  if (ebooks.length === 0) {
+    grid.innerHTML = '<p class="text-center">No e-books available at this time. Check back soon!</p>';
     return;
   }
 
-  classes.forEach(product => {
+  ebooks.forEach(product => {
     const col = document.createElement('div');
     col.className = 'col-6 col-md-4 col-lg-3 mb-4';
 
@@ -26,7 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="product-overlay">
           <div class="product-overlay-inner">
             <p class="product-price">$${Number(product.price).toFixed(2)}</p>
-            ${product.date ? `<p style="font-size:0.75rem; margin:4px 0;">${product.date}</p>` : ''}
             <a href="product.html?id=${product.id}" class="btn btn-sm btn-outline-dark mb-1">View Details</a>
             <button class="btn btn-sm add-to-cart"
                     data-id="${product.id}"
@@ -34,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     data-price="${product.price}"
                     data-image="${product.images[0]}"
                     data-type="digital">
-              Register
+              Buy Now
             </button>
           </div>
         </div>

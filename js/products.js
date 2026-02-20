@@ -43,7 +43,7 @@ const defaultBookmarkDesc = `
 })();
 
 // ---- Per-product overrides ----
-// PRODUCTS['bookmark42'].images = ['images/bookmarks/b42.jpeg', 'images/bookmarks/b42b.jpeg'];
+ PRODUCTS['bookmark42'].images = ['images/bookmarks/b42.jpeg', 'images/bookmarks/b42.jpeg'];
 
 
 // ============================================================
@@ -73,6 +73,9 @@ const defaultCardDesc = `
   }
 })();
 
+// ---- Per-product overrides ----
+ PRODUCTS['card2'].images = ['images/cards/c2.jpeg', 'images/cards/c2.jpeg'];
+
 
 // ============================================================
 //  ONLINE CLASSES (digital)
@@ -100,11 +103,21 @@ addProduct({
     <p>✨ No prior watercolor experience needed<br>
     ✨ Slow, guided, and confidence-building<br>
     ✨ A creative keepsake you'll love using again and again</p>
-    <p><strong>Materials needed:</strong> Watercolor paper (2"×6"), round brushes (size 2/4/6/8),
-    watercolor paints, mixing palette, two water containers, paper towel, pencil & eraser.</p>
+    <h5 style="margin-top:1.5rem; margin-bottom:0.5rem;">Materials Required for this workshops</h5>
+    <p>
+      Watercolor paper (cut to bookmark size, 2" × 6")<br>
+      Round brushes (Size 2 / 4 / 6 / 8 recommended)<br>
+      Watercolor paints<br>
+      Mixing palette<br>
+      Two water containers<br>
+      Paper towel or cloth<br>
+      Pencil & eraser
+    </p>
+    
   `
 });
 
+// Note id must always start with 'class-' for digital products to work properly in cart.js
 // To add more classes:
 // addProduct({
 //   id: 'class-rose',
@@ -116,5 +129,38 @@ addProduct({
 //   date: 'April 5th, 2026',
 //   time: '12:30 PM – 2:00 PM EST',
 //   format: 'Live Online on Zoom',
+//   description: `<p>Your description here.</p>`
+// });
+
+// ============================================================
+//  E-BOOKS (digital download)
+//  To add a new e-book, copy one block and update the fields.
+// ============================================================
+
+addProduct({
+  id: 'ebook-watercolor-basics',
+  name: 'Watercolor Basics for Beginners',
+  price: 20.99,
+  type: 'digital',
+  category: 'ebook',
+  images: ['images/ebooks/e1.jpg', 'images/ebooks/e2.jpg', 'images/ebooks/e3.jpg', 'images/ebooks/e4.jpg'],
+  description: `
+    <p>A comprehensive beginner's guide to watercolor painting — everything you need to get started with confidence.</p>
+    <p>Covers essential techniques: wet-on-wet, wet-on-dry, color mixing, brush control, and floral basics.</p>
+    <p>Includes step-by-step painted examples and material recommendations.</p>
+    <p><strong>Format:</strong> PDF download — delivered to your email instantly after purchase.</p>
+    <p><strong>Pages:</strong> 40+ pages of illustrated guidance.</p>
+  `
+});
+
+// Note id must always start with 'ebook-' for digital products to work properly in cart.js
+// To add more e-books:
+// addProduct({
+//   id: 'ebook-florals', 
+//   name: 'Loose Watercolor Florals',
+//   price: 22.00,
+//   type: 'digital',
+//   category: 'ebook',
+//   images: ['images/ebooks/e2.jpeg'],
 //   description: `<p>Your description here.</p>`
 // });
