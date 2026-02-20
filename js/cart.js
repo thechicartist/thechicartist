@@ -103,7 +103,18 @@
 
           if (countrySelect && country) {
             countrySelect.value = country;
-            countrySelect.dispatchEvent(new Event('change'));
+            // Input is disabled so change event won't fire naturally — trigger manually
+            const currency = getCurrencyByCountry(country);
+            if (currency) {
+              currentCurrency = currency;
+              if (stripeBox) stripeBox.style.display = 'block';
+              if (shippingMsg) shippingMsg.innerText = `Delivery available. Paying in ${currency}.`;
+            } else {
+              if (stripeBox) stripeBox.style.display = 'none';
+              if (shippingMsg) shippingMsg.innerText = 'Delivery not available.';
+            }
+            setProvince(country);
+            render();
           }
 
           setTimeout(() => {
