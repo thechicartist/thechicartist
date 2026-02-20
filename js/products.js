@@ -89,7 +89,7 @@ const defaultCardDesc = `
 (function() {
   for (let i = 1; i <= 45; i++) {
     const price = (i === 2 || i === 5 || i === 6) ? 39.99
-                : 19.99;
+                : 18.99;
 
     addProduct({
       id: `card${i}`,

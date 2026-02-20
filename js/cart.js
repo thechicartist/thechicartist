@@ -250,43 +250,25 @@
         const stripeBtn = qs('#stripeCheckoutBtn');
         if (stripeBtn) { stripeBtn.disabled = true; stripeBtn.textContent = 'Redirecting to payment…'; }
 
-        // Save order info to sessionStorage so thank-you.html can read it
-          const orderData = {
-            items: cart,
-            total: (subtotal() + getShipping() + computeTax()).toFixed(2),
-            currency: currentCurrency,
-            shipping: getShipping().toFixed(2),
-            tax: computeTax().toFixed(2),
-            province: provinceSelect?.value || '',
-            zip: zipInput?.value || '',
-            country: countrySelect?.value || '',
-            payerEmail: customerEmailInput?.value || '',
-            payerName: customerNameInput?.value || ''
-          };
-          sessionStorage.setItem('lastOrder', JSON.stringify(orderData));
-
         try {
           const response = await fetch(`${WORKER_URL}/create-checkout-session`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              cart,
-              shipping: getShipping(),
-              tax: computeTax(),
+              // Only send IDs and non-price info — Worker looks up real prices server-side
+              cart: cart.map(i => ({ id: i.id, name: i.name, image: i.image })),
               currency: currentCurrency,
               country: countrySelect?.value || '',
               province: provinceSelect?.value || '',
               zip: zipInput?.value || '',
               email: customerEmailInput?.value,
-              name: customerNameInput?.value || '',
-              orderData
+              name: customerNameInput?.value || ''
             })
           });
 
           const data = await response.json();
 
           if (data.url) {
-            // Don't clear cart here — clear it only after successful payment on thank-you page
             window.location.href = data.url;
           } else {
             throw new Error(data.error || 'Failed to create checkout session');

@@ -386,10 +386,13 @@
     backLink.href = product.category === 'card' ? 'cards.html' : 'bookmarks.html';
     backLink.textContent = product.category === 'card' ? '← Back to Paintings' : '← Back to Bookmarks';
 
-    // Build slider HTML
-    const slidesHTML = product.images.map(src => `
+    // Build slider HTML — first image loads immediately, rest are lazy
+    const slidesHTML = product.images.map((src, i) => `
       <div class="slider-slide">
-        <img src="${src}" alt="${product.name}" loading="lazy">
+        <img ${i === 0 ? `src="${src}"` : `data-src="${src}" src=""`}
+             alt="${product.name}"
+             class="slider-img${i === 0 ? '' : ' lazy'}"
+             ${i === 0 ? '' : 'loading="lazy"'}>
       </div>
     `).join('');
 
@@ -468,6 +471,18 @@
         thumbs.forEach((t, i) => t.classList.toggle('active', i === current));
         if (prevBtn) prevBtn.classList.toggle('hidden', current === 0);
         if (nextBtn) nextBtn.classList.toggle('hidden', current === product.images.length - 1);
+
+        // Lazy load the current image and preload next
+        [current, current + 1].forEach(idx => {
+          const slide = track.querySelectorAll('.slider-slide')[idx];
+          if (!slide) return;
+          const img = slide.querySelector('.lazy');
+          if (img && img.dataset.src) {
+            img.src = img.dataset.src;
+            img.removeAttribute('data-src');
+            img.classList.remove('lazy');
+          }
+        });
       }
 
       prevBtn?.addEventListener('click', () => goTo(current - 1));
