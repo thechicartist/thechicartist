@@ -1,30 +1,32 @@
 document.addEventListener('DOMContentLoaded', () => {
   const grid = document.getElementById('cardGrid');
-
   if (!grid) return;
 
   for (let i = 45; i >= 1; i--) {
+    const product = PRODUCTS[`card${i}`];
+    if (!product) continue;
+
     const col = document.createElement('div');
-    const price = (i == 2 || i == 5 || i == 6) ? 39.99 : ((i <=45 && i >=28) || i == 26) ? 19.99  :15.99;
     col.className = 'col-6 col-md-4 col-lg-2 mb-4';
 
     col.innerHTML = `
       <div class="product-item">
-        <img src="images/cards/c${i}.jpeg"
-             alt="Hand-painted watercolor painting ${i}"
-             class="img-fluid"
-             id ="card${i}"
-             loading="lazy">
-
+        <a href="product.html?id=${product.id}" class="product-link" aria-label="View ${product.name}">
+          <img src="${product.images[0]}"
+               alt="${product.name}"
+               class="img-fluid"
+               id="${product.id}"
+               loading="lazy">
+        </a>
         <div class="product-overlay">
           <div class="product-overlay-inner">
-            <p class="product-price">$${price}</p>
-
+            <p class="product-price">$${Number(product.price).toFixed(2)}</p>
+            <a href="product.html?id=${product.id}" class="btn btn-sm btn-outline-light mb-1">View Details</a>
             <button class="btn btn-sm add-to-cart"
-                    data-id="card${i}"
-                    data-name="Hand-painted watercolor painting ${i}"
-                    data-price="${price}"
-                    data-image="images/cards/c${i}.jpeg">
+                    data-id="${product.id}"
+                    data-name="${product.name}"
+                    data-price="${product.price}"
+                    data-image="${product.images[0]}">
               Add to Cart
             </button>
           </div>

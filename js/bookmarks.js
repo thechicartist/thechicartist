@@ -1,32 +1,32 @@
 document.addEventListener('DOMContentLoaded', () => {
   const grid = document.getElementById('bookmarkGrid');
-
   if (!grid) return;
 
-  for (let i = 129; i >=0; i--) {
+  for (let i = 129; i >= 1; i--) {
+    const product = PRODUCTS[`bookmark${i}`];
+    if (!product) continue;
+
     const col = document.createElement('div');
-    const style= (i==0)? "display: none;" : "display:block;";
-    const price = (i ==115) ? 39.99 : (i==126 || i==124) ? 25.99 : (i== 49 || i == 128 || i==45) ? 11.99 : (i==129) ? 9.99 : (i==0) ? -2.5 : 8.99;
-    const alttag = (i == 115 || i==126 || i==124) ? `Set of 2 Hand-painted watercolor Bookmarks ${i}` : (i==0) ? `test listing` : `Hand-painted watercolor Bookmark ${i}`;
     col.className = 'col-6 col-md-4 col-lg-2 mb-4';
 
     col.innerHTML = `
-      <div class="product-item" style="${style}">
-        <img src="images/bookmarks/b${i}.jpeg"
-             alt="${alttag}"
-             class="img-fluid"
-             id="bookmark${i}"
-             loading="lazy">
-
+      <div class="product-item">
+        <a href="product.html?id=${product.id}" class="product-link" aria-label="View ${product.name}">
+          <img src="${product.images[0]}"
+               alt="${product.name}"
+               class="img-fluid"
+               id="${product.id}"
+               loading="lazy">
+        </a>
         <div class="product-overlay">
           <div class="product-overlay-inner">
-            <p class="product-price">$${price}</p>
-
+            <p class="product-price">$${Number(product.price).toFixed(2)}</p>
+            <a href="product.html?id=${product.id}" class="btn btn-sm btn-outline-light mb-1">View Details</a>
             <button class="btn btn-sm add-to-cart"
-                    data-id="bookmark${i}"
-                    data-name="${alttag}"
-                    data-price="${price}"
-                    data-image="images/bookmarks/b${i}.jpeg">
+                    data-id="${product.id}"
+                    data-name="${product.name}"
+                    data-price="${product.price}"
+                    data-image="${product.images[0]}">
               Add to Cart
             </button>
           </div>

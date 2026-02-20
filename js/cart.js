@@ -305,9 +305,9 @@
       render();
     }
 
-    // lightbox
+    // lightbox — only for wedding photo gallery, not product grids
     (function () {
-      const sels = ['.photo-grid img', '.product-grid img', '.category-grid img'];
+      const sels = ['.photo-grid img'];
       let lb = qs('#lightbox') || qs('.lightbox');
       if (!lb) {
         lb = document.createElement('div');

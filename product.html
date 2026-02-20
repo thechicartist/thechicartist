@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-80D8EZFDSB"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-80D8EZFDSB');
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="images/favicon.png">
+  <title>Product | The Chic Artist</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital@0;1&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/cart.js" defer></script>
+
+  <style>
+    /* ── Product Detail Layout ── */
+    .product-detail {
+      max-width: 1000px;
+      margin: 48px auto 80px;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 56px;
+      align-items: start;
+    }
+
+    @media (max-width: 768px) {
+      .product-detail {
+        grid-template-columns: 1fr;
+        gap: 32px;
+        margin: 32px auto 60px;
+      }
+    }
+
+    /* ── Back link ── */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+      color: #888;
+      text-decoration: none;
+      margin: 32px 0 0 24px;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: #333; }
+    .back-link::before { content: '←'; font-size: 1rem; }
+
+    /* ── Image Slider ── */
+    .slider-wrapper {
+      position: relative;
+      background: #f9f7f5;
+      border-radius: 12px;
+      overflow: hidden;
+      aspect-ratio: 3/4;
+    }
+
+    .slider-track {
+      display: flex;
+      height: 100%;
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .slider-slide {
+      min-width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slider-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 16px;
+    }
+
+    /* Prev / Next buttons */
+    .slider-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255,255,255,0.92);
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+      transition: background 0.2s, transform 0.2s;
+      z-index: 2;
+    }
+    .slider-btn:hover { background: #fff; transform: translateY(-50%) scale(1.08); }
+    .slider-btn.prev { left: 10px; }
+    .slider-btn.next { right: 10px; }
+    .slider-btn.hidden { display: none; }
+
+    /* Dots */
+    .slider-dots {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 12px;
+    }
+    .slider-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #ccc;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .slider-dot.active {
+      background: #555;
+      transform: scale(1.3);
+    }
+
+    /* Thumbnails */
+    .slider-thumbs {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+    .slider-thumb {
+      width: 60px;
+      height: 60px;
+      border-radius: 6px;
+      overflow: hidden;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: border-color 0.2s;
+      background: #f9f7f5;
+    }
+    .slider-thumb.active { border-color: #555; }
+    .slider-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* ── Product Info ── */
+    .product-info {
+      padding-top: 8px;
+    }
+
+    .product-category-tag {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #aaa;
+      margin-bottom: 12px;
+    }
+
+    .product-info h1 {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 1.6rem;
+      line-height: 1.35;
+      color: #222;
+      margin-bottom: 16px;
+    }
+
+    .product-price-tag {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 24px;
+    }
+
+    .product-description {
+      font-size: 0.92rem;
+      color: #555;
+      line-height: 1.75;
+      margin-bottom: 32px;
+      border-top: 1px solid #eee;
+      padding-top: 24px;
+    }
+    .product-description p { margin-bottom: 10px; }
+
+    /* Add to Cart button */
+    .btn-add-cart {
+      background: #222;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 14px 32px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      width: 100%;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-add-cart:hover {
+      background: #444;
+      transform: translateY(-1px);
+    }
+    .btn-add-cart:active { transform: translateY(0); }
+
+    /* Sold out state */
+    .btn-add-cart.sold-out {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
+    /* Not found */
+    .product-not-found {
+      text-align: center;
+      padding: 80px 24px;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <div class="brand">
+      <a href="index.html" class="logo-link" data-scroll="top">
+        <img src="images/logo.png" alt="The Chic Artist Logo" class="logo">
+      </a>
+    </div>
+    <nav class="main-nav d-flex justify-content-center">
+      <a href="index.html">Home</a>
+      <a href="wedding.html">Wedding</a>
+      <a href="bookmarks.html">Bookmarks</a>
+      <a href="cards.html">Paintings</a>
+      <a href="OnlineClass.html">OnlineClass</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+    <div class="header-right d-flex align-items-center">
+      <div class="social-icons d-flex">
+        <a href="https://www.instagram.com/the.chic.artist" target="_blank"><img src="images/icons/instagram.svg"></a>
+        <a href="https://www.youtube.com/@TheChicArtist" target="_blank"><img src="images/icons/youtube.svg"></a>
+        <a href="https://www.facebook.com/neetikaag" target="_blank"><img src="images/icons/facebook.svg"></a>
+        <a href="https://www.tiktok.com/@the.chic.artist" target="_blank"><img src="images/icons/tiktok.svg"></a>
+        <a href="https://thechicartiststudio.etsy.com" target="_blank"><img src="images/icons/etsy.svg"></a>
+      </div>
+      <div class="cart-wrapper position-relative ms-3">
+        <img src="images/icons/cart.svg" id="cartIcon" style="width:28px; cursor:pointer;">
+        <span id="cartCount" style="top:-5px; right:-5px; font-size:0.7rem;">0</span>
+      </div>
+      <div class="mobile-menu-icon ms-3" onclick="toggleMobileMenu()">☰</div>
+    </div>
+  </div>
+</header>
+
+<div id="mobileSideConsole" class="mobile-side-console">
+  <ul>
+    <li><a href="index.html" data-scroll="top">Home</a></li>
+    <li><a href="wedding.html">Wedding</a></li>
+    <li><a href="bookmarks.html">Bookmarks</a></li>
+    <li><a href="cards.html">Paintings</a></li>
+    <li><a href="OnlineClass.html">OnlineClass</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+</div>
+<div id="mobileMenuOverlay" class="mobile-menu-overlay"></div>
+
+<!-- Back link -->
+<a id="backLink" href="bookmarks.html" class="back-link">Back</a>
+
+<!-- Main product detail -->
+<main id="productMain"></main>
+
+<!-- You May Also Like -->
+<section id="youMayAlsoLike" style="display:none; max-width:1000px; margin: 0 auto 80px; padding: 0 24px;">
+  <h2 style="font-family:'Libre Baskerville',serif; font-size:1.3rem; color:#222; margin-bottom:24px; padding-top:40px; border-top:1px solid #eee;">You May Also Like</h2>
+  <div id="relatedGrid" style="display:grid; grid-template-columns: repeat(4, 1fr); gap:20px;">
+  </div>
+</section>
+
+<style>
+  @media (max-width: 768px) {
+    #relatedGrid { grid-template-columns: repeat(2, 1fr) !important; }
+  }
+  .related-card-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  .related-card {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    flex: 1;
+  }
+  .related-card:hover .related-img-wrap img {
+    transform: scale(1.04);
+  }
+  .related-img-wrap {
+    aspect-ratio: 3/4;
+    background: #f9f7f5;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 10px;
+  }
+  .related-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+  .related-name {
+    font-size: 0.8rem;
+    color: #444;
+    margin-bottom: 4px;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .related-price {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #222;
+  }
+  .related-add-btn {
+    margin-top: 8px;
+    width: 100%;
+    padding: 7px;
+    font-size: 0.78rem;
+    background: #222;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .related-add-btn:hover { background: #444; }
+</style>
+
+<!-- Toast -->
+<div id="cartToast" class="cart-toast">Added to cart ✨</div>
+
+<footer class="py-4 text-center text-muted position-relative">
+  © 2026 The Chic Artist
+  <div id="footerFaqToggle" style="position:absolute; right:40px; top:50%; transform:translateY(-50%); cursor:pointer; font-weight:500; color:#555;">FAQ &#x25B2;</div>
+  <div id="footerFaqPanel" style="position:absolute; right:20px; bottom:50px; width:300px; max-height:0; overflow:hidden; background:#fff; box-shadow:0 4px 10px rgba(0,0,0,0.1); border-radius:8px; transition:max-height 0.4s ease;">
+    <div style="padding:1rem; font-size:0.9rem; color:#333;">
+      <p><strong>Where do you ship?</strong><br>Canada (Except SK) & USA. For other locations, <a href="index.html#contact">contact us</a> or order via <a href="https://thechicartiststudio.etsy.com" target="_blank">Etsy</a>.</p>
+      <p><strong>Does shipping include tracking?</strong><br>USA orders include tracking; Canadian Lettermail does not.</p>
+      <p><strong>Do you accept returns/exchanges?</strong><br>All items are custom-made. Returns/exchanges are not offered.</p>
+      <p><strong>Custom pieces?</strong><br>Contact us via the <a href="index.html#contact">form</a>.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="js/products.js"></script>
+<script>
+  // ── Load product from URL ──
+  const params = new URLSearchParams(window.location.search);
+  const productId = params.get('id');
+  const product = PRODUCTS[productId];
+  const main = document.getElementById('productMain');
+  const backLink = document.getElementById('backLink');
+
+  if (!product) {
+    main.innerHTML = `
+      <div class="product-not-found">
+        <h2>Product not found</h2>
+        <p>Sorry, we couldn't find that product.</p>
+        <a href="bookmarks.html" class="btn btn-dark mt-3">Browse Bookmarks</a>
+      </div>`;
+  } else {
+    // Update page title
+    document.title = `${product.name} | The Chic Artist`;
+
+    // Back link
+    backLink.href = product.category === 'card' ? 'cards.html' : 'bookmarks.html';
+    backLink.textContent = product.category === 'card' ? '← Back to Paintings' : '← Back to Bookmarks';
+
+    // Build slider HTML
+    const slidesHTML = product.images.map(src => `
+      <div class="slider-slide">
+        <img src="${src}" alt="${product.name}" loading="lazy">
+      </div>
+    `).join('');
+
+    const dotsHTML = product.images.length > 1
+      ? `<div class="slider-dots">${product.images.map((_, i) =>
+          `<button class="slider-dot ${i === 0 ? 'active' : ''}" data-index="${i}"></button>`
+        ).join('')}</div>`
+      : '';
+
+    const thumbsHTML = product.images.length > 1
+      ? `<div class="slider-thumbs">${product.images.map((src, i) =>
+          `<div class="slider-thumb ${i === 0 ? 'active' : ''}" data-index="${i}">
+            <img src="${src}" alt="View ${i+1}">
+          </div>`
+        ).join('')}</div>`
+      : '';
+
+    const prevBtn = product.images.length > 1
+      ? `<button class="slider-btn prev" id="sliderPrev">&#8592;</button>`
+      : '';
+    const nextBtn = product.images.length > 1
+      ? `<button class="slider-btn next" id="sliderNext">&#8594;</button>`
+      : '';
+
+    main.innerHTML = `
+      <div class="product-detail">
+
+        <!-- LEFT: Image Slider -->
+        <div class="slider-column">
+          <div class="slider-wrapper">
+            ${prevBtn}
+            <div class="slider-track" id="sliderTrack">
+              ${slidesHTML}
+            </div>
+            ${nextBtn}
+          </div>
+          ${dotsHTML}
+          ${thumbsHTML}
+        </div>
+
+        <!-- RIGHT: Info -->
+        <div class="product-info">
+          <p class="product-category-tag">${product.category === 'card' ? 'Original Painting' : 'Watercolor Bookmark'}</p>
+          <h1>${product.name}</h1>
+          <p class="product-price-tag">$${Number(product.price).toFixed(2)} CAD</p>
+          <button
+            class="btn-add-cart add-to-cart"
+            data-id="${product.id}"
+            data-name="${product.name}"
+            data-price="${product.price}"
+            data-image="${product.images[0]}"
+          >
+            Add to Cart
+          </button>
+          <div class="product-description">
+            ${product.description}
+          </div>
+        </div>
+
+      </div>
+    `;
+
+    // ── Slider logic ──
+    if (product.images.length > 1) {
+      const track = document.getElementById('sliderTrack');
+      const dots = document.querySelectorAll('.slider-dot');
+      const thumbs = document.querySelectorAll('.slider-thumb');
+      const prevBtn = document.getElementById('sliderPrev');
+      const nextBtn = document.getElementById('sliderNext');
+      let current = 0;
+
+      function goTo(index) {
+        current = Math.max(0, Math.min(index, product.images.length - 1));
+        track.style.transform = `translateX(-${current * 100}%)`;
+        dots.forEach((d, i) => d.classList.toggle('active', i === current));
+        thumbs.forEach((t, i) => t.classList.toggle('active', i === current));
+        if (prevBtn) prevBtn.classList.toggle('hidden', current === 0);
+        if (nextBtn) nextBtn.classList.toggle('hidden', current === product.images.length - 1);
+      }
+
+      prevBtn?.addEventListener('click', () => goTo(current - 1));
+      nextBtn?.addEventListener('click', () => goTo(current + 1));
+      dots.forEach(d => d.addEventListener('click', () => goTo(Number(d.dataset.index))));
+      thumbs.forEach(t => t.addEventListener('click', () => goTo(Number(t.dataset.index))));
+
+      // Touch/swipe support
+      let touchStartX = 0;
+      track.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; });
+      track.addEventListener('touchend', e => {
+        const diff = touchStartX - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 40) goTo(diff > 0 ? current + 1 : current - 1);
+      });
+
+      goTo(0);
+    }
+
+    // ── You May Also Like ──
+    const allProducts = Object.values(PRODUCTS).filter(p => p.id !== product.id && p.category === product.category);
+    const shuffled = allProducts.sort(() => Math.random() - 0.5).slice(0, 4);
+    if (shuffled.length > 0) {
+      const section = document.getElementById('youMayAlsoLike');
+      const grid = document.getElementById('relatedGrid');
+      section.style.display = 'block';
+      grid.innerHTML = shuffled.map(p => `
+        <div class="related-card-wrapper">
+          <a href="product.html?id=${p.id}" class="related-card">
+            <div class="related-img-wrap">
+              <img src="${p.images[0]}" alt="${p.name}" loading="lazy">
+            </div>
+            <p class="related-name">${p.name}</p>
+            <p class="related-price">$${Number(p.price).toFixed(2)} CAD</p>
+          </a>
+          <button class="related-add-btn add-to-cart"
+            data-id="${p.id}"
+            data-name="${p.name}"
+            data-price="${p.price}"
+            data-image="${p.images[0]}">
+            Add to Cart
+          </button>
+        </div>
+      `).join('');
+    }
+  }
+
+  // ── FAQ toggle ──
+  const faqToggle = document.getElementById('footerFaqToggle');
+  const faqPanel = document.getElementById('footerFaqPanel');
+  let faqOpen = false;
+  faqToggle.addEventListener('click', () => {
+    faqOpen = !faqOpen;
+    faqPanel.style.maxHeight = faqOpen ? faqPanel.scrollHeight + 'px' : '0';
+    faqToggle.innerHTML = faqOpen ? 'FAQ &#x25BC;' : 'FAQ &#x25B2;';
+  });
+  document.addEventListener('click', e => {
+    if (faqOpen && !faqPanel.contains(e.target) && e.target !== faqToggle) {
+      faqPanel.style.maxHeight = '0';
+      faqToggle.innerHTML = 'FAQ &#x25B2;';
+      faqOpen = false;
+    }
+  });
+
+  // ── Mobile menu ──
+  function toggleMobileMenu() {
+    document.getElementById('mobileSideConsole').classList.toggle('active');
+    document.getElementById('mobileMenuOverlay').classList.toggle('active');
+  }
+  document.getElementById('mobileMenuOverlay').addEventListener('click', toggleMobileMenu);
+  document.querySelectorAll('#mobileSideConsole a').forEach(link => {
+    link.addEventListener('click', () => {
+      document.getElementById('mobileSideConsole').classList.remove('active');
+      document.getElementById('mobileMenuOverlay').classList.remove('active');
+    });
+  });
+</script>
+
+</body>
+</html>
