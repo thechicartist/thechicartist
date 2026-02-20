@@ -1,300 +1,375 @@
-// Consolidated cart + lightbox (clean single-file implementation)
 (function () {
   function qs(s) { return document.querySelector(s); }
   function qsa(s) { return Array.from(document.querySelectorAll(s)); }
   function onReady(fn) { if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fn); else fn(); }
 
-  // ===== CONFIGURATION =====
-  // Replace this with your deployed Cloudflare Worker URL after deploying stripe-worker.js
   const WORKER_URL = 'https://stripe-worker.thechicartiststudio.workers.dev';
 
-
   onReady(() => {
-    // Cart state
     let cart = JSON.parse(localStorage.getItem('cart') || '[]');
-    const cartIcon = qs('#cartIcon');
+    const cartIcon  = qs('#cartIcon');
     const cartCount = qs('#cartCount');
+
     function saveCart() { localStorage.setItem('cart', JSON.stringify(cart)); }
     function updateCartCount() { if (cartCount) cartCount.textContent = cart.length; }
-    function showCartToast(message) {
-      const toast = document.getElementById('cartToast');
-      if (!toast) return;
-      toast.textContent = message;
-      toast.classList.add('show');
-      setTimeout(() => { toast.classList.remove('show'); }, 2000);
+    function showToast(msg) {
+      const t = document.getElementById('cartToast');
+      if (!t) return;
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2000);
     }
+    function getCartType() { return cart.length === 0 ? null : (cart[0].type || 'physical'); }
+
     updateCartCount();
 
-    // Add to cart
-    document.addEventListener('click', (e) => {
+    // ── Add to cart ──
+    document.addEventListener('click', e => {
       const btn = e.target.closest('.add-to-cart');
       if (!btn) return;
-      const p = {
-        id: btn.dataset.id,
-        name: btn.dataset.name,
+
+      const item = {
+        id:    btn.dataset.id,
+        name:  btn.dataset.name,
         price: Number(btn.dataset.price) || 0,
-        image: btn.dataset.image || ''
+        image: btn.dataset.image || '',
+        type:  btn.dataset.type || 'physical'
       };
-      cart.push(p);
+
+      const cartType = getCartType();
+      if (cartType && cartType !== item.type) {
+        const typeLabel     = cartType === 'digital' ? 'online classes' : 'physical products';
+        const newTypeLabel  = item.type === 'digital' ? 'an online class' : 'a physical product';
+        const ok = confirm(
+          `Your cart already has ${typeLabel}.\n\n` +
+          `You can only checkout one type at a time.\n\n` +
+          `Click OK to clear your cart and add ${newTypeLabel}, or Cancel to keep your current cart.`
+        );
+        if (!ok) return;
+        cart = [];
+      }
+
+      cart.push(item);
       saveCart();
       updateCartCount();
-      showCartToast(`${p.name} added to cart ✨`);
+      showToast(`${item.name} added to cart ✨`);
     });
 
-    if (cartIcon) { cartIcon.style.cursor = 'pointer'; cartIcon.addEventListener('click', () => window.location.href = 'cart.html'); }
+    if (cartIcon) {
+      cartIcon.style.cursor = 'pointer';
+      cartIcon.addEventListener('click', () => window.location.href = 'cart.html');
+    }
 
-    // Cart page
+    // ── Cart page ──
     const cartPage = qs('#cartPage');
-    if (cartPage) {
-      const cartContainer = qs('#cartItems');
-      const totalBox = qs('#cartTotal');
-      const orderItemsInput = qs('#orderItems');
-      const orderImagesInput = qs('#orderImages');
-      const orderTotalInput = qs('#orderTotal');
-      const orderShippingInput = qs('#orderShipping');
-      const orderTaxInput = qs('#orderTax');
-      const orderProvinceInput = qs('#orderProvince');
-      const orderZipInput = qs('#orderZip');
-      const orderCountryInput = qs('#orderCountry');
-      const orderForm = qs('#orderForm');
-      const countrySelect = qs('#country');
-      const provinceSelect = qs('#province');
-      const zipInput = qs('#zip');
-      const stripeBox = qs('#stripe-button-container');
-      const shippingMsg = qs('#shippingMsg');
-      const customerEmailInput = qs('#customerEmail');
-      const customerNameInput = qs('#customerName');
+    if (!cartPage) {
+      // Still wire up lightbox on non-cart pages
+      initLightbox();
+      return;
+    }
 
-      // ===== Google Address Autocomplete (USA + Canada) =====
-      let addressAutocomplete;
+    const cartContainer    = qs('#cartItems');
+    const totalBox         = qs('#cartTotal');
+    const orderItemsInput  = qs('#orderItems');
+    const orderImagesInput = qs('#orderImages');
+    const orderTotalInput  = qs('#orderTotal');
+    const orderShippingInput = qs('#orderShipping');
+    const orderTaxInput    = qs('#orderTax');
+    const orderProvinceInput = qs('#orderProvince');
+    const orderZipInput    = qs('#orderZip');
+    const orderCountryInput = qs('#orderCountry');
+    const orderForm        = qs('#orderForm');
+    const countrySelect    = qs('#country');
+    const provinceSelect   = qs('#province');
+    const zipInput         = qs('#zip');
+    const stripeBox        = qs('#stripe-button-container');
+    const shippingMsg      = qs('#shippingMsg');
+    const customerEmailInput = qs('#customerEmail');
+    const customerNameInput  = qs('#customerName');
+    const addressSection   = qs('#addressSection');
 
-      window.initAddressAutocomplete = function () {
-        const addressInput = qs('#address');
-        if (!addressInput || !window.google || !google.maps.places) return;
+    let currentCurrency = 'USD';
 
-        addressAutocomplete = new google.maps.places.Autocomplete(addressInput, {
-          types: ['address'],
-          componentRestrictions: { country: ['us', 'ca'] },
-          fields: ['address_components', 'formatted_address']
-        });
+    // ── Pricing helpers ──
+    function subtotal() { return cart.reduce((s, i) => s + Number(i.price || 0), 0); }
 
-        addressAutocomplete.addListener('place_changed', () => {
-          const place = addressAutocomplete.getPlace();
-          if (!place.address_components) return;
+    function getShipping() {
+      if (getCartType() === 'digital') return 0;
+      const c = countrySelect ? countrySelect.value : '';
+      return c === 'Canada' ? 3 : c === 'USA' ? 7 : 0;
+    }
 
-          let country = '';
-          let province = '';
-          let zip = '';
+    const taxRates = { ON: 0.13, QC: 0.05, NS: 0.15, NB: 0.15, MB: 0.05, BC: 0.05, PE: 0.15, SK: 0.05, AB: 0.05, NL: 0.15, NT: 0.05, YT: 0.05, NU: 0.05 };
+    function computeTax() {
+      if (!countrySelect || countrySelect.value !== 'Canada' || !provinceSelect) return 0;
+      return (subtotal() + getShipping()) * (taxRates[provinceSelect.value] ?? 0.05);
+    }
 
-          place.address_components.forEach(c => {
-            if (c.types.includes('postal_code')) zip = c.long_name;
-          });
+    // ── Allowed countries ──
+    function isAllowed(country, province) {
+      const cartType = getCartType();
+      if (country === 'Canada' && province === 'SK') return false;
+      if (cartType === 'digital') return ['Canada', 'USA', 'UK'].includes(country);
+      return ['Canada', 'USA'].includes(country);
+    }
 
-          const zipInput = document.getElementById('zip');
-          if (zipInput) zipInput.value = zip;
+    // ── Address visibility (hide for digital) ──
+    function updateAddressVisibility() {
+      const isDigital = getCartType() === 'digital';
+      if (addressSection) addressSection.style.display = isDigital ? 'none' : '';
+    }
 
-          place.address_components.forEach(c => {
-            if (c.types.includes('country')) {
-              country = c.long_name === 'United States' ? 'USA' : 'Canada';
-            }
-            if (c.types.includes('administrative_area_level_1')) {
-              province = c.short_name;
-            }
-          });
+    // ── Render cart ──
+    function getProductPage(id) {
+      if (!id) return 'index.html';
+      if (id.startsWith('card'))     return 'cards.html';
+      if (id.startsWith('bookmark')) return 'bookmarks.html';
+      if (id.startsWith('class'))    return 'OnlineClass.html';
+      return 'index.html';
+    }
 
-          if (countrySelect && country) {
-            countrySelect.value = country;
+    function render() {
+      updateAddressVisibility();
 
-            // Look up fresh in case initAddressAutocomplete ran before cartPage init
-            const _stripeBox = document.getElementById('stripe-button-container');
-            const _shippingMsg = document.getElementById('shippingMsg');
+      const country  = countrySelect  ? countrySelect.value  : '';
+      const province = provinceSelect ? provinceSelect.value : '';
+      const allowed  = isAllowed(country, province);
+      const cartType = getCartType();
 
-            const currency = (country === 'Canada') ? 'CAD' : (country === 'USA') ? 'USD' : null;
-            if (currency) {
-              currentCurrency = currency;
-              if (_stripeBox) _stripeBox.style.display = 'block';
-              if (_shippingMsg) _shippingMsg.innerText = `Delivery available. Paying in ${currency}.`;
-            } else {
-              if (_stripeBox) _stripeBox.style.display = 'none';
-              if (_shippingMsg) _shippingMsg.innerText = 'Delivery not available.';
-            }
+      if (stripeBox) {
+        const show = cart.length > 0 && allowed;
+        stripeBox.style.display = show ? 'block' : 'none';
 
-            if (typeof setProvince === 'function') setProvince(country);
-            if (typeof render === 'function') render();
-          }
-
-          setTimeout(() => {
-            if (provinceSelect && province) {
-              provinceSelect.value = province;
-              provinceSelect.dispatchEvent(new Event('change'));
-            }
-          }, 200);
-        });
-      };
-
-      if (!document.getElementById('gmap-script')) {
-        const script = document.createElement('script');
-        script.id = 'gmap-script';
-        script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyCfoNbNyrU_e-tQ4Q4uLLD9IPdcmJJ_rRg&libraries=places&callback=initAddressAutocomplete`;
-        script.onload = initAddressAutocomplete;
-        document.body.appendChild(script);
-      } else {
-        initAddressAutocomplete();
-      }
-
-      // ===== Currency handling =====
-      let currentCurrency = 'USD';
-
-      function getCurrencyByCountry(country) {
-        if (country === 'Canada') return 'CAD';
-        if (country === 'USA') return 'USD';
-        return null;
-      }
-
-      function subtotal() { return cart.reduce((s, i) => s + Number(i.price || 0), 0); }
-      function getShipping() { const c = countrySelect ? countrySelect.value : ''; return c === 'Canada' ? 3 : (c === 'USA' ? 7 : 0); }
-      const taxRates = { 'ON': 0.13, 'QC': 0.05, 'NS': 0.15, 'NB': 0.15, 'MB': 0.05, 'BC': 0.05, 'PE': 0.15, 'SK': 0.05, 'AB': 0.05, 'NL': 0.15, 'NT': 0.05, 'YT': 0.05, 'NU': 0.05 };
-      function computeTax() { if (!countrySelect || countrySelect.value !== 'Canada' || !provinceSelect) return 0; const base = subtotal() + getShipping(); return base * (taxRates[provinceSelect.value] ?? 0.05); }
-
-      function getProductPage(productId) {
-        if (!productId) return 'index.html';
-        if (productId.startsWith('card')) return 'cards.html';
-        if (productId.startsWith('bookmark')) return 'bookmarks.html';
-        return 'index.html';
-      }
-
-      function render() {
-        if (stripeBox) {
-          if (cart.length > 0 && countrySelect && ((countrySelect.value === 'Canada' && provinceSelect && provinceSelect.value !== 'SK') || countrySelect.value === 'USA')) {
-            stripeBox.style.display = 'block';
-            if (shippingMsg) shippingMsg.innerText = `Delivery available. Shipping: $${getShipping().toFixed(2)}.`;
+        if (shippingMsg) {
+          if (!country) {
+            shippingMsg.innerText = '';
+          } else if (!allowed && country === 'Canada' && province === 'SK') {
+            shippingMsg.innerText = 'Sorry, we do not deliver to Saskatchewan.';
+          } else if (!allowed) {
+            shippingMsg.innerText = cartType === 'digital'
+              ? 'Online classes are available in Canada, USA and UK only.'
+              : 'Delivery available in Canada and USA only.';
           } else {
-            stripeBox.style.display = 'none';
-            if (shippingMsg) shippingMsg.innerText = '';
+            shippingMsg.innerText = cartType === 'digital'
+              ? `Available in ${country}. Paying in ${currentCurrency}. No shipping for online classes.`
+              : `Delivery available. Shipping: $${getShipping().toFixed(2)}. Paying in ${currentCurrency}.`;
           }
         }
-        if (!cartContainer) return;
-        cartContainer.innerHTML = '';
-        if (cart.length === 0) { cartContainer.innerHTML = '<p>Your cart is empty.</p>'; if (totalBox) totalBox.innerText = 'Total: $0.00'; return; }
-        cart.forEach((it, idx) => {
-          const d = document.createElement('div'); d.className = 'cart-item d-flex align-items-center mb-3';
-          d.innerHTML = `
-            <a href="${getProductPage(it.id)}#${it.id}">
-              <img src="${it.image || ''}" alt="${it.name}" width="80" class="me-3 rounded">
-            </a>
-            <div class="flex-grow-1">
-              <strong>${it.name}</strong>
-              <p>$${Number(it.price).toFixed(2)}</p>
-            </div>
-            <button class="btn btn-sm btn-danger remove-item" data-index="${idx}">Remove</button>
-          `;
-          cartContainer.appendChild(d);
-        });
-        qsa('.remove-item').forEach(b => b.addEventListener('click', () => { const i = Number(b.dataset.index); if (!Number.isNaN(i)) { cart.splice(i, 1); saveCart(); updateCartCount(); render(); } }));
-
-        const s = subtotal(); const sh = getShipping(); const tax = computeTax(); const tot = s + sh + tax;
-        if (totalBox) totalBox.innerText = `Total: $${tot.toFixed(2)} (Subtotal: $${s.toFixed(2)} + Shipping: $${sh.toFixed(2)} + Tax: $${tax.toFixed(2)})`;
-        if (orderItemsInput) orderItemsInput.value = cart.map(i => `${i.name} ($${Number(i.price).toFixed(2)})`).join(', ');
-        if (orderImagesInput) orderImagesInput.value = cart.map(i => i.image).join(', ');
-        if (orderTotalInput) orderTotalInput.value = tot.toFixed(2);
-        if (orderShippingInput) orderShippingInput.value = sh.toFixed(2);
-        if (orderTaxInput) orderTaxInput.value = tax.toFixed(2);
-        if (orderProvinceInput) orderProvinceInput.value = provinceSelect ? provinceSelect.value : '';
-        if (orderZipInput) orderZipInput.value = zipInput ? zipInput.value : '';
-        if (orderCountryInput) orderCountryInput.value = countrySelect ? countrySelect.value : '';
       }
 
-      // province/state options extraction
-      let canadaHTML = ''; let usaHTML = ''; const placeholder = '<option value="">Select Province / State</option>';
-      if (provinceSelect) { const cg = provinceSelect.querySelector('optgroup[label="Canada"]'); const ug = provinceSelect.querySelector('optgroup[label="USA"]'); if (cg) canadaHTML = Array.from(cg.querySelectorAll('option')).map(o => o.outerHTML).join(''); if (ug) usaHTML = Array.from(ug.querySelectorAll('option')).map(o => o.outerHTML).join(''); provinceSelect.innerHTML = placeholder; }
-      function setProvince(country) { if (!provinceSelect) return; if (country === 'Canada') { provinceSelect.innerHTML = placeholder + canadaHTML; provinceSelect.required = true; provinceSelect.style.display = 'inline-block'; } else if (country === 'USA') { provinceSelect.innerHTML = placeholder + usaHTML; provinceSelect.required = false; provinceSelect.style.display = 'inline-block'; } else { provinceSelect.innerHTML = placeholder; provinceSelect.required = false; provinceSelect.style.display = 'none'; provinceSelect.value = ''; } }
+      if (!cartContainer) return;
+      cartContainer.innerHTML = '';
 
-      if (countrySelect) {
-        countrySelect.addEventListener('change', () => {
-          const country = countrySelect.value;
-          const currency = getCurrencyByCountry(country);
+      if (cart.length === 0) {
+        cartContainer.innerHTML = '<p>Your cart is empty.</p>';
+        if (totalBox) totalBox.innerText = 'Total: $0.00';
+        return;
+      }
 
-          if (!currency) {
-            if (stripeBox) stripeBox.style.display = 'none';
-            if (shippingMsg) shippingMsg.innerText = 'Delivery not available.';
-            return;
-          }
+      cart.forEach((it, idx) => {
+        const d = document.createElement('div');
+        d.className = 'cart-item d-flex align-items-center mb-3';
+        d.innerHTML = `
+          <a href="${getProductPage(it.id)}#${it.id}">
+            <img src="${it.image || ''}" alt="${it.name}" width="80" class="me-3 rounded">
+          </a>
+          <div class="flex-grow-1">
+            <strong>${it.name}</strong>
+            <p>$${Number(it.price).toFixed(2)}</p>
+          </div>
+          <button class="btn btn-sm btn-danger remove-item" data-index="${idx}">Remove</button>
+        `;
+        cartContainer.appendChild(d);
+      });
 
-          currentCurrency = currency;
-          if (stripeBox) stripeBox.style.display = 'block';
-          if (shippingMsg) shippingMsg.innerText = `Delivery available. Paying in ${currency}.`;
+      qsa('.remove-item').forEach(b => b.addEventListener('click', () => {
+        const i = Number(b.dataset.index);
+        if (!Number.isNaN(i)) { cart.splice(i, 1); saveCart(); updateCartCount(); render(); }
+      }));
 
+      const s = subtotal(), sh = getShipping(), tax = computeTax(), tot = s + sh + tax;
+
+      if (totalBox) {
+        if (cartType === 'digital') {
+          totalBox.innerText = tax > 0
+            ? `Total: $${tot.toFixed(2)} CAD (Subtotal: $${s.toFixed(2)} + Tax: $${tax.toFixed(2)})`
+            : `Total: $${tot.toFixed(2)} CAD`;
+        } else {
+          totalBox.innerText = `Total: $${tot.toFixed(2)} (Subtotal: $${s.toFixed(2)} + Shipping: $${sh.toFixed(2)} + Tax: $${tax.toFixed(2)})`;
+        }
+      }
+
+      if (orderItemsInput)    orderItemsInput.value    = cart.map(i => `${i.name} ($${Number(i.price).toFixed(2)})`).join(', ');
+      if (orderImagesInput)   orderImagesInput.value   = cart.map(i => i.image).join(', ');
+      if (orderTotalInput)    orderTotalInput.value    = tot.toFixed(2);
+      if (orderShippingInput) orderShippingInput.value = sh.toFixed(2);
+      if (orderTaxInput)      orderTaxInput.value      = tax.toFixed(2);
+      if (orderProvinceInput) orderProvinceInput.value = province;
+      if (orderZipInput)      orderZipInput.value      = zipInput ? zipInput.value : '';
+      if (orderCountryInput)  orderCountryInput.value  = country;
+    }
+
+    // ── Province options ──
+    let canadaHTML = '', usaHTML = '';
+    const placeholder = '<option value="">Select Province / State</option>';
+    if (provinceSelect) {
+      const cg = provinceSelect.querySelector('optgroup[label="Canada"]');
+      const ug = provinceSelect.querySelector('optgroup[label="USA"]');
+      if (cg) canadaHTML = Array.from(cg.querySelectorAll('option')).map(o => o.outerHTML).join('');
+      if (ug) usaHTML    = Array.from(ug.querySelectorAll('option')).map(o => o.outerHTML).join('');
+      provinceSelect.innerHTML = placeholder;
+    }
+
+    function setProvince(country) {
+      if (!provinceSelect) return;
+      if (country === 'Canada') {
+        provinceSelect.innerHTML = placeholder + canadaHTML;
+        provinceSelect.required = true;
+        provinceSelect.style.display = '';
+      } else if (country === 'USA') {
+        provinceSelect.innerHTML = placeholder + usaHTML;
+        provinceSelect.required = false;
+        provinceSelect.style.display = '';
+      } else {
+        provinceSelect.innerHTML = placeholder;
+        provinceSelect.required = false;
+        provinceSelect.style.display = 'none';
+        provinceSelect.value = '';
+      }
+    }
+
+    // ── Google Address Autocomplete ──
+    window.initAddressAutocomplete = function () {
+      const addressInput = qs('#address');
+      if (!addressInput || !window.google?.maps?.places) return;
+
+      const autocomplete = new google.maps.places.Autocomplete(addressInput, {
+        types: ['address'],
+        componentRestrictions: { country: ['us', 'ca', 'uk'] },
+        fields: ['address_components']
+      });
+
+      autocomplete.addListener('place_changed', () => {
+        const place = autocomplete.getPlace();
+        if (!place.address_components) return;
+
+        let country = '', province = '', zip = '';
+        place.address_components.forEach(c => {
+          if (c.types.includes('postal_code')) zip = c.long_name;
+          if (c.types.includes('country')) country = c.long_name === 'United States' ? 'USA' : (c.long_name === 'United Kingdom' ? 'UK' : 'Canada');
+          if (c.types.includes('administrative_area_level_1')) province = c.short_name;
+        });
+
+        const zipEl = document.getElementById('zip');
+        if (zipEl) zipEl.value = zip;
+
+        if (countrySelect && country) {
+          countrySelect.value = country;
+          currentCurrency = (getCartType() === 'digital') ? 'CAD' : (country === 'Canada' ? 'CAD' : 'USD');
           setProvince(country);
           render();
-        });
-      }
+        }
 
-      if (provinceSelect) provinceSelect.addEventListener('change', render);
+        setTimeout(() => {
+          if (provinceSelect && province) {
+            provinceSelect.value = province;
+            provinceSelect.dispatchEvent(new Event('change'));
+          }
+        }, 200);
+      });
+    };
 
-      // ===== Stripe Checkout =====
-      async function handleStripeCheckout() {
-        // Validate form
+    if (!document.getElementById('gmap-script')) {
+      const script = document.createElement('script');
+      script.id = 'gmap-script';
+      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyCfoNbNyrU_e-tQ4Q4uLLD9IPdcmJJ_rRg&libraries=places&callback=initAddressAutocomplete`;
+      document.body.appendChild(script);
+    } else {
+      initAddressAutocomplete();
+    }
+
+    if (countrySelect) {
+      countrySelect.addEventListener('change', () => {
+        const country = countrySelect.value;
+        currentCurrency = (getCartType() === 'digital') ? 'CAD' : (country === 'Canada' ? 'CAD' : 'USD');
+        setProvince(country);
+        render();
+      });
+    }
+    if (provinceSelect) provinceSelect.addEventListener('change', render);
+
+    // ── Stripe Checkout ──
+    async function handleStripeCheckout() {
+      const cartType = getCartType();
+
+      // For digital products, only email + name needed, no address
+      if (cartType !== 'digital') {
         if (orderForm && !orderForm.checkValidity()) {
           orderForm.reportValidity();
           return;
         }
-        if (!customerEmailInput?.value) {
-          alert('Please enter your email before proceeding.');
-          return;
-        }
-        if (cart.length === 0) {
-          alert('Your cart is empty.');
-          return;
-        }
-
-        const stripeBtn = qs('#stripeCheckoutBtn');
-        if (stripeBtn) { stripeBtn.disabled = true; stripeBtn.textContent = 'Redirecting to payment…'; }
-
-        try {
-          const response = await fetch(`${WORKER_URL}/create-checkout-session`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              // Only send IDs and non-price info — Worker looks up real prices server-side
-              cart: cart.map(i => ({ id: i.id, name: i.name, image: i.image })),
-              currency: currentCurrency,
-              country: countrySelect?.value || '',
-              province: provinceSelect?.value || '',
-              zip: zipInput?.value || '',
-              email: customerEmailInput?.value,
-              name: customerNameInput?.value || ''
-            })
-          });
-
-          const data = await response.json();
-
-          if (data.url) {
-            window.location.href = data.url;
-          } else {
-            throw new Error(data.error || 'Failed to create checkout session');
-          }
-        } catch (err) {
-          console.error('Stripe error:', err);
-          alert('Payment setup failed: ' + err.message + '\nPlease try again or contact us.');
-          if (stripeBtn) { stripeBtn.disabled = false; stripeBtn.textContent = 'Pay with Card'; }
-        }
+      }
+      if (!customerEmailInput?.value) {
+        alert('Please enter your email before proceeding.');
+        return;
+      }
+      if (cart.length === 0) {
+        alert('Your cart is empty.');
+        return;
       }
 
-      // Attach click handler to Stripe button
-      const stripeBtn = qs('#stripeCheckoutBtn');
-      if (stripeBtn) stripeBtn.addEventListener('click', handleStripeCheckout);
+      const country  = countrySelect  ? countrySelect.value  : '';
+      const province = provinceSelect ? provinceSelect.value : '';
 
-      render();
+      if (!isAllowed(country, province)) {
+        alert('Sorry, orders are not available in your selected country/province.');
+        return;
+      }
+
+      const stripeBtn = qs('#stripeCheckoutBtn');
+      if (stripeBtn) { stripeBtn.disabled = true; stripeBtn.textContent = 'Redirecting to payment…'; }
+
+      try {
+        const response = await fetch(`${WORKER_URL}/create-checkout-session`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            cart: cart.map(i => ({ id: i.id, name: i.name, image: i.image, type: i.type })),
+            currency: currentCurrency,
+            country,
+            province,
+            zip:   zipInput?.value       || '',
+            email: customerEmailInput?.value,
+            name:  customerNameInput?.value || ''
+          })
+        });
+
+        const data = await response.json();
+        if (data.url) {
+          window.location.href = data.url;
+        } else {
+          throw new Error(data.error || 'Failed to create checkout session');
+        }
+      } catch (err) {
+        console.error('Stripe error:', err);
+        alert('Payment setup failed: ' + err.message + '\nPlease try again or contact us.');
+        const stripeBtn = qs('#stripeCheckoutBtn');
+        if (stripeBtn) { stripeBtn.disabled = false; stripeBtn.textContent = 'Pay with Card'; }
+      }
     }
 
-    // lightbox — only for wedding photo gallery, not product grids
-    (function () {
+    const stripeBtn = qs('#stripeCheckoutBtn');
+    if (stripeBtn) stripeBtn.addEventListener('click', handleStripeCheckout);
+
+    render();
+    initLightbox();
+
+    function initLightbox() {
       const sels = ['.photo-grid img'];
       let lb = qs('#lightbox') || qs('.lightbox');
       if (!lb) {
         lb = document.createElement('div');
-        lb.id = 'lightbox';
-        lb.className = 'lightbox';
+        lb.id = 'lightbox'; lb.className = 'lightbox';
         lb.innerHTML = '<span class="close">&times;</span><img class="lightbox-content" id="lightbox-img">';
         document.body.appendChild(lb);
       }
@@ -311,7 +386,6 @@
         img.addEventListener('click', () => open(img.src, img.alt));
         img.dataset.lbAttached = '1';
       }));
-    })();
-
+    }
   });
 })();

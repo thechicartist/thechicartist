@@ -383,8 +383,12 @@
     document.title = `${product.name} | The Chic Artist`;
 
     // Back link
-    backLink.href = product.category === 'card' ? 'cards.html' : 'bookmarks.html';
-    backLink.textContent = product.category === 'card' ? '← Back to Paintings' : '← Back to Bookmarks';
+    backLink.href = product.category === 'card' ? 'cards.html'
+                  : product.category === 'class' ? 'OnlineClass.html'
+                  : 'bookmarks.html';
+    backLink.textContent = product.category === 'card' ? 'Back to Paintings'
+                         : product.category === 'class' ? 'Back to Online Classes'
+                         : 'Back to Bookmarks';
 
     // Build slider HTML — first image loads immediately, rest are lazy
     const slidesHTML = product.images.map((src, i) => `
