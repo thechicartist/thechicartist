@@ -113,7 +113,7 @@
     <input type="hidden" name="order_province" id="orderProvince">
     <input type="hidden" name="order_zip" id="orderZip">
     <input type="hidden" name="order_country" id="orderCountry">
-    <input type="hidden" name="payment_method" value="PayPal">
+    <input type="hidden" name="payment_method" value="Stripe">
     <input type="hidden" name="payer_email" id="payerEmail">
     <input type="hidden" name="orderImages" id="orderImages">
     <input type="hidden" name="_replyto" value="thechicartiststudio@gmail.com">
@@ -158,8 +158,33 @@
 
   </form>
 
-  <!-- PAYPAL -->
-  <div id="paypal-button-container" style="display:none;"></div>
+  <!-- STRIPE -->
+  <div id="stripe-button-container" style="display:none; margin-top: 1rem;">
+    <button
+      id="stripeCheckoutBtn"
+      type="button"
+      style="
+        background-color: #635bff;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        padding: 14px 28px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        width: 100%;
+        letter-spacing: 0.02em;
+        transition: background 0.2s;
+      "
+      onmouseover="this.style.backgroundColor='#4f46e5'"
+      onmouseout="this.style.backgroundColor='#635bff'"
+    >
+      Pay with Card
+    </button>
+    <p style="font-size:0.75rem; color:#888; text-align:center; margin-top:8px;">
+      Secured by <strong>Stripe</strong> · All major cards accepted
+    </p>
+  </div>
   <p id="shippingMsg"></p>
 </section>
 

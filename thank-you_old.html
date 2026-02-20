@@ -137,93 +137,31 @@
 
 
 <script>
-  // ================================================================
-  // GOOGLE FORM CONFIG
-  // Replace GOOGLE_FORM_ACTION_URL with your Google Form action URL
-  // Replace each entry.XXXXXXXXX with your actual field IDs
-  // (Share your pre-filled link and I'll fill these in for you)
-  // ================================================================
-  const GOOGLE_FORM_ACTION_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdacPH7Ei3oTkc5v6_25VLsqsxN6BGaLkQQ8WS3uopsFO0aQw/formResponse';
-  const FORM_FIELDS = {
-    name:     'entry.1443252762',
-    email:    'entry.135636391',
-    items:    'entry.151631524',
-    total:    'entry.1798209524',
-    shipping: 'entry.1779461501',
-    tax:      'entry.179704303',
-    province: 'entry.69235671',
-    country:  'entry.1320686186',
-    zip:      'entry.829073282',
-  };
+const order = JSON.parse(sessionStorage.getItem('lastOrder'));
 
-  async function sendOrderEmail(order) {
-    try {
-      const body = new FormData();
-      body.append(FORM_FIELDS.name,     order.payerEmail?.split('@')[0] || 'Customer');
-      body.append(FORM_FIELDS.email,    order.payerEmail  || '');
-      body.append(FORM_FIELDS.items,    (order.items || []).map(i => `${i.name} ($${Number(i.price).toFixed(2)})`).join(', '));
-      body.append(FORM_FIELDS.total,    `${order.total} ${order.currency || ''}`);
-      body.append(FORM_FIELDS.shipping, order.shipping    || '');
-      body.append(FORM_FIELDS.tax,      order.tax         || '');
-      body.append(FORM_FIELDS.province, order.province    || '');
-      body.append(FORM_FIELDS.country,  order.country     || '');
-      body.append(FORM_FIELDS.zip,      order.zip         || '');
+if (!order) {
+  window.location.href = 'index.html';
+  document.getElementById('orderSummary').innerHTML =
+    '<p>No order details found.</p>';
+} else {
+  const itemsHtml = order.items
+    .map(i => `
+      <li style="display:flex; align-items:center; margin-bottom:10px;">
+        <img src="${i.image}" alt="${i.name}" style="width:60px; height:auto; margin-right:10px; border-radius:4px;">
+        <span>${i.name} — $${i.price.toFixed(2)}</span>
+      </li>
+    `)
+    .join('');
 
-      // Google Forms blocks CORS but the submission still goes through
-      await fetch(GOOGLE_FORM_ACTION_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        body
-      });
-      console.log('Order notification sent via Google Form');
-    } catch (err) {
-      console.warn('Could not send Google Form notification:', err);
-    }
-  }
+  document.getElementById('orderSummary').innerHTML = `
+    <h3>Order Summary</h3>
+    <ul style="list-style:none; padding-left:0;">${itemsHtml}</ul>
+    <p><strong>Total Amount Paid:</strong> $${order.total}</p>
+  `;
 
-  // Try sessionStorage first (local testing), then fall back to URL params (live Stripe redirect)
-  let order = null;
 
-  const stored = sessionStorage.getItem('lastOrder');
-  if (stored) {
-    try { order = JSON.parse(stored); } catch {}
-    sessionStorage.removeItem('lastOrder');
-  }
-
-  // If not in sessionStorage, read from URL params (set by Stripe success_url)
-  if (!order) {
-    const params = new URLSearchParams(window.location.search);
-    const raw = params.get('order');
-    if (raw) {
-      try { order = JSON.parse(decodeURIComponent(raw)); } catch {}
-    }
-  }
-
-  if (!order) {
-    // No order data at all — redirect home
-    window.location.href = 'index.html';
-  } else {
-    // Show order summary
-    const itemsHtml = (order.items || [])
-      .map(i => `
-        <li style="display:flex; align-items:center; margin-bottom:10px;">
-          <img src="${i.image || ''}" alt="${i.name}" style="width:60px; height:auto; margin-right:10px; border-radius:4px;">
-          <span>${i.name} — $${Number(i.price).toFixed(2)}</span>
-        </li>
-      `)
-      .join('');
-
-    document.getElementById('orderSummary').innerHTML = `
-      <h3>Order Summary</h3>
-      <ul style="list-style:none; padding-left:0;">${itemsHtml}</ul>
-      <p><strong>Shipping:</strong> $${order.shipping}</p>
-      <p><strong>Tax:</strong> $${order.tax}</p>
-      <p><strong>Total Paid:</strong> $${order.total} ${order.currency || ''}</p>
-    `;
-
-    // Send order notification email via Google Form
-    sendOrderEmail(order);
-  }
+  sessionStorage.removeItem('lastOrder');
+}
 </script>
 
 <script>
