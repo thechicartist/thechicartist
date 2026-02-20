@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const grid = document.getElementById('cardGrid');
   if (!grid) return;
 
-  for (let i = 45; i >= 1; i--) {
+  for (let i = 42; i >= 1; i--) {
     const product = PRODUCTS[`card${i}`];
     if (!product) continue;
 

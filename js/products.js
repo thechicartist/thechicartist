@@ -58,7 +58,7 @@ const defaultCardDesc = `
 `;
 
 (function() {
-  for (let i = 1; i <= 45; i++) {
+  for (let i = 1; i <= 42; i++) {
     const price = (i === 2 || i === 5 || i === 6) ? 39.99
                 : 19.99;
     addProduct({
@@ -75,6 +75,10 @@ const defaultCardDesc = `
 
 // ---- Per-product overrides ----
  PRODUCTS['card2'].images = ['images/cards/c2.jpeg', 'images/cards/c2.jpeg'];
+ PRODUCTS['card7'].images = ['images/cards/c7.jpeg', 'images/cards/c7b.jpeg'];
+ PRODUCTS['card10'].images = ['images/cards/c10.jpeg', 'images/cards/c10b.jpeg'];
+ PRODUCTS['card16'].images = ['images/cards/c16.jpeg', 'images/cards/c16b.jpeg'];
+
 
 
 // ============================================================
@@ -99,6 +103,41 @@ addProduct({
     <p>You'll learn how to create loose, expressive sunflowers using simple brush movements,
     gentle color blending, and an intuitive approach to watercolor.</p>
     <p>By the end of the session, you'll walk away with a set of hand-painted sunflower bookmarks
+    that feel personal, beautiful, and truly one of a kind.</p>
+    <p>✨ No prior watercolor experience needed<br>
+    ✨ Slow, guided, and confidence-building<br>
+    ✨ A creative keepsake you'll love using again and again</p>
+    <h5 style="margin-top:1.5rem; margin-bottom:0.5rem;">Materials Required for this workshops</h5>
+    <p>
+      Watercolor paper (cut to bookmark size, 2" × 6")<br>
+      Round brushes (Size 2 / 4 / 6 / 8 recommended)<br>
+      Watercolor paints<br>
+      Mixing palette<br>
+      Two water containers<br>
+      Paper towel or cloth<br>
+      Pencil & eraser
+    </p>
+    
+  `
+});
+
+addProduct({
+  id: 'class-lavender',
+  name: 'Watercolor Lavender Bookmark Workshop',
+  price: 30.00,
+  type: 'digital',
+  category: 'class',
+  images: ['images/onlineclass/o2.jpeg'],
+  date: 'March 17th, 2026, 12:30 PM – 2:00 PM EST',
+  time: '1:00 PM – 2:00 PM EST',
+  format: 'Live Online on Zoom',
+  description: `
+    <p>Join me for a cozy, creative watercolor session where we'll paint my
+    <strong>signature lavender bookmark</strong> — a design loved for its warmth,
+    softness, and joyful flow.</p>
+    <p>You'll learn how to create loose, expressive lavenders using simple brush movements,
+    gentle color blending, and an intuitive approach to watercolor.</p>
+    <p>By the end of the session, you'll walk away with a set of hand-painted lavender bookmarks
     that feel personal, beautiful, and truly one of a kind.</p>
     <p>✨ No prior watercolor experience needed<br>
     ✨ Slow, guided, and confidence-building<br>
