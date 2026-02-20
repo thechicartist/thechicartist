@@ -63,6 +63,7 @@
       const stripeBox = qs('#stripe-button-container');
       const shippingMsg = qs('#shippingMsg');
       const customerEmailInput = qs('#customerEmail');
+      const customerNameInput = qs('#customerName');
 
       // ===== Google Address Autocomplete (USA + Canada) =====
       let addressAutocomplete;
@@ -259,7 +260,8 @@
             province: provinceSelect?.value || '',
             zip: zipInput?.value || '',
             country: countrySelect?.value || '',
-            payerEmail: customerEmailInput?.value || ''
+            payerEmail: customerEmailInput?.value || '',
+            payerName: customerNameInput?.value || ''
           };
           sessionStorage.setItem('lastOrder', JSON.stringify(orderData));
 
@@ -276,7 +278,8 @@
               province: provinceSelect?.value || '',
               zip: zipInput?.value || '',
               email: customerEmailInput?.value,
-              orderData  // pass full order so worker can embed in success_url
+              name: customerNameInput?.value || '',
+              orderData
             })
           });
 

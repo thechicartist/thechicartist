@@ -159,7 +159,7 @@
   async function sendOrderEmail(order) {
     try {
       const body = new FormData();
-      body.append(FORM_FIELDS.name,     order.payerEmail?.split('@')[0] || 'Customer');
+      body.append(FORM_FIELDS.name,     order.payerName || order.payerEmail?.split('@')[0] || 'Customer');
       body.append(FORM_FIELDS.email,    order.payerEmail  || '');
       body.append(FORM_FIELDS.items,    (order.items || []).map(i => `${i.name} ($${Number(i.price).toFixed(2)})`).join(', '));
       body.append(FORM_FIELDS.total,    `${order.total} ${order.currency || ''}`);
