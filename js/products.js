@@ -128,7 +128,7 @@ addProduct({
   type: 'digital',
   category: 'class',
   images: ['images/onlineclass/o2.jpeg'],
-  date: 'March 17th, 2026, 12:30 PM – 2:00 PM EST',
+  date: 'March 17th, 2026, 1:00 PM – 2:00 PM EST',
   time: '1:00 PM – 2:00 PM EST',
   format: 'Live Online on Zoom',
   description: `
