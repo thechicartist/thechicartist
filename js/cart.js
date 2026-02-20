@@ -103,18 +103,23 @@
 
           if (countrySelect && country) {
             countrySelect.value = country;
-            // Input is disabled so change event won't fire naturally — trigger manually
-            const currency = getCurrencyByCountry(country);
+
+            // Look up fresh in case initAddressAutocomplete ran before cartPage init
+            const _stripeBox = document.getElementById('stripe-button-container');
+            const _shippingMsg = document.getElementById('shippingMsg');
+
+            const currency = (country === 'Canada') ? 'CAD' : (country === 'USA') ? 'USD' : null;
             if (currency) {
               currentCurrency = currency;
-              if (stripeBox) stripeBox.style.display = 'block';
-              if (shippingMsg) shippingMsg.innerText = `Delivery available. Paying in ${currency}.`;
+              if (_stripeBox) _stripeBox.style.display = 'block';
+              if (_shippingMsg) _shippingMsg.innerText = `Delivery available. Paying in ${currency}.`;
             } else {
-              if (stripeBox) stripeBox.style.display = 'none';
-              if (shippingMsg) shippingMsg.innerText = 'Delivery not available.';
+              if (_stripeBox) _stripeBox.style.display = 'none';
+              if (_shippingMsg) _shippingMsg.innerText = 'Delivery not available.';
             }
-            setProvince(country);
-            render();
+
+            if (typeof setProvince === 'function') setProvince(country);
+            if (typeof render === 'function') render();
           }
 
           setTimeout(() => {
