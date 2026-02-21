@@ -178,17 +178,41 @@ addProduct({
 
 addProduct({
   id: 'ebook-watercolor-basics',
-  name: 'Watercolor Basics for Beginners',
+  name: 'Watercolour Made Simple: A beginner\'s guide to Watercolor Basics - eBook',
   price: 20.99,
   type: 'digital',
   category: 'ebook',
   images: ['images/ebooks/e1.jpg', 'images/ebooks/e2.jpg', 'images/ebooks/e3.jpg', 'images/ebooks/e4.jpg'],
   description: `
-    <p>A comprehensive beginner's guide to watercolor painting — everything you need to get started with confidence.</p>
-    <p>Covers essential techniques: wet-on-wet, wet-on-dry, color mixing, brush control, and floral basics.</p>
-    <p>Includes step-by-step painted examples and material recommendations.</p>
-    <p><strong>Format:</strong> PDF download — delivered to your email instantly after purchase.</p>
-    <p><strong>Pages:</strong> 40+ pages of illustrated guidance.</p>
+  
+    <p>If you’ve ever felt drawn to watercolor but didn’t know where to begin, this book is for you.</p>
+    <p>This 27 pages digital guide is a gentle, welcoming introduction to watercolor — created especially for beginners who want to paint without pressure, fear, or overwhelm. It’s not a textbook, and it’s not about perfection. It’s about slowing down, understanding the basics, and learning to enjoy the quiet magic of watercolor.</p>
+
+    <p>Inside, I share everything I wish I had known when I first picked up a brush — explained in a warm, simple, and encouraging way. This book is designed to feel like a calm companion you can return to again and again.</p>
+
+    <p>What you’ll find inside:
+      - A soft introduction to watercolor and the mindset behind it
+      - A beginner-friendly overview of supplies (without needing anything fancy)
+      - Understanding color, water ratio, and paint behavior
+      - Getting to know your brushes and basic brush marks
+      - Watercolor techniques like wet-on-wet, wet-on-dry, layering, and lifting
+      - Color mixing, color schemes, and using the color wheel gently
+      - Finding inspiration and painting with imagination
+      - Beautiful visuals, examples, and artwork throughout
+    </p>
+
+     <p>This book focuses on understanding watercolor, not rushing into complicated projects.
+      It builds confidence slowly and naturally — perfect if you’re new, returning after a break, 
+      or simply want a softer approach to learning. </p>
+
+     <p>
+
+        Who this book is for:<br>
+        ✔ Absolute beginners<br>
+        ✔ Anyone feeling intimidated by watercolor<br>
+        ✔ Artists who love a calm, intuitive learning style<br>
+        ✔ Creatives who enjoy visual, gentle instruction
+</p>
   `
 });
 
