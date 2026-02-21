@@ -164,10 +164,23 @@
     </div>
 
   </form>
-<!-- TERMS AND CONDITIONS LINK -->
-<section class="text-center" style="margin-bottom:2rem;">
-  <p>Please review our <a href="terms-and-conditions.html" style="text-decoration:underline;">Terms and Conditions</a> before purchasing.</p>
-</section>
+  <!-- COUPON CODE -->
+  <div style="margin: 1rem 0; max-width:400px;">
+    <div style="display:flex; gap:8px;">
+      <input type="text" id="couponInput" placeholder="Coupon code" class="form-control" style="text-transform:uppercase;">
+      <button type="button" id="applyCouponBtn" style="background:#222; color:#fff; border:none; border-radius:6px; padding:10px 20px; font-size:0.9rem; cursor:pointer; white-space:nowrap;">Apply</button>
+    </div>
+    <p id="couponMsg" style="font-size:0.85rem; margin-top:6px;"></p>
+  </div>
+
+  <!-- TERMS AND CONDITIONS CHECKBOX (mandatory) -->
+  <div style="margin: 1.2rem 0;">
+    <label style="display:flex; align-items:flex-start; gap:10px; cursor:pointer; font-size:0.9rem; color:#333;">
+      <input type="checkbox" id="termsCheckbox" style="margin-top:3px; width:16px; height:16px; flex-shrink:0; cursor:pointer;">
+      <span>I have read and agree to the <a href="terms-and-conditions.html" target="_blank" style="text-decoration:underline; color:#000;">Terms &amp; Conditions</a></span>
+    </label>
+    <p id="termsMsg" style="font-size:0.82rem; color:#c0392b; margin-top:4px; display:none;">Please accept the Terms &amp; Conditions to proceed.</p>
+  </div>
   <!-- STRIPE -->
   <div id="stripe-button-container" style="display:none; margin-top: 1rem;">
     <button

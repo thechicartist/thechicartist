@@ -89,6 +89,7 @@
     const addressSection   = qs('#addressSection');
 
     let currentCurrency = 'USD';
+    let appliedDiscount = 0; // discount amount in dollars, set when coupon is validated
 
 
     // ── Pricing helpers ──
@@ -189,15 +190,23 @@
         if (!Number.isNaN(i)) { cart.splice(i, 1); saveCart(); updateCartCount(); render(); }
       }));
 
-      const s = subtotal(), sh = getShipping(), tax = computeTax(), tot = s + sh + tax;
+      const s = subtotal(), sh = getShipping();
+      const disc = Math.min(appliedDiscount, s);
+      const discountedS = Math.max(0, s - disc);
+      const tax = (() => {
+        if (!countrySelect || countrySelect.value !== 'Canada' || !provinceSelect) return 0;
+        return (discountedS + sh) * (taxRates[provinceSelect.value] ?? 0.05);
+      })();
+      const tot = discountedS + sh + tax;
 
       if (totalBox) {
+        const discLine = disc > 0 ? ` − Discount: $${disc.toFixed(2)}` : '';
         if (cartType === 'digital') {
           totalBox.innerText = tax > 0
-            ? `Total: $${tot.toFixed(2)} CAD (Subtotal: $${s.toFixed(2)} + Tax: $${tax.toFixed(2)})`
-            : `Total: $${tot.toFixed(2)} CAD`;
+            ? `Total: $${tot.toFixed(2)} CAD (Subtotal: $${s.toFixed(2)}${discLine} + Tax: $${tax.toFixed(2)})`
+            : `Total: $${tot.toFixed(2)} CAD (Subtotal: $${s.toFixed(2)}${discLine})`;
         } else {
-          totalBox.innerText = `Total: $${tot.toFixed(2)} (Subtotal: $${s.toFixed(2)} + Shipping: $${sh.toFixed(2)} + Tax: $${tax.toFixed(2)})`;
+          totalBox.innerText = `Total: $${tot.toFixed(2)} (Subtotal: $${s.toFixed(2)}${discLine} + Shipping: $${sh.toFixed(2)} + Tax: $${tax.toFixed(2)})`;
         }
       }
 
@@ -305,6 +314,16 @@
     async function handleStripeCheckout() {
       const cartType = getCartType();
 
+      // Enforce T&C checkbox
+      const termsBox = qs('#termsCheckbox');
+      const termsMsg = qs('#termsMsg');
+      if (termsBox && !termsBox.checked) {
+        if (termsMsg) termsMsg.style.display = '';
+        termsBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+      if (termsMsg) termsMsg.style.display = 'none';
+
       // For digital products, only email + name needed, no address
       if (cartType !== 'digital') {
         if (orderForm && !orderForm.checkValidity()) {
@@ -352,9 +371,10 @@
             currency: currentCurrency,
             country,
             province,
-            zip:   zipInput?.value       || '',
-            email: customerEmailInput?.value,
-            name:  customerNameInput?.value || ''
+            zip:      zipInput?.value          || '',
+            email:    customerEmailInput?.value,
+            name:     customerNameInput?.value || '',
+            couponCode: (qs('#couponInput')?.value || '').trim().toUpperCase() || null
           })
         });
 
@@ -374,6 +394,53 @@
 
     const stripeBtn = qs('#stripeCheckoutBtn');
     if (stripeBtn) stripeBtn.addEventListener('click', handleStripeCheckout);
+
+    // Wire up coupon Apply button — validates against the worker before confirming
+    const couponBtn = qs('#applyCouponBtn');
+    if (couponBtn) {
+      couponBtn.addEventListener('click', async () => {
+        const couponInput = qs('#couponInput');
+        const couponMsg   = qs('#couponMsg');
+        const code = (couponInput?.value || '').trim().toUpperCase();
+        if (!code) {
+          if (couponMsg) { couponMsg.textContent = 'Please enter a coupon code.'; couponMsg.style.color = '#c0392b'; }
+          return;
+        }
+        // Validate against the worker using a dummy cart entry
+        couponBtn.disabled = true;
+        couponBtn.textContent = 'Checking…';
+        try {
+          const res = await fetch(`${WORKER_URL}/validate-coupon`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              couponCode: code,
+              subtotal: subtotal(),
+              cartItems: cart.map(i => ({ id: i.id, price: i.price }))
+            })
+          });
+          const data = await res.json();
+          if (res.ok && data.valid) {
+            appliedDiscount = data.discountAmount || 0;
+            if (couponMsg) { couponMsg.textContent = `✓ ${data.label} applied!`; couponMsg.style.color = '#27ae60'; }
+            couponBtn.textContent = 'Apply';
+            couponBtn.style.background = '#222';
+            couponBtn.disabled = false;
+            render();
+          } else {
+            appliedDiscount = 0;
+            if (couponMsg) { couponMsg.textContent = `✗ ${data.reason || 'Invalid coupon code.'}`; couponMsg.style.color = '#c0392b'; }
+            couponBtn.disabled = false;
+            couponBtn.textContent = 'Apply';
+            render();
+          }
+        } catch {
+          if (couponMsg) { couponMsg.textContent = 'Could not verify coupon. Please try again.'; couponMsg.style.color = '#c0392b'; }
+          couponBtn.disabled = false;
+          couponBtn.textContent = 'Apply';
+        }
+      });
+    }
 
     render();
     initLightbox();
