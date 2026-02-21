@@ -256,14 +256,30 @@
           </a>
         `).join('')}
         <p style="font-family:'Inter',sans-serif; font-size:0.75rem; color:#aaa; margin-top:12px; margin-bottom:0;">
-          ⏱ Links expire in 15 minutes. A copy has also been sent to your email.
+          ⏱ Links expire in 24 hours. A copy has also been sent to your email.
         </p>
       `;
       document.getElementById('orderSummary').appendChild(dlSection);
     }
 
+    // Email is handled by Worker only on successful payment
+    // Trigger a separate call to send the email now that we know payment succeeded
+    if (order.ebookDownloads && order.ebookDownloads.length > 0) {
+      fetch('https://stripe-worker.thechicartiststudio.workers.dev/send-ebook-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: order.payerEmail,
+          name: order.payerName,
+          downloads: order.ebookDownloads
+        })
+      });
+    }
+
     // Send order notification email via Google Form
     sendOrderEmail(order);
+
+
   }
 </script>
 
