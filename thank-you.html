@@ -33,7 +33,6 @@
       <a href="bookmarks.html">Bookmarks</a>
       <a href="cards.html">Paintings</a>
       <a href="OnlineClass.html">OnlineClass</a>
-      <a href="ebooks.html">E-Books</a>
       <a href="index.html#contact">Contact</a>
     </nav>
 
@@ -68,7 +67,6 @@
     <li><a href="bookmarks.html">Bookmarks</a></li>
     <li><a href="cards.html">Paintings</a></li>
     <li><a href="OnlineClass.html">OnlineClass</a></li>
-    <li><a href="ebooks.html">E-Books</a></li>
     <li><a href="index.html#contact">Contact</a></li>
   </ul>
 </div>
@@ -92,8 +90,7 @@
 </main>
 
 <footer class="py-4 text-center text-muted position-relative">
-  © 2026 The Chic Artist<br>
-  <a href="terms-and-conditions.html" style="color:#888; text-decoration:underline; font-size:0.85rem;">Terms &amp; Conditions</a>
+  © 2026 The Chic Artist
 
   <!-- FAQ Toggle -->
   <div id="footerFaqToggle" 
@@ -157,27 +154,20 @@
     province: 'entry.69235671',
     country:  'entry.1320686186',
     zip:      'entry.829073282',
-    address:  'entry.186903765',  // ← Add your actual Google Form address field entry ID here
   };
 
   async function sendOrderEmail(order) {
     try {
-      // Recover address details saved by cart.js before Stripe redirect
-      let pendingAddress = {};
-      try { pendingAddress = JSON.parse(sessionStorage.getItem('pendingOrderAddress') || '{}'); } catch {}
-      sessionStorage.removeItem('pendingOrderAddress');
-
       const body = new FormData();
-      body.append(FORM_FIELDS.name,     pendingAddress.name     || order.payerName || order.payerEmail?.split('@')[0] || 'Customer');
-      body.append(FORM_FIELDS.email,    pendingAddress.email    || order.payerEmail  || '');
+      body.append(FORM_FIELDS.name,     order.payerName || order.payerEmail?.split('@')[0] || 'Customer');
+      body.append(FORM_FIELDS.email,    order.payerEmail  || '');
       body.append(FORM_FIELDS.items,    (order.items || []).map(i => `${i.name} ($${Number(i.price).toFixed(2)})`).join(', '));
       body.append(FORM_FIELDS.total,    `${order.total} ${order.currency || ''}`);
       body.append(FORM_FIELDS.shipping, order.shipping    || '');
       body.append(FORM_FIELDS.tax,      order.tax         || '');
-      body.append(FORM_FIELDS.province, pendingAddress.province || order.province    || '');
-      body.append(FORM_FIELDS.country,  pendingAddress.country  || order.country     || '');
-      body.append(FORM_FIELDS.zip,      pendingAddress.zip      || order.zip         || '');
-      body.append(FORM_FIELDS.address,  pendingAddress.address  || '');
+      body.append(FORM_FIELDS.province, order.province    || '');
+      body.append(FORM_FIELDS.country,  order.country     || '');
+      body.append(FORM_FIELDS.zip,      order.zip         || '');
 
       // Google Forms blocks CORS but the submission still goes through
       await fetch(GOOGLE_FORM_ACTION_URL, {
@@ -233,6 +223,34 @@
 
     // Clear cart now that payment is confirmed
     localStorage.removeItem('cart');
+
+    // Show ebook download buttons if present
+    if (order.ebookDownloads && order.ebookDownloads.length > 0) {
+      const dlSection = document.createElement('div');
+      dlSection.style.cssText = 'margin-top:28px; padding:24px; background:#faf9f7; border:1px solid #ece8e1; border-radius:14px; text-align:left;';
+      dlSection.innerHTML = `
+        <p style="font-family:'Libre Baskerville',serif; font-style:italic; font-size:1rem; margin-bottom:16px; color:#2c2c2c;">
+          📥 Your download${order.ebookDownloads.length > 1 ? 's are' : ' is'} ready:
+        </p>
+        ${order.ebookDownloads.map(d => `
+          <a href="${d.url}" download
+             style="display:flex; align-items:center; gap:12px; padding:12px 18px; margin-bottom:10px;
+                    background:#fff; border:1px solid #ece8e1; border-radius:10px; text-decoration:none;
+                    color:#2c2c2c; font-family:'Inter',sans-serif; font-size:0.88rem;
+                    transition:box-shadow 0.2s ease;"
+             onmouseover="this.style.boxShadow='0 4px 16px rgba(0,0,0,0.08)'"
+             onmouseout="this.style.boxShadow='none'">
+            <span style="font-size:1.4rem;">📄</span>
+            <span style="flex:1;">${d.title}</span>
+            <span style="color:#b09a82; font-size:0.8rem; letter-spacing:0.05em;">DOWNLOAD PDF →</span>
+          </a>
+        `).join('')}
+        <p style="font-family:'Inter',sans-serif; font-size:0.75rem; color:#aaa; margin-top:12px; margin-bottom:0;">
+          ⏱ Links expire in 15 minutes. A copy has also been sent to your email.
+        </p>
+      `;
+      document.getElementById('orderSummary').appendChild(dlSection);
+    }
 
     // Send order notification email via Google Form
     sendOrderEmail(order);
