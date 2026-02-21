@@ -348,6 +348,13 @@
         return;
       }
 
+      // Require zip code for physical orders (Google Form has it as mandatory)
+      if ((!zipInput?.value || zipInput.value.trim() === '' || zipInput.value.trim() === 'zip code')) {
+        alert('Please enter a valid shipping address with a zip/postal code to proceed.');
+        qs('#address')?.focus();
+        return;
+      }
+
       const stripeBtn = qs('#stripeCheckoutBtn');
       if (stripeBtn) { stripeBtn.disabled = true; stripeBtn.textContent = 'Redirecting to payment…'; }
 
