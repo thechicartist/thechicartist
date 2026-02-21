@@ -22,11 +22,19 @@
   </url>
 
   <url>
-    <loc>https://www.thechicartist.com/about.html</loc>
+    <loc>https://www.thechicartist.com/ebooks.html</loc>
     <priority>0.6</priority>
   </url>
 
   <url>
+    <loc>https://www.thechicartist.com/OnlineClass.html</loc>
+    <priority>0.5</priority>
+  </url>
+    <url>
+    <loc>https://www.thechicartist.com/about.html</loc>
+    <priority>0.5</priority>
+  </url>
+    <url>
     <loc>https://www.thechicartist.com/cart.html</loc>
     <priority>0.5</priority>
   </url>

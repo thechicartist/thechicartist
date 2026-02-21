@@ -114,9 +114,39 @@
 
     <div class="tile tile-horizontal"><img src="images/hero/hero-right-top.jpg" alt="Hand painted watercolor wedding Bouquet"></div>
     <div class="tile tile-small"><video src="images/hero/video-1.mp4" muted loop autoplay playsinline></video></div>
-    <div class="tile tile-small"><img src="images/hero/hero-left-bottom.jpeg" alt="Hand painted watercolor wedding vows"></div>
-    <div class="tile tile-small"><img src="images/hero/hero-right-bottom.jpeg" alt="Hand painted watercolor wedding save the date"></div>
+    <div class="tile tile-small tile-feature" onclick="window.location.href='OnlineClass.html'">
+      <img src="images/hero/hero-left-bottom.jpg" alt="Hand painted watercolor wedding vows">
+      <div class="tile-feature-overlay">
+        <span class="tile-feature-title">Online Classes</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </div>
+    </div>
+    <div class="tile tile-small tile-feature" onclick="window.location.href='ebooks.html'">
+      <img src="images/hero/hero-right-bottom.jpg" alt="Hand painted watercolor wedding save the date">
+      <div class="tile-feature-overlay">
+        <span class="tile-feature-title">E-Books</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </div>
+    </div>
   </div>
+</section>
+
+<!-- MOBILE DIGITAL CARDS (visible only on mobile, replaces hero tiles for classes/ebooks) -->
+<section class="mobile-digital-cards">
+  <a href="OnlineClass.html" class="mobile-digital-card">
+    <img src="images/hero/hero-left-bottom.jpg" alt="Online Classes">
+    <div class="mobile-digital-card-body">
+      <span class="mobile-digital-title">Online Classes</span>
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </div>
+  </a>
+  <a href="ebooks.html" class="mobile-digital-card">
+    <img src="images/hero/hero-right-bottom.jpg" alt="E-Books">
+    <div class="mobile-digital-card-body">
+      <span class="mobile-digital-title">E-Books</span>
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </div>
+  </a>
 </section>
 
 <!-- TEXT DIVIDER -->
@@ -214,6 +244,53 @@
   <img class="lightbox-content" id="lightbox-img">
 </div>
 
+<!-- TESTIMONIALS -->
+<section id="testimonials" class="testimonials-section">
+  <div class="container">
+    <div class="section-header text-center">
+      <p class="section-eyebrow">Kind Words</p>
+      <h2 class="section-title-italic">What customers say</h2>
+    </div>
+    <div class="testimonials-carousel">
+      <div class="testimonials-track" id="testimonialsTrack">
+        <div class="testimonial-card">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"The wedding place cards were absolutely stunning. Every single guest commented on them. Neetika captured our floral theme perfectly — they felt like tiny works of art."</p>
+          <div class="testimonial-author">
+            <span class="testimonial-name">Sarah M.</span>
+            <span class="testimonial-detail">Wedding, Toronto</span>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"I gifted a custom watercolor bookmark to my book-loving mom and she cried. The detail and care in the painting was beyond anything I expected. Will order again!"</p>
+          <div class="testimonial-author">
+            <span class="testimonial-name">Priya K.</span>
+            <span class="testimonial-detail">Custom Bookmark, Vancouver</span>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"Took the sunflower online class and it completely changed how I paint. Neetika's teaching style is so warm and encouraging — I felt like I could actually do this."</p>
+          <div class="testimonial-author">
+            <span class="testimonial-name">Jennifer L.</span>
+            <span class="testimonial-detail">Online Class, New York</span>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"Ordered a custom painting of our first home as an anniversary gift. It arrived beautifully packed and the quality was breathtaking. My husband was speechless."</p>
+          <div class="testimonial-author">
+            <span class="testimonial-name">Emma R.</span>
+            <span class="testimonial-detail">Custom Painting, Calgary</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonials-dots" id="testimonialsDots"></div>
+  </div>
+</section>
+
 <!-- CONTACT -->
 <section id="contact" class="main-content contact-section">
   <div class="container text-center mb-4">
@@ -246,16 +323,23 @@
 
 
 <footer class="py-4 text-center text-muted position-relative">
-  &copy; 2026 The Chic Artist &nbsp;&middot;&nbsp;
+  © 2026 The Chic Artist<br>
   <a href="terms-and-conditions.html" style="color:#888; text-decoration:underline; font-size:0.85rem;">Terms &amp; Conditions</a>
 
-  <div id="footerFaqToggle" style="position:absolute; right:40px; top:50%; transform:translateY(-50%); cursor:pointer; font-weight:500; color:#555;">FAQ &#x25B2;</div>
-  <div id="footerFaqPanel" style="position:absolute; right:20px; bottom:50px; width:300px; max-height:0; overflow:hidden; background:#fff; box-shadow:0 4px 10px rgba(0,0,0,0.1); border-radius:8px; transition:max-height 0.4s ease;">
+  <!-- FAQ Toggle -->
+  <div id="footerFaqToggle" 
+       style="position:absolute; right:40px; top:50%; transform:translateY(-50%); cursor:pointer; font-weight:500; color:#555;">
+    FAQ &#x25B2; <!-- small triangle as icon -->
+  </div>
+
+  <!-- Footer FAQ panel -->
+  <div id="footerFaqPanel" 
+       style="position:absolute; right:20px; bottom:50px; width:300px; max-height:0; overflow:hidden; background:#fff; box-shadow:0 4px 10px rgba(0,0,0,0.1); border-radius:8px; transition:max-height 0.4s ease;">
     <div style="padding:1rem; font-size:0.9rem; color:#333;">
-      <p><strong>Where do you ship?</strong><br>Canada (except SK) &amp; USA. For other locations, <a href="index.html#contact">contact us</a> or order via <a href="https://thechicartiststudio.etsy.com" target="_blank">Etsy</a>.</p>
+      <p><strong>Where do you ship?</strong><br>We currently ship within Canada & USA. For other countries, <a href="index.html#contact">contact us</a> or order via <a href="https://thechicartiststudio.etsy.com" target="_blank">Etsy</a>.</p>
       <p><strong>Does shipping include tracking?</strong><br>USA orders include tracking; Canadian Lettermail does not.</p>
-      <p><strong>Do you accept returns?</strong><br>All items are custom-made. Returns/exchanges are not offered.</p>
-      <p><strong>Custom pieces?</strong><br>Contact us via the <a href="index.html#contact">form</a>.</p>
+      <p><strong>Do you accept returns/exchanges?</strong><br>All items are custom-made. Returns/exchanges are not offered.</p>
+      <p><strong>Custom pieces?</strong><br>Contact us via the <a href="index.html#contact">form</a> to create your unique design.</p>
     </div>
   </div>
 </footer>
@@ -343,6 +427,107 @@ form.addEventListener('submit', () => {
 </script>
 
 <script src="js/cart.js"></script>
+
+<script>
+// ── Testimonials Infinite Auto-Scroll Carousel ──
+(function() {
+  const track  = document.getElementById('testimonialsTrack');
+  const dotsEl = document.getElementById('testimonialsDots');
+  if (!track) return;
+
+  const origCards = Array.from(track.querySelectorAll('.testimonial-card'));
+  const total     = origCards.length;
+  const INTERVAL  = 3500;
+  const DURATION  = 520;
+
+  let current = 0;
+  let timer   = null;
+  let paused  = false;
+
+  // Clone all cards and append — creates seamless infinite loop
+  // Structure: [originals] [clones]
+  origCards.forEach(c => track.appendChild(c.cloneNode(true)));
+
+  // Build dots (one per original card)
+  origCards.forEach((_, i) => {
+    const d = document.createElement('button');
+    d.className = 'testimonials-dot';
+    d.setAttribute('aria-label', `Review ${i + 1}`);
+    d.addEventListener('click', () => { jumpTo(i); resetTimer(); });
+    dotsEl.appendChild(d);
+  });
+  const dots = Array.from(dotsEl.querySelectorAll('.testimonials-dot'));
+
+  function gap() { return 22; }
+  function cardW() { return track.querySelectorAll('.testimonial-card')[0].offsetWidth + gap(); }
+
+  function updateDots() {
+    dots.forEach((d, i) => d.classList.toggle('active', i === current % total));
+  }
+
+  // Move to position instantly (no animation) — used for the infinite jump
+  function jumpSilent(idx) {
+    track.style.transition = 'none';
+    track.style.transform  = `translateX(-${idx * cardW()}px)`;
+  }
+
+  // Animated slide to index
+  function slideTo(idx) {
+    track.style.transition = `transform ${DURATION}ms cubic-bezier(0.4,0,0.2,1)`;
+    track.style.transform  = `translateX(-${idx * cardW()}px)`;
+  }
+
+  function jumpTo(idx) {
+    current = idx;
+    slideTo(current);
+    updateDots();
+  }
+
+  function next() {
+    current++;
+    slideTo(current);
+    updateDots();
+
+    // When we've scrolled into the clone zone, silently jump back to the real start
+    if (current >= total) {
+      track.addEventListener('transitionend', function onEnd() {
+        track.removeEventListener('transitionend', onEnd);
+        current = current - total;
+        jumpSilent(current);
+        updateDots();
+      }, { once: true });
+    }
+  }
+
+  function resetTimer() {
+    clearInterval(timer);
+    if (!paused) timer = setInterval(next, INTERVAL);
+  }
+
+  // Pause on hover
+  track.addEventListener('mouseenter', () => { paused = true;  clearInterval(timer); });
+  track.addEventListener('mouseleave', () => { paused = false; resetTimer(); });
+
+  // Touch swipe
+  let tx = 0;
+  track.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
+  track.addEventListener('touchend', e => {
+    const diff = tx - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) {
+      diff > 0 ? next() : (current > 0 ? jumpTo(current - 1) : jumpTo(total - 1));
+      resetTimer();
+    }
+  });
+
+  // Recalculate on resize without animation
+  window.addEventListener('resize', () => jumpSilent(current));
+
+  // Init
+  jumpSilent(0);
+  updateDots();
+  resetTimer();
+})();
+</script>
 
 <script>
 function toggleMobileMenu() {
