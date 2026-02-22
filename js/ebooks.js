@@ -27,14 +27,17 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="product-overlay-inner">
             <p class="product-price">$${Number(product.price).toFixed(2)}</p>
             <a href="product.html?id=${product.id}" class="btn btn-sm btn-outline-dark mb-1">View Details</a>
-            <button class="btn btn-sm add-to-cart"
+            ${product.polarUrl
+              ? `<a href="${product.polarUrl}" class="btn btn-sm btn-dark" target="_blank" style="text-decoration:none;">Buy Now</a>`
+              : `<button class="btn btn-sm add-to-cart"
                     data-id="${product.id}"
                     data-name="${product.name}"
                     data-price="${product.price}"
                     data-image="${product.images[0]}"
                     data-type="digital">
-              Buy Now
-            </button>
+                  Buy Now
+                </button>`
+            }
           </div>
         </div>
       </div>

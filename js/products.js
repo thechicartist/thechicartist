@@ -182,6 +182,7 @@ addProduct({
   price: 20.99,
   type: 'digital',
   category: 'ebook',
+  polarUrl: 'https://buy.polar.sh/polar_cl_tqIIWdNWB4J2ZSYuD2oslma7mGDwAZzAZiAQk4Sdf5S',
   images: ['images/ebooks/e1.jpg', 'images/ebooks/e2.jpg', 'images/ebooks/e3.jpg', 'images/ebooks/e4.jpg'],
   description: `
   
