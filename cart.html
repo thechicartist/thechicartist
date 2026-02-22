@@ -133,34 +133,62 @@
       <input type="email" name="email" id="customerEmail" placeholder="Email" required class="form-control">
     </div>
 
-        <!-- Shipping Address -->
-    <div class="mb-3">
-      <input
-        type="text"
-        id="address"
-        name="address"
-        placeholder="Start typing your shipping address"
-        autocomplete="off"
-        required
-        class="form-control"
-      />
+    <!-- DIGITAL: Country selector (shown only for digital/class carts) -->
+    <div id="digitalCountrySection" style="display:none;">
+      <p style="font-size:0.9rem; color:#555; margin-bottom:10px;">Where are you located?</p>
+      <div style="display:flex; gap:10px; margin-bottom:16px; flex-wrap:wrap;">
+        <button type="button" class="digital-country-btn" data-country="Canada"
+          style="flex:1; min-width:100px; padding:12px; border:2px solid #ddd; border-radius:8px; background:#fff; cursor:pointer; font-size:0.9rem; transition:all 0.2s;">
+          🇨🇦 Canada
+        </button>
+        <button type="button" class="digital-country-btn" data-country="USA"
+          style="flex:1; min-width:100px; padding:12px; border:2px solid #ddd; border-radius:8px; background:#fff; cursor:pointer; font-size:0.9rem; transition:all 0.2s;">
+          🇺🇸 USA
+        </button>
+        <button type="button" class="digital-country-btn" data-country="Other"
+          style="flex:1; min-width:100px; padding:12px; border:2px solid #ddd; border-radius:8px; background:#fff; cursor:pointer; font-size:0.9rem; transition:all 0.2s;">
+          🌍 Other
+        </button>
+      </div>
+      <!-- International redirect message -->
+      <div id="internationalMsg" style="display:none; background:#fdf8f0; border:1px solid #e8d5b0; border-radius:8px; padding:16px; margin-bottom:16px;">
+        <p style="margin:0; font-size:0.9rem; color:#555;">
+          We don't sell online classes internationally via this website.<br>
+          For international e-book purchases, please visit our
+          <a href="international_store.html" style="color:#b09a82; font-weight:500;">international store</a>.
+        </p>
+      </div>
+      <!-- Province / State for digital -->
+      <div id="digitalProvinceSection" style="display:none;" class="mb-3">
+        <select id="digitalProvince" class="form-control">
+          <option value="">Select Province / State</option>
+        </select>
+      </div>
+      <input type="hidden" id="digitalCountry" value="">
     </div>
 
-    <div class="mb-3">
-      <input type="text" value="zip code" id="zip" name="zip" class="form-control" readonly>
-    </div>
-
-    <!-- Province / State Selection -->
-    <div class="mb-3">
-      <input type="text" name="province" id="province" class="form-control" disabled placeholder="Province / State">
-        
-      </select>
-    </div>
-
-    <!-- Country Selection -->
-    <div class="mb-3">
-      <input type="text" name="country" id="country" required class="form-control" disabled placeholder="Country">
-      </select>
+    <!-- PHYSICAL: Shipping address fields (shown only for physical carts) -->
+    <div id="physicalAddressSection">
+      <div class="mb-3">
+        <input
+          type="text"
+          id="address"
+          name="address"
+          placeholder="Start typing your shipping address"
+          autocomplete="off"
+          required
+          class="form-control"
+        />
+      </div>
+      <div class="mb-3">
+        <input type="text" value="zip code" id="zip" name="zip" class="form-control" readonly>
+      </div>
+      <div class="mb-3">
+        <input type="text" name="province" id="province" class="form-control" disabled placeholder="Province / State">
+      </div>
+      <div class="mb-3">
+        <input type="text" name="country" id="country" required class="form-control" disabled placeholder="Country">
+      </div>
     </div>
 
   </form>

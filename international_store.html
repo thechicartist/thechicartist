@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-80D8EZFDSB"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-80D8EZFDSB');
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="images/favicon.png">
+  <title>International Store | The Chic Artist</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Allura&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container header-inner">
+
+    <!-- Brand / Logo -->
+    <div class="brand">
+      <a href="index.html" class="logo-link" data-scroll="top">
+        <img src="images/logo.png" alt="The Chic Artist Logo" class="logo">
+      </a>
+    </div>
+
+    <!-- Desktop Nav -->
+    <nav class="main-nav d-flex justify-content-center">
+      <a href="index.html">Home</a>
+      <a href="wedding.html">Wedding</a>
+      <a href="bookmarks.html">Bookmarks</a>
+      <a href="cards.html">Paintings</a>
+      <a href="OnlineClass.html">OnlineClass</a>
+      <a href="ebooks.html">E-Books</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+
+    <!-- Social Icons + Cart -->
+    <div class="header-right d-flex align-items-center">
+      <div class="social-icons d-flex">
+        <a href="https://www.instagram.com/the.chic.artist" target="_blank"><img src="images/icons/instagram.svg"></a>
+        <a href="https://www.youtube.com/@TheChicArtist" target="_blank"><img src="images/icons/youtube.svg"></a>
+        <a href="https://www.facebook.com/neetikaag" target="_blank"><img src="images/icons/facebook.svg"></a>
+        <a href="https://www.tiktok.com/@the.chic.artist" target="_blank"><img src="images/icons/tiktok.svg"></a>
+        <a href="https://thechicartiststudio.etsy.com" target="_blank"><img src="images/icons/etsy.svg"></a>
+      </div>
+
+      <!-- Cart Icon -->
+      <div class="cart-wrapper position-relative ms-3">
+        <img src="images/icons/cart.svg" id="cartIcon" style="width:28px; cursor:pointer;">
+        <span id="cartCount" style="top:-5px; right:-5px; font-size:0.7rem;">0</span>
+      </div>
+
+      <!-- Mobile Hamburger -->
+      <div class="mobile-menu-icon ms-3" onclick="toggleMobileMenu()">☰</div>
+    </div>
+
+  </div>
+</header>
+
+<!-- Mobile Side Console -->
+<div id="mobileSideConsole" class="mobile-side-console">
+  <ul>
+    <li><a href="index.html" data-scroll="top">Home</a></li>
+    <li><a href="wedding.html">Wedding</a></li>
+    <li><a href="bookmarks.html">Bookmarks</a></li>
+    <li><a href="cards.html">Paintings</a></li>
+    <li><a href="OnlineClass.html">OnlineClass</a></li>
+    <li><a href="ebooks.html">E-Books</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+</div>
+
+<!-- Overlay -->
+<div id="mobileMenuOverlay" class="mobile-menu-overlay"></div>
+
+
+<main class="main-content">
+
+  <section class="page-intro text-center" id="page-intro-id">
+    <h1>International Store 🌍</h1>
+    <p class="product-tagline">Instant digital downloads — available worldwide</p>
+    <p>Prices are in <strong>USD</strong>. Tax is handled at checkout. Secure payment via <strong>Polar</strong>.</p>
+    <p style="font-size:0.88rem; color:#888;">
+      Canada or USA? <a href="ebooks.html" style="color:#b09a82; text-decoration:underline;">Shop our main e-books page</a> instead.
+    </p>
+  </section>
+
+  <section class="product-grid container">
+    <div id="internationalGrid" class="row"></div>
+  </section>
+
+</main>
+
+<footer class="py-4 text-center text-muted position-relative">
+  © 2026 The Chic Artist<br>
+  <a href="terms-and-conditions.html" style="color:#888; text-decoration:underline; font-size:0.85rem;">Terms &amp; Conditions</a>
+
+  <!-- FAQ Toggle -->
+  <div id="footerFaqToggle"
+       style="position:absolute; right:40px; top:50%; transform:translateY(-50%); cursor:pointer; font-weight:500; color:#555;">
+    FAQ &#x25B2;
+  </div>
+
+  <!-- Footer FAQ panel -->
+  <div id="footerFaqPanel"
+       style="position:absolute; right:20px; bottom:50px; width:300px; max-height:0; overflow:hidden; background:#fff; box-shadow:0 4px 10px rgba(0,0,0,0.1); border-radius:8px; transition:max-height 0.4s ease;">
+    <div style="padding:1rem; font-size:0.9rem; color:#333;">
+      <p><strong>What is included?</strong><br>Each purchase gives you an instant PDF download delivered to your email.</p>
+      <p><strong>What currency are prices in?</strong><br>All prices are in USD. Tax is collected at checkout based on your location.</p>
+      <p><strong>How do I download?</strong><br>After purchase you'll receive an email from Polar with your download link.</p>
+      <p><strong>Questions?</strong><br>Contact us via the <a href="index.html#contact">form</a>.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const faqToggle = document.getElementById('footerFaqToggle');
+  const faqPanel  = document.getElementById('footerFaqPanel');
+  let faqOpen = false;
+  faqToggle.addEventListener('click', () => {
+    faqOpen = !faqOpen;
+    faqPanel.style.maxHeight = faqOpen ? faqPanel.scrollHeight + 'px' : '0';
+    faqToggle.innerHTML = faqOpen ? 'FAQ &#x25BC;' : 'FAQ &#x25B2;';
+  });
+  document.addEventListener('click', (e) => {
+    if (faqOpen && !faqPanel.contains(e.target) && e.target !== faqToggle) {
+      faqPanel.style.maxHeight = '0';
+      faqToggle.innerHTML = 'FAQ &#x25B2;';
+      faqOpen = false;
+    }
+  });
+</script>
+
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
+
+<script>
+function toggleMobileMenu() {
+  const menu    = document.getElementById('mobileSideConsole');
+  const overlay = document.getElementById('mobileMenuOverlay');
+  menu.classList.toggle('active');
+  overlay.classList.toggle('active');
+}
+document.getElementById('mobileMenuOverlay').addEventListener('click', toggleMobileMenu);
+document.querySelectorAll('#mobileSideConsole a').forEach(link => {
+  link.addEventListener('click', () => {
+    document.getElementById('mobileSideConsole').classList.remove('active');
+    document.getElementById('mobileMenuOverlay').classList.remove('active');
+  });
+});
+</script>
+
+<script>
+// Render all ebooks that have a polarUrl
+(function () {
+  const grid = document.getElementById('internationalGrid');
+  if (!grid || typeof PRODUCTS === 'undefined') return;
+
+  const ebooks = Object.values(PRODUCTS).filter(p => p.type === 'digital' && p.polarUrl);
+
+  if (ebooks.length === 0) {
+    grid.innerHTML = '<p class="text-center text-muted mt-4">No international products available yet. Check back soon!</p>';
+    return;
+  }
+
+  ebooks.forEach(product => {
+    const image = (product.images && product.images[0]) ? product.images[0] : '';
+    const col = document.createElement('div');
+    col.className = 'col-12 col-sm-6 col-md-4 mb-4';
+    col.innerHTML = `
+      <div class="card h-100 shadow-sm border-0" style="border-radius:12px; overflow:hidden;">
+          <img
+            src="${image}"
+            alt="${product.name}"
+            class="card-img-top"
+            style="height:220px; object-fit:cover;"
+          >
+        </a>
+        <div class="card-body d-flex flex-column" style="padding:1.2rem;">
+          <h6 class="card-title" style="font-family:'Libre Baskerville', serif; font-size:0.95rem; margin-bottom:0.5rem;">
+            ${product.name}
+          </h6>
+          <p style="font-size:1rem; font-weight:600; margin-bottom:1rem; color:#333;">
+            US$${Number(product.polarPrice).toFixed(2)}
+          </p>
+          <div class="mt-auto" style="display:flex; flex-direction:column; gap:8px;">
+            <a href="${product.polarUrl}"
+               target="_blank"
+               class="btn btn-sm btn-dark"
+               style="width:100%; display:block; text-align:center; text-decoration:none;">
+              Buy Now 🌍
+            </a>
+          </div>
+        </div>
+      </div>
+    `;
+    grid.appendChild(col);
+  });
+})();
+</script>
+
+</body>
+</html>

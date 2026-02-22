@@ -90,6 +90,7 @@
 
     let currentCurrency = 'USD';
     let appliedDiscount = 0; // discount amount in dollars, set when coupon is validated
+    let selectedDigitalCountry = ''; // set by the Canada/USA/Other buttons for digital carts
 
 
     // ── Pricing helpers ──
@@ -102,24 +103,39 @@
     }
 
     const taxRates = { ON: 0.13, QC: 0.05, NS: 0.15, NB: 0.15, MB: 0.05, BC: 0.05, PE: 0.15, SK: 0.05, AB: 0.05, NL: 0.15, NT: 0.05, YT: 0.05, NU: 0.05 };
-    function computeTax() {
-      if (!countrySelect || countrySelect.value !== 'Canada' || !provinceSelect) return 0;
-      return (subtotal() + getShipping()) * (taxRates[provinceSelect.value] ?? 0.05);
+    function computeTax(discountedSubtotal, shipping) {
+      const cartType = getCartType();
+      let country, province;
+      if (cartType === 'digital') {
+        country  = selectedDigitalCountry;
+        province = qs('#digitalProvince') ? qs('#digitalProvince').value : '';
+      } else {
+        country  = countrySelect  ? countrySelect.value  : '';
+        province = provinceSelect ? provinceSelect.value : '';
+      }
+      if (country !== 'Canada' || !province) return 0;
+      return (discountedSubtotal + shipping) * (taxRates[province] ?? 0.05);
     }
 
     // ── Allowed countries ──
     function isAllowed(country, province) {
       const cartType = getCartType();
+      if (cartType === 'digital') {
+        if (!selectedDigitalCountry || selectedDigitalCountry === 'Other') return false;
+        if (selectedDigitalCountry === 'Canada' && province === 'SK') return false;
+        return ['Canada', 'USA'].includes(selectedDigitalCountry);
+      }
       if (country === 'Canada' && province === 'SK') return false;
-      //if (cartType === 'digital') return ['Canada', 'USA', 'UK'].includes(country);
-      if (cartType === 'digital') return ['Canada', 'USA'].includes(country);
       return ['Canada', 'USA'].includes(country);
     }
 
     // ── Address visibility (hide for digital) ──
     function updateAddressVisibility() {
       const isDigital = getCartType() === 'digital';
-      if (addressSection) addressSection.style.display = isDigital ? 'none' : '';
+      const digitalSection  = qs('#digitalCountrySection');
+      const physicalSection = qs('#physicalAddressSection');
+      if (digitalSection)  digitalSection.style.display  = isDigital ? '' : 'none';
+      if (physicalSection) physicalSection.style.display = isDigital ? 'none' : '';
     }
 
     // ── Render cart ──
@@ -134,10 +150,16 @@
     function render() {
       updateAddressVisibility();
 
-      const country  = countrySelect  ? countrySelect.value  : '';
-      const province = provinceSelect ? provinceSelect.value : '';
-      const allowed  = isAllowed(country, province);
       const cartType = getCartType();
+      let country, province;
+      if (cartType === 'digital') {
+        country  = selectedDigitalCountry;
+        province = qs('#digitalProvince') ? qs('#digitalProvince').value : '';
+      } else {
+        country  = countrySelect  ? countrySelect.value  : '';
+        province = provinceSelect ? provinceSelect.value : '';
+      }
+      const allowed  = isAllowed(country, province);
 
       if (stripeBox) {
         const show = cart.length > 0 && allowed;
@@ -146,6 +168,8 @@
         if (shippingMsg) {
           if (!country) {
             shippingMsg.innerText = '';
+          } else if (!allowed && cartType === 'digital' && province === 'SK') {
+            shippingMsg.innerHTML = 'Sorry, we are in process to get registered for Saskatchewan provincial tax and cannot process orders from SK from this website. <a href="international_store.html" style="color:#b09a82; font-weight:500;">View International Store</a>';
           } else if (!allowed && country === 'Canada' && province === 'SK') {
             shippingMsg.innerText = 'Sorry, we do not deliver to Saskatchewan.';
           } else if (!allowed) {
@@ -193,18 +217,15 @@
       const s = subtotal(), sh = getShipping();
       const disc = Math.min(appliedDiscount, s);
       const discountedS = Math.max(0, s - disc);
-      const tax = (() => {
-        if (!countrySelect || countrySelect.value !== 'Canada' || !provinceSelect) return 0;
-        return (discountedS + sh) * (taxRates[provinceSelect.value] ?? 0.05);
-      })();
+      const tax = computeTax(discountedS, sh);
       const tot = discountedS + sh + tax;
 
       if (totalBox) {
         const discLine = disc > 0 ? ` − Discount: $${disc.toFixed(2)}` : '';
         if (cartType === 'digital') {
           totalBox.innerText = tax > 0
-            ? `Total: $${tot.toFixed(2)} CAD (Subtotal: $${s.toFixed(2)}${discLine} + Tax: $${tax.toFixed(2)})`
-            : `Total: $${tot.toFixed(2)} CAD (Subtotal: $${s.toFixed(2)}${discLine})`;
+            ? `Total: $${tot.toFixed(2)}  (Subtotal: $${s.toFixed(2)}${discLine} + Tax: $${tax.toFixed(2)})`
+            : `Total: $${tot.toFixed(2)}  (Subtotal: $${s.toFixed(2)}${discLine})`;
         } else {
           totalBox.innerText = `Total: $${tot.toFixed(2)} (Subtotal: $${s.toFixed(2)}${discLine} + Shipping: $${sh.toFixed(2)} + Tax: $${tax.toFixed(2)})`;
         }
@@ -277,7 +298,7 @@
 
         if (countrySelect && country) {
           countrySelect.value = country;
-          currentCurrency = (getCartType() === 'digital') ? 'CAD' : (country === 'Canada' ? 'CAD' : 'USD');
+          currentCurrency = (getCartType() === 'digital') ? 'USD' : (country === 'Canada' ? 'CAD' : 'USD');
           setProvince(country);
           render();
         }
@@ -303,16 +324,85 @@
     if (countrySelect) {
       countrySelect.addEventListener('change', () => {
         const country = countrySelect.value;
-        currentCurrency = (getCartType() === 'digital') ? 'CAD' : (country === 'Canada' ? 'CAD' : 'USD');
+        currentCurrency = (getCartType() === 'digital') ? 'USD' : (country === 'Canada' ? 'CAD' : 'USD');
         setProvince(country);
         render();
       });
     }
     if (provinceSelect) provinceSelect.addEventListener('change', render);
 
+    // ── Digital country buttons ──
+    const canadaProvinces = [
+      ['AB','Alberta'],['BC','British Columbia'],['MB','Manitoba'],['NB','New Brunswick'],
+      ['NL','Newfoundland and Labrador'],['NS','Nova Scotia'],['NT','Northwest Territories'],
+      ['NU','Nunavut'],['ON','Ontario'],['PE','Prince Edward Island'],['QC','Quebec'],
+      ['SK','Saskatchewan'],['YT','Yukon']
+    ];
+    const usaStates = [
+      ['AL','Alabama'],['AK','Alaska'],['AZ','Arizona'],['AR','Arkansas'],['CA','California'],
+      ['CO','Colorado'],['CT','Connecticut'],['DE','Delaware'],['FL','Florida'],['GA','Georgia'],
+      ['HI','Hawaii'],['ID','Idaho'],['IL','Illinois'],['IN','Indiana'],['IA','Iowa'],
+      ['KS','Kansas'],['KY','Kentucky'],['LA','Louisiana'],['ME','Maine'],['MD','Maryland'],
+      ['MA','Massachusetts'],['MI','Michigan'],['MN','Minnesota'],['MS','Mississippi'],
+      ['MO','Missouri'],['MT','Montana'],['NE','Nebraska'],['NV','Nevada'],['NH','New Hampshire'],
+      ['NJ','New Jersey'],['NM','New Mexico'],['NY','New York'],['NC','North Carolina'],
+      ['ND','North Dakota'],['OH','Ohio'],['OK','Oklahoma'],['OR','Oregon'],['PA','Pennsylvania'],
+      ['RI','Rhode Island'],['SC','South Carolina'],['SD','South Dakota'],['TN','Tennessee'],
+      ['TX','Texas'],['UT','Utah'],['VT','Vermont'],['VA','Virginia'],['WA','Washington'],
+      ['WV','West Virginia'],['WI','Wisconsin'],['WY','Wyoming']
+    ];
+
+    qsa('.digital-country-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Highlight selected button
+        qsa('.digital-country-btn').forEach(b => {
+          b.style.borderColor = '#ddd'; b.style.background = '#fff'; b.style.color = '#333';
+        });
+        btn.style.borderColor = '#222'; btn.style.background = '#222'; btn.style.color = '#fff';
+
+        const country = btn.dataset.country;
+        selectedDigitalCountry = country;
+
+        const intlMsg     = qs('#internationalMsg');
+        const provSection = qs('#digitalProvinceSection');
+        const digitalProv = qs('#digitalProvince');
+        const dcInput     = qs('#digitalCountry');
+
+        if (dcInput) dcInput.value = country;
+
+        if (country === 'Other') {
+          if (intlMsg)     intlMsg.style.display     = '';
+          if (provSection) provSection.style.display = 'none';
+          if (digitalProv) digitalProv.value         = '';
+          currentCurrency = 'USD';
+        } else {
+          if (intlMsg)     intlMsg.style.display = 'none';
+          if (provSection) provSection.style.display = '';
+          currentCurrency = 'USD';
+          if (digitalProv) {
+            const opts = country === 'Canada' ? canadaProvinces : usaStates;
+            digitalProv.innerHTML =
+              `<option value="">Select ${country === 'Canada' ? 'Province' : 'State'}</option>` +
+              opts.map(([code, name]) => `<option value="${code}">${name}</option>`).join('');
+          }
+        }
+        render();
+      });
+    });
+
+    if (qs('#digitalProvince')) qs('#digitalProvince').addEventListener('change', render);
+
     // ── Stripe Checkout ──
     async function handleStripeCheckout() {
       const cartType = getCartType();
+      let country, province;
+      if (cartType === 'digital') {
+        country  = selectedDigitalCountry;
+        province = qs('#digitalProvince') ? qs('#digitalProvince').value : '';
+      } else {
+        country  = countrySelect  ? countrySelect.value  : '';
+        province = provinceSelect ? provinceSelect.value : '';
+      }
 
       // Enforce T&C checkbox
       const termsBox = qs('#termsCheckbox');
@@ -340,16 +430,13 @@
         return;
       }
 
-      const country  = countrySelect  ? countrySelect.value  : '';
-      const province = provinceSelect ? provinceSelect.value : '';
-
       if (!isAllowed(country, province)) {
         alert('Sorry, orders are not available in your selected country/province.');
         return;
       }
 
       // Require zip code for physical orders (Google Form has it as mandatory)
-      if ((!zipInput?.value || zipInput.value.trim() === '' || zipInput.value.trim() === 'zip code')) {
+      if (cartType !== 'digital' && (!zipInput?.value || zipInput.value.trim() === '' || zipInput.value.trim() === 'zip code')) {
         alert('Please enter a valid shipping address with a zip/postal code to proceed.');
         qs('#address')?.focus();
         return;
