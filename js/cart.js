@@ -169,16 +169,16 @@
           if (!country) {
             shippingMsg.innerText = '';
           } else if (!allowed && cartType === 'digital' && province === 'SK') {
-            shippingMsg.innerHTML = 'Sorry, we are in process to get registered for Saskatchewan provincial tax and cannot process orders from SK from this website. <a href="international_store.html" style="color:#b09a82; font-weight:500;">View International Store</a>';
+            shippingMsg.innerHTML = 'Sorry, we are in process to get registered for Saskatchewan provincial tax and cannot process orders from SK from this webpage. <a href="international_store.html" style="color:#b09a82; font-weight:500;">Please visit our International Store</a>';
           } else if (!allowed && country === 'Canada' && province === 'SK') {
             shippingMsg.innerText = 'Sorry, we do not deliver to Saskatchewan.';
           } else if (!allowed) {
             shippingMsg.innerText = cartType === 'digital'
-              ? 'Online classes are available in Canada and USA only.'
+              ? ''
               : 'Delivery available in Canada and USA only.';
           } else {
             shippingMsg.innerText = cartType === 'digital'
-              ? `Available in ${country}. Paying in ${currentCurrency}. No shipping for online classes.`
+              ? `Available in ${country}. Paying in ${currentCurrency}. No shipping for digital products.`
               : `Delivery available. Shipping: $${getShipping().toFixed(2)}. Paying in ${currentCurrency}.`;
           }
         }
