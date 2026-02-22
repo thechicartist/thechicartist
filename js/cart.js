@@ -134,8 +134,10 @@
       const isDigital = getCartType() === 'digital';
       const digitalSection  = qs('#digitalCountrySection');
       const physicalSection = qs('#physicalAddressSection');
+      const physicalNotes   = qs('#physicalNotes');
       if (digitalSection)  digitalSection.style.display  = isDigital ? '' : 'none';
       if (physicalSection) physicalSection.style.display = isDigital ? 'none' : '';
+      if (physicalNotes)   physicalNotes.style.display   = isDigital ? 'none' : '';
     }
 
     // ── Render cart ──
@@ -178,8 +180,10 @@
               : 'Delivery available in Canada and USA only.';
           } else {
             shippingMsg.innerText = cartType === 'digital'
-              ? `Available in ${country}. Paying in ${currentCurrency}. No shipping for digital products.`
-              : `Delivery available. Shipping: $${getShipping().toFixed(2)}. Paying in ${currentCurrency}.`;
+              ? `Available in ${country}. Paying in ${currentCurrency}.`
+              : currentCurrency === 'CAD'
+                ? `Untracked Canada Post delivery. Shipping: $${getShipping().toFixed(2)} CAD.`
+                : `Tracked delivery. Shipping: $${getShipping().toFixed(2)} USD.`;
           }
         }
       }
@@ -197,8 +201,8 @@
         const d = document.createElement('div');
         d.className = 'cart-item d-flex align-items-center mb-3';
         d.innerHTML = `
-          <a href="${getProductPage(it.id)}#${it.id}">
-            <img src="${it.image || ''}" alt="${it.name}" width="80" class="me-3 rounded">
+          <a href="product.html?id=${it.id}">
+            <img src="${it.image || ''}" alt="${it.name}" width="80" class="me-3 rounded" style="cursor:pointer;">
           </a>
           <div class="flex-grow-1">
             <strong>${it.name}</strong>

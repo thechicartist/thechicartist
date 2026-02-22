@@ -152,6 +152,8 @@
 <script src="js/cart.js"></script>
 
 <script>
+// Clear cart — international customers checkout via Polar, not the Stripe cart
+localStorage.removeItem('cart');
 function toggleMobileMenu() {
   const menu    = document.getElementById('mobileSideConsole');
   const overlay = document.getElementById('mobileMenuOverlay');

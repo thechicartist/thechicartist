@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     data-price="${product.price}"
                     data-image="${product.images[0]}"
                     data-type="digital">
-                  Buy Now
+                  Add to Cart
                 </button>
           </div>
         </div>

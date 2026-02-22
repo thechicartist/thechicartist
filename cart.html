@@ -88,12 +88,8 @@
 <!-- Overlay -->
 <div id="mobileMenuOverlay" class="mobile-menu-overlay"></div>
 
-<main class="container cart-page">
-<h4>Note:</h4>
-<p>All Canadian Deliveries are done using standard Canada post shipping, if you need expedited or tracked shipping, please <a href="index.html#contact">contact us</a> directly.</p>
-<p>All USA Deliveries have tracking included.</p>
-<p>For deliveries to all other countries, please <a href="index.html#contact">contact us</a> directly or place order via <a href="https://thechicartiststudio.etsy.com" class="text-decoration-underline">etsy</a>.</p>
-<h6>All items are custom-made and due to the nature of the work, <strong>returns/exchanges are not offered</strong>, however, all orders are shipped with utmost care and very well packed. </h6>
+<main class="container">
+
 <section class="cart-page" id="cartPage">
   <h1>Your Cart</h1>
   <div id="cartItems"></div>
@@ -155,7 +151,7 @@
         <p style="margin:0; font-size:0.9rem; color:#555;">
           We don't sell internationally via this website.<br>
           For international purchases, please visit our
-          <a href="international_store.html" style="color:#b09a82; font-weight:500;">international store</a>.
+          <a href="international_store.html" onclick="localStorage.removeItem('cart')" style="color:#b09a82; font-weight:500;">international store</a>.
         </p>
       </div>
       <!-- Province / State for digital -->
@@ -199,8 +195,7 @@
       <button type="button" id="applyCouponBtn" style="background:#222; color:#fff; border:none; border-radius:6px; padding:10px 20px; font-size:0.9rem; cursor:pointer; white-space:nowrap;">Apply</button>
     </div>
     <p id="couponMsg" style="font-size:0.85rem; margin-top:6px;"></p>
-  </div>
-
+  </div> 
   <!-- TERMS AND CONDITIONS CHECKBOX (mandatory) -->
   <div style="margin: 1.2rem 0;">
     <label style="display:flex; align-items:flex-start; gap:10px; cursor:pointer; font-size:0.9rem; color:#333;">
