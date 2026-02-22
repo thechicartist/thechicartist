@@ -38,12 +38,12 @@
 
       const cartType = getCartType();
       if (cartType && cartType !== item.type) {
-        const typeLabel     = cartType === 'digital' ? 'online classes' : 'physical products';
-        const newTypeLabel  = item.type === 'digital' ? 'an online class' : 'a physical product';
+        const typeLabel     = cartType === 'digital' ? 'digital products' : 'physical products';
+        const newTypeLabel  = item.type === 'digital' ? 'a digital product' : 'a physical product';
         const ok = confirm(
           `Your cart already has ${typeLabel}.\n\n` +
-          `You can only checkout one type at a time.\n\n` +
-          `Click OK to clear your cart and add ${newTypeLabel}, or Cancel to keep your current cart.`
+          `We currently don't support mixing digital and physical products in the same order.\n\n` +
+          `Click OK to clear your cart and add ${newTypeLabel}, or cancel to keep your current cart.`
         );
         if (!ok) return;
         cart = [];
