@@ -25,10 +25,10 @@ document.addEventListener('DOMContentLoaded', () => {
         </a>
         <div class="product-overlay">
           <div class="product-overlay-inner">
-            <p class="product-price">$${Number(product.price).toFixed(2)}</p>
+            <p class="product-price">US$${Number(product.price).toFixed(2)}</p>
             <a href="product.html?id=${product.id}" class="btn btn-sm btn-outline-dark mb-1">View Details</a>
             ${product.polarUrl
-              ? `<a href="${product.polarUrl}" class="btn btn-sm btn-dark" target="_blank" style="text-decoration:none;">Buy Now</a>`
+              ? `<a href="${product.polarUrl}" class="btn btn-sm btn-dark" target="_blank" style="text-decoration:none; width:100%; display:block; text-align:center;">Buy Now </a>`
               : `<button class="btn btn-sm add-to-cart"
                     data-id="${product.id}"
                     data-name="${product.name}"

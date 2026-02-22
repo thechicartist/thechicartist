@@ -454,22 +454,22 @@
 
         <!-- RIGHT: Info -->
         <div class="product-info">
-          <p class="product-category-tag">${product.category === 'card' ? 'Original Painting' : 'Watercolor Bookmark'}</p>
+          <p class="product-category-tag">${product.category === 'card' ? 'Original Painting' : product.category === 'class' ? 'Online Class' : product.category === 'ebook' ? 'E-Book' : 'Watercolor Bookmark'}</p>
           <h1>${product.name}</h1>
-          <p class="product-price-tag">$${Number(product.price).toFixed(2)} CAD</p>
+          <p class="product-price-tag">${product.category === 'ebook' ? `US$${Number(product.price).toFixed(2)}` : product.category === 'class' ? `$${Number(product.price).toFixed(2)} CAD` : `$${Number(product.price).toFixed(2)}`}</p>
           ${product.polarUrl
             ? `<a href="${product.polarUrl}" class="btn-add-cart" target="_blank" style="text-decoration:none; display:block; text-align:center;">Buy Now</a>`
             : `<button
-                class="btn-add-cart add-to-cart"
-                data-id="${product.id}"
-                data-name="${product.name}"
-                data-price="${product.price}"
-                data-image="${product.images[0]}"
-                data-type="${(product.category === 'class' || product.category === 'ebook') ? 'digital' : 'physical'}"
-              >
-                Add to Cart
-              </button>`
-          }
+            class="btn-add-cart add-to-cart"
+            data-id="${product.id}"
+            data-name="${product.name}"
+            data-price="${product.price}"
+            data-image="${product.images[0]}"
+            data-type="${(product.category === 'class' || product.category === 'ebook') ? 'digital' : 'physical'}"
+          >
+            Add to Cart
+          </button>`
+        }
           <div class="product-description">
             ${product.description}
           </div>
@@ -538,16 +538,19 @@
               <img src="${p.images[0]}" alt="${p.name}" loading="lazy">
             </div>
             <p class="related-name">${p.name}</p>
-            <p class="related-price">$${Number(p.price).toFixed(2)} CAD</p>
+            <p class="related-price">${p.category === 'ebook' ? `US$${Number(p.price).toFixed(2)}` : p.category === 'class' ? `$${Number(p.price).toFixed(2)} CAD` : `$${Number(p.price).toFixed(2)}`}</p>
           </a>
-          <button class="related-add-btn add-to-cart"
-            data-id="${p.id}"
-            data-name="${p.name}"
-            data-price="${p.price}"
-            data-image="${p.images[0]}"
-            data-type="${(p.category === 'class' || p.category === 'ebook') ? 'digital' : 'physical'}">
-            Add to Cart
-          </button>
+          ${p.polarUrl
+            ? `<a href="${p.polarUrl}" class="related-add-btn" target="_blank" style="text-decoration:none; display:block; text-align:center;">Buy Now 🌍</a>`
+            : `<button class="related-add-btn add-to-cart"
+                data-id="${p.id}"
+                data-name="${p.name}"
+                data-price="${p.price}"
+                data-image="${p.images[0]}"
+                data-type="${(p.category === 'class' || p.category === 'ebook') ? 'digital' : 'physical'}">
+                Add to Cart
+              </button>`
+          }
         </div>
       `).join('');
     }
