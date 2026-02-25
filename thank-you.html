@@ -263,18 +263,7 @@
       })
     });
 
-    // Notify Neetika via Google Form (same as regular orders)
-    try {
-      const gBody = new FormData();
-      gBody.append(FORM_FIELDS.name,    booking.customer_name);
-      gBody.append(FORM_FIELDS.email,   booking.customer_email);
-      gBody.append(FORM_FIELDS.items,   `${slotLabel} on ${niceDateStr} at ${timeDisplay}`);
-      gBody.append(FORM_FIELDS.total,   `$${Number(booking.price).toFixed(2)} USD`);
-      gBody.append(FORM_FIELDS.shipping,'0');
-      gBody.append(FORM_FIELDS.tax,     '0');
-      gBody.append(FORM_FIELDS.country, 'N/A');
-      await fetch(GOOGLE_FORM_ACTION_URL, { method: 'POST', mode: 'no-cors', body: gBody });
-    } catch {}
+    // No Google Form for bookings — notification is handled by the worker
 
     // Stop — don't run the regular order logic below
     return;
