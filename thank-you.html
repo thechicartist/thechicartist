@@ -191,6 +191,92 @@
     }
   }
 
+  // ── BOOKING CONFIRMATION ──────────────────────────────────────────
+  // If Stripe redirected here from a booking payment, handle it first.
+  // We confirm with the worker, show booking details, send emails, then stop.
+  (async () => {
+    const _p = new URLSearchParams(window.location.search);
+    const _bookingId = _p.get('booking_id');
+    const _sessionId = _p.get('session_id');
+    if (!_bookingId || !_sessionId) return; // not a booking — fall through to normal order logic
+
+    const SLOT_LABELS = { '15min': '15-Minute Session', '30min': '30-Minute Session' };
+    const WORKER = 'https://stripe-worker.thechicartiststudio.workers.dev';
+
+    // Confirm booking with worker (verifies Stripe payment, marks confirmed in DB)
+    let booking;
+    try {
+      const res = await fetch(`${WORKER}/booking/confirm`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ booking_id: _bookingId, session_id: _sessionId })
+      });
+      const data = await res.json();
+      if (!res.ok || !data.ok) throw new Error(data.error || 'Confirm failed');
+      booking = data.booking;
+    } catch (e) {
+      document.querySelector('h1').textContent = 'Something went wrong ⚠️';
+      document.querySelector('main p').textContent = 'We could not confirm your booking. Please contact us with your booking ID: ' + _bookingId;
+      return;
+    }
+
+    // Format for display
+    const niceDateStr = new Date(booking.booking_date + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    const [_h, _m] = booking.booking_time.split(':').map(Number);
+    const _suffix = _h >= 12 ? 'PM' : 'AM';
+    const _display12 = _h % 12 || 12;
+    const timeDisplay = `${_display12}:${String(_m).padStart(2,'0')} ${_suffix} ET`;
+    const slotLabel = SLOT_LABELS[booking.slot_type] || booking.slot_type;
+
+    // Update page heading
+    document.querySelector('h1').textContent = "You're booked! 🌸";
+    document.querySelector('main p').textContent = 'Your payment was successful.';
+
+    // Show booking summary in the orderSummary div
+    document.getElementById('orderSummary').innerHTML = `
+      <h3>Booking Summary</h3>
+      <ul style="list-style:none; padding-left:0;">
+        <li style="margin-bottom:8px;"><strong>Session:</strong> ${slotLabel}</li>
+        <li style="margin-bottom:8px;"><strong>Date:</strong> ${niceDateStr}</li>
+        <li style="margin-bottom:8px;"><strong>Time:</strong> ${timeDisplay}</li>
+        <li style="margin-bottom:8px;"><strong>Name:</strong> ${booking.customer_name}</li>
+        <li style="margin-bottom:8px;"><strong>Email:</strong> ${booking.customer_email}</li>
+        <li style="margin-bottom:8px; font-size:0.82rem; color:#888;"><strong>Booking ID:</strong> <code>${booking.id}</code></li>
+      </ul>
+      <p><strong>Total Paid:</strong> $${Number(booking.price).toFixed(2)} USD</p>
+    `;
+
+    // Send customer confirmation email (same pattern as send-ebook-email)
+    fetch(`${WORKER}/send-booking-email`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: booking.customer_email,
+        name: booking.customer_name,
+        slot_label: slotLabel,
+        date: niceDateStr,
+        time: timeDisplay,
+        booking_id: booking.id
+      })
+    });
+
+    // Notify Neetika via Google Form (same as regular orders)
+    try {
+      const gBody = new FormData();
+      gBody.append(FORM_FIELDS.name,    booking.customer_name);
+      gBody.append(FORM_FIELDS.email,   booking.customer_email);
+      gBody.append(FORM_FIELDS.items,   `${slotLabel} on ${niceDateStr} at ${timeDisplay}`);
+      gBody.append(FORM_FIELDS.total,   `$${Number(booking.price).toFixed(2)} USD`);
+      gBody.append(FORM_FIELDS.shipping,'0');
+      gBody.append(FORM_FIELDS.tax,     '0');
+      gBody.append(FORM_FIELDS.country, 'N/A');
+      await fetch(GOOGLE_FORM_ACTION_URL, { method: 'POST', mode: 'no-cors', body: gBody });
+    } catch {}
+
+    // Stop — don't run the regular order logic below
+    return;
+  })();
+
   // Try sessionStorage first (local testing), then fall back to URL params (live Stripe redirect)
   let order = null;
 

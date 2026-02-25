@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book a Session — The Chic Artist</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #fdfaf6;
+      --blush: #f5ece2;
+      --rose:  #c4956a;
+      --rose-dark: #a67a52;
+      --ink:   #2a2118;
+      --muted: #8c7b6e;
+      --line:  #e8ddd3;
+    }
+
+    body {
+      font-family: 'Jost', sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      min-height: 100vh;
+    }
+
+    /* ---- HEADER ---- */
+    header {
+      text-align: center;
+      padding: 60px 24px 40px;
+      border-bottom: 1px solid var(--line);
+      position: relative;
+      overflow: hidden;
+    }
+    header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, #f0e4d5 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .site-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(0.7rem, 1.5vw, 0.85rem);
+      font-weight: 400;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 5vw, 3.4rem);
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--ink);
+    }
+    h1 em {
+      font-style: italic;
+      color: var(--rose);
+    }
+    .subtitle {
+      margin-top: 14px;
+      font-size: 0.92rem;
+      color: var(--muted);
+      font-weight: 300;
+      letter-spacing: 0.03em;
+    }
+
+    /* ---- MAIN LAYOUT ---- */
+    main {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 56px 24px 80px;
+    }
+
+    /* ---- STEPS ---- */
+    .steps {
+      display: flex;
+      gap: 0;
+      margin-bottom: 48px;
+      position: relative;
+    }
+    .steps::before {
+      content: '';
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      right: 16px;
+      height: 1px;
+      background: var(--line);
+    }
+    .step {
+      flex: 1;
+      text-align: center;
+      position: relative;
+    }
+    .step-num {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      background: var(--cream);
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--muted);
+      transition: all 0.3s;
+      position: relative; z-index: 1;
+    }
+    .step.active .step-num {
+      background: var(--rose);
+      border-color: var(--rose);
+      color: white;
+    }
+    .step.done .step-num {
+      background: var(--ink);
+      border-color: var(--ink);
+      color: white;
+    }
+    .step-label {
+      display: block;
+      margin-top: 8px;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 500;
+    }
+    .step.active .step-label { color: var(--rose); }
+    .step.done .step-label { color: var(--ink); }
+
+    /* ---- PANELS ---- */
+    .panel { display: none; animation: fadeIn 0.4s ease; }
+    .panel.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 400;
+      margin-bottom: 6px;
+    }
+    .section-subtitle {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 28px;
+    }
+
+    /* ---- SLOT TYPE CARDS ---- */
+    .slot-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 36px;
+    }
+    .slot-card {
+      border: 1.5px solid var(--line);
+      border-radius: 4px;
+      padding: 28px 24px;
+      cursor: pointer;
+      transition: all 0.25s;
+      background: white;
+      position: relative;
+      overflow: hidden;
+    }
+    .slot-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--rose);
+      transform: scaleX(0);
+      transition: transform 0.25s;
+    }
+    .slot-card:hover { border-color: var(--rose); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(196,149,106,0.12); }
+    .slot-card:hover::after { transform: scaleX(1); }
+    .slot-card.selected { border-color: var(--rose); background: #fdf5ee; }
+    .slot-card.selected::after { transform: scaleX(1); }
+    .slot-duration {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem;
+      font-weight: 300;
+      color: var(--rose);
+      line-height: 1;
+    }
+    .slot-label {
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+    .slot-price {
+      margin-top: 20px;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: var(--ink);
+    }
+    .slot-desc {
+      margin-top: 8px;
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .selected-check {
+      position: absolute;
+      top: 14px; right: 14px;
+      width: 22px; height: 22px;
+      background: var(--rose);
+      border-radius: 50%;
+      display: none;
+      align-items: center; justify-content: center;
+      color: white;
+      font-size: 12px;
+    }
+    .slot-card.selected .selected-check { display: flex; }
+
+    /* ---- DATE PICKER ---- */
+    .calendar-wrap {
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      background: white;
+      overflow: hidden;
+    }
+    .cal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--line);
+    }
+    .cal-nav {
+      background: none; border: none;
+      cursor: pointer;
+      font-size: 1.2rem;
+      color: var(--muted);
+      padding: 4px 8px;
+      transition: color 0.2s;
+    }
+    .cal-nav:hover { color: var(--rose); }
+    .cal-month {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 400;
+    }
+    .cal-grid { padding: 12px; }
+    .cal-days-header {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      margin-bottom: 4px;
+    }
+    .cal-day-name {
+      text-align: center;
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 6px 0;
+    }
+    .cal-cells {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 2px;
+    }
+    .cal-cell {
+      aspect-ratio: 1;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: var(--ink);
+    }
+    .cal-cell:hover:not(.disabled):not(.empty) { background: var(--blush); color: var(--rose); }
+    .cal-cell.selected { background: var(--rose); color: white; }
+    .cal-cell.disabled { color: #d4c9c0; cursor: default; }
+    .cal-cell.empty { cursor: default; }
+    .cal-cell.today { font-weight: 600; }
+
+    /* ---- TIME SLOTS ---- */
+    .time-slots-wrap {
+      margin-top: 24px;
+    }
+    .time-label {
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+    .time-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+      gap: 8px;
+    }
+    .time-btn {
+      padding: 10px 6px;
+      border: 1.5px solid var(--line);
+      border-radius: 3px;
+      background: white;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.83rem;
+      color: var(--ink);
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+    }
+    .time-btn:hover { border-color: var(--rose); color: var(--rose); }
+    .time-btn.selected { background: var(--rose); border-color: var(--rose); color: white; }
+    .time-btn.unavailable { background: #f4f0eb; color: #c8bdb4; cursor: default; text-decoration: line-through; }
+    .no-slots { color: var(--muted); font-size: 0.88rem; font-style: italic; padding: 16px 0; }
+
+    /* ---- FORM ---- */
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .form-group.full { grid-column: 1 / -1; }
+    label {
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    input, textarea {
+      padding: 12px 14px;
+      border: 1.5px solid var(--line);
+      border-radius: 3px;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.9rem;
+      color: var(--ink);
+      background: white;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+    input:focus, textarea:focus { border-color: var(--rose); }
+    textarea { resize: vertical; min-height: 90px; }
+
+    /* ---- BOOKING SUMMARY ---- */
+    .summary-card {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 24px;
+      margin-bottom: 28px;
+    }
+    .summary-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--line);
+    }
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      font-size: 0.88rem;
+      border-bottom: 1px solid #f0ebe5;
+    }
+    .summary-row:last-child { border: none; }
+    .summary-key { color: var(--muted); }
+    .summary-val { font-weight: 500; }
+    .summary-total {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--line);
+      font-weight: 600;
+      font-size: 1rem;
+    }
+    .total-price { color: var(--rose); font-size: 1.2rem; }
+
+    /* ---- BUTTONS ---- */
+    .btn-primary {
+      display: inline-block;
+      padding: 14px 36px;
+      background: var(--rose);
+      color: white;
+      border: none;
+      border-radius: 2px;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+    .btn-primary:hover { background: var(--rose-dark); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(196,149,106,0.3); }
+    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+    .btn-ghost {
+      display: inline-block;
+      padding: 14px 28px;
+      background: none;
+      color: var(--muted);
+      border: 1.5px solid var(--line);
+      border-radius: 2px;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+    .btn-ghost:hover { border-color: var(--ink); color: var(--ink); }
+
+    .nav-btns {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-top: 32px;
+    }
+
+    /* ---- LOADING ---- */
+    .loading {
+      text-align: center;
+      padding: 32px;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+    .loading::after {
+      content: '...';
+      animation: dots 1.2s steps(3, end) infinite;
+    }
+    @keyframes dots { 0%, 20% { color: transparent; } 40% { color: var(--muted); } }
+
+    .error-msg {
+      color: #c0392b;
+      font-size: 0.85rem;
+      padding: 12px 16px;
+      background: #fdf0ee;
+      border-radius: 3px;
+      margin-bottom: 16px;
+      display: none;
+    }
+    .error-msg.show { display: block; }
+
+    /* ---- DECORATIVE LINE ---- */
+    .divider {
+      text-align: center;
+      margin: 48px 0 36px;
+      position: relative;
+    }
+    .divider::before {
+      content: '';
+      position: absolute;
+      top: 50%; left: 0; right: 0;
+      height: 1px;
+      background: var(--line);
+    }
+    .divider span {
+      position: relative;
+      background: var(--cream);
+      padding: 0 16px;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--muted);
+    }
+
+    @media (max-width: 600px) {
+      .slot-cards { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .steps::before { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <p class="site-name">The Chic Artist</p>
+  <h1>Book a <em>Private Session</em></h1>
+  <p class="subtitle">One-on-one time to explore your creativity — pick a slot, pay securely, and you're all set.</p>
+</header>
+
+<main>
+
+  <!-- Step indicators -->
+  <div class="steps">
+    <div class="step active" id="step-1">
+      <span class="step-num">1</span>
+      <span class="step-label">Session</span>
+    </div>
+    <div class="step" id="step-2">
+      <span class="step-num">2</span>
+      <span class="step-label">Date & Time</span>
+    </div>
+    <div class="step" id="step-3">
+      <span class="step-num">3</span>
+      <span class="step-label">Your Details</span>
+    </div>
+    <div class="step" id="step-4">
+      <span class="step-num">4</span>
+      <span class="step-label">Review & Pay</span>
+    </div>
+  </div>
+
+  <!-- PANEL 1: Choose session type -->
+  <div class="panel active" id="panel-1">
+    <p class="section-title">Choose your session</p>
+    <p class="section-subtitle">Select the amount of time you'd like together.</p>
+
+    <div class="slot-cards">
+      <div class="slot-card" data-slot="15min" onclick="selectSlot('15min', this)">
+        <span class="selected-check">✓</span>
+        <div class="slot-duration">15</div>
+        <div class="slot-label">minutes</div>
+        <div class="slot-price">$30 USD</div>
+        <div class="slot-desc">A quick focused session — perfect for a single question, feedback, or a mini creative burst.</div>
+      </div>
+      <div class="slot-card" data-slot="30min" onclick="selectSlot('30min', this)">
+        <span class="selected-check">✓</span>
+        <div class="slot-duration">30</div>
+        <div class="slot-label">minutes</div>
+        <div class="slot-price">$50 USD</div>
+        <div class="slot-desc">A deeper dive — great for planning a project, reviewing work, or getting personalised guidance.</div>
+      </div>
+    </div>
+
+    <div class="nav-btns">
+      <button class="btn-primary" id="btn-next-1" onclick="goToStep(2)" disabled>Continue →</button>
+    </div>
+  </div>
+
+  <!-- PANEL 2: Choose date & time -->
+  <div class="panel" id="panel-2">
+    <p class="section-title">Pick a date & time</p>
+    <p class="section-subtitle">Available slots shown in Eastern Time (ET).</p>
+
+    <div class="calendar-wrap">
+      <div class="cal-header">
+        <button class="cal-nav" onclick="changeMonth(-1)">‹</button>
+        <span class="cal-month" id="cal-month-label"></span>
+        <button class="cal-nav" onclick="changeMonth(1)">›</button>
+      </div>
+      <div class="cal-grid">
+        <div class="cal-days-header">
+          <div class="cal-day-name">Su</div><div class="cal-day-name">Mo</div>
+          <div class="cal-day-name">Tu</div><div class="cal-day-name">We</div>
+          <div class="cal-day-name">Th</div><div class="cal-day-name">Fr</div>
+          <div class="cal-day-name">Sa</div>
+        </div>
+        <div class="cal-cells" id="cal-cells"></div>
+      </div>
+    </div>
+
+    <div class="time-slots-wrap" id="time-slots-wrap" style="display:none">
+      <p class="time-label" id="time-slots-date-label"></p>
+      <div class="time-grid" id="time-grid"></div>
+    </div>
+
+    <div class="nav-btns">
+      <button class="btn-ghost" onclick="goToStep(1)">← Back</button>
+      <button class="btn-primary" id="btn-next-2" onclick="goToStep(3)" disabled>Continue →</button>
+    </div>
+  </div>
+
+  <!-- PANEL 3: Customer details -->
+  <div class="panel" id="panel-3">
+    <p class="section-title">Your details</p>
+    <p class="section-subtitle">We'll send confirmation to your email.</p>
+
+    <div id="form-error" class="error-msg"></div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="inp-name">Full Name</label>
+        <input type="text" id="inp-name" placeholder="Your name" />
+      </div>
+      <div class="form-group">
+        <label for="inp-email">Email Address</label>
+        <input type="email" id="inp-email" placeholder="you@example.com" />
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group full">
+        <label for="inp-notes">Anything you'd like me to know? (optional)</label>
+        <textarea id="inp-notes" placeholder="Topics you want to cover, questions, context..."></textarea>
+      </div>
+    </div>
+
+    <div class="nav-btns">
+      <button class="btn-ghost" onclick="goToStep(2)">← Back</button>
+      <button class="btn-primary" onclick="goToStep(4)">Continue →</button>
+    </div>
+  </div>
+
+  <!-- PANEL 4: Review & pay -->
+  <div class="panel" id="panel-4">
+    <p class="section-title">Review your booking</p>
+    <p class="section-subtitle">Everything look right? Proceed to secure payment.</p>
+
+    <div class="summary-card">
+      <p class="summary-title">Session Summary</p>
+      <div class="summary-row"><span class="summary-key">Session</span><span class="summary-val" id="rev-session">—</span></div>
+      <div class="summary-row"><span class="summary-key">Date</span><span class="summary-val" id="rev-date">—</span></div>
+      <div class="summary-row"><span class="summary-key">Time</span><span class="summary-val" id="rev-time">—</span></div>
+      <div class="summary-row"><span class="summary-key">Name</span><span class="summary-val" id="rev-name">—</span></div>
+      <div class="summary-row"><span class="summary-key">Email</span><span class="summary-val" id="rev-email">—</span></div>
+      <div class="summary-total">
+        <span>Total</span><span class="total-price" id="rev-total">—</span>
+      </div>
+    </div>
+
+    <div id="pay-error" class="error-msg"></div>
+
+    <div class="nav-btns">
+      <button class="btn-ghost" onclick="goToStep(3)">← Back</button>
+      <button class="btn-primary" id="btn-pay" onclick="proceedToPayment()">Pay Securely →</button>
+    </div>
+
+    <p style="margin-top:16px; font-size:0.78rem; color:var(--muted); text-align:center;">
+      🔒 Secured by Stripe. Your card details are never stored.
+    </p>
+  </div>
+
+</main>
+
+<script>
+  // ── CONFIG ──────────────────────────────────────────────
+  const WORKER_URL = 'https://stripe-worker.thechicartiststudio.workers.dev';
+  const SLOT_PRICES = { '15min': 30, '30min': 50 };
+  const SLOT_LABELS = { '15min': '15-Minute Session', '30min': '30-Minute Session' };
+
+  // ── STATE ────────────────────────────────────────────────
+  let state = {
+    slotType: null,
+    selectedDate: null,
+    selectedTime: null,
+    currentMonth: new Date().getMonth(),
+    currentYear: new Date().getFullYear(),
+  };
+
+  // ── STEP NAVIGATION ──────────────────────────────────────
+  function goToStep(n) {
+    if (n === 3) {
+      // validation
+      if (!state.selectedDate || !state.selectedTime) return;
+    }
+    if (n === 4) {
+      const name = document.getElementById('inp-name').value.trim();
+      const email = document.getElementById('inp-email').value.trim();
+      const errEl = document.getElementById('form-error');
+      if (!name || !email) {
+        errEl.textContent = 'Please fill in your name and email.';
+        errEl.classList.add('show');
+        return;
+      }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        errEl.textContent = 'Please enter a valid email address.';
+        errEl.classList.add('show');
+        return;
+      }
+      errEl.classList.remove('show');
+      populateReview();
+    }
+
+    for (let i = 1; i <= 4; i++) {
+      document.getElementById(`panel-${i}`).classList.toggle('active', i === n);
+      const stepEl = document.getElementById(`step-${i}`);
+      stepEl.classList.toggle('active', i === n);
+      stepEl.classList.toggle('done', i < n);
+    }
+  }
+
+  // ── SESSION SELECTION ─────────────────────────────────────
+  function selectSlot(type, el) {
+    state.slotType = type;
+    document.querySelectorAll('.slot-card').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+    document.getElementById('btn-next-1').disabled = false;
+  }
+
+  // ── CALENDAR ─────────────────────────────────────────────
+  function renderCalendar() {
+    const d = new Date(state.currentYear, state.currentMonth, 1);
+    document.getElementById('cal-month-label').textContent =
+      d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+
+    const cells = document.getElementById('cal-cells');
+    cells.innerHTML = '';
+
+    const today = new Date(); today.setHours(0,0,0,0);
+    const startDay = d.getDay();
+    const daysInMonth = new Date(state.currentYear, state.currentMonth + 1, 0).getDate();
+
+    // Empty cells before month start
+    for (let i = 0; i < startDay; i++) {
+      cells.insertAdjacentHTML('beforeend', '<div class="cal-cell empty"></div>');
+    }
+
+    for (let day = 1; day <= daysInMonth; day++) {
+      const date = new Date(state.currentYear, state.currentMonth, day);
+      date.setHours(0,0,0,0);
+      const dateStr = `${state.currentYear}-${String(state.currentMonth+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+      const isToday = date.getTime() === today.getTime();
+      const isPast = date < today;
+      const isWeekend = date.getDay() === 0 || date.getDay() === 6;
+      const isSelected = dateStr === state.selectedDate;
+
+      let classes = 'cal-cell';
+      if (isPast || isWeekend) classes += ' disabled';
+      if (isToday) classes += ' today';
+      if (isSelected) classes += ' selected';
+
+      cells.insertAdjacentHTML('beforeend',
+        `<div class="${classes}" ${!isPast && !isWeekend ? `onclick="selectDate('${dateStr}', this)"` : ''}>${day}</div>`
+      );
+    }
+  }
+
+  function changeMonth(dir) {
+    state.currentMonth += dir;
+    if (state.currentMonth > 11) { state.currentMonth = 0; state.currentYear++; }
+    if (state.currentMonth < 0)  { state.currentMonth = 11; state.currentYear--; }
+    renderCalendar();
+  }
+
+  async function selectDate(dateStr, el) {
+    state.selectedDate = dateStr;
+    state.selectedTime = null;
+    document.getElementById('btn-next-2').disabled = true;
+
+    document.querySelectorAll('.cal-cell.selected').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+
+    const wrap = document.getElementById('time-slots-wrap');
+    const grid = document.getElementById('time-grid');
+    const label = document.getElementById('time-slots-date-label');
+
+    wrap.style.display = 'block';
+    grid.innerHTML = '<div class="loading">Loading times</div>';
+
+    const niceDateStr = new Date(dateStr + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+    label.textContent = `Available times on ${niceDateStr}`;
+
+    try {
+      const res = await fetch(`${WORKER_URL}/booking/available-slots?date=${dateStr}&slot_type=${state.slotType}`);
+      const data = await res.json();
+
+      grid.innerHTML = '';
+      if (!data.slots || data.slots.length === 0) {
+        grid.innerHTML = '<p class="no-slots">No available times on this day.</p>';
+        return;
+      }
+
+      data.slots.forEach(slot => {
+        const [h, m] = slot.time.split(':').map(Number);
+        const suffix = h >= 12 ? 'PM' : 'AM';
+        const displayH = h % 12 || 12;
+        const timeLabel = `${displayH}:${String(m).padStart(2,'0')} ${suffix}`;
+
+        const btn = document.createElement('button');
+        btn.className = `time-btn ${slot.available ? '' : 'unavailable'}`;
+        btn.textContent = timeLabel;
+        btn.disabled = !slot.available;
+        if (slot.available) {
+          btn.onclick = () => selectTime(slot.time, btn, timeLabel);
+        }
+        grid.appendChild(btn);
+      });
+    } catch (e) {
+      grid.innerHTML = '<p class="no-slots">Could not load times. Please try again.</p>';
+    }
+  }
+
+  function selectTime(timeVal, btn, displayLabel) {
+    state.selectedTime = timeVal;
+    state.selectedTimeDisplay = displayLabel;
+    document.querySelectorAll('.time-btn.selected').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    document.getElementById('btn-next-2').disabled = false;
+  }
+
+  // ── REVIEW ────────────────────────────────────────────────
+  function populateReview() {
+    const niceDateStr = new Date(state.selectedDate + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    document.getElementById('rev-session').textContent = SLOT_LABELS[state.slotType];
+    document.getElementById('rev-date').textContent = niceDateStr;
+    document.getElementById('rev-time').textContent = state.selectedTimeDisplay + ' ET';
+    document.getElementById('rev-name').textContent = document.getElementById('inp-name').value.trim();
+    document.getElementById('rev-email').textContent = document.getElementById('inp-email').value.trim();
+    document.getElementById('rev-total').textContent = `$${SLOT_PRICES[state.slotType]} USD`;
+  }
+
+  // ── PAYMENT ───────────────────────────────────────────────
+  async function proceedToPayment() {
+    const btn = document.getElementById('btn-pay');
+    const errEl = document.getElementById('pay-error');
+    btn.disabled = true;
+    btn.textContent = 'Redirecting...';
+    errEl.classList.remove('show');
+
+    try {
+      const res = await fetch(`${WORKER_URL}/booking/create-checkout`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          slot_type: state.slotType,
+          booking_date: state.selectedDate,
+          booking_time: state.selectedTime,
+          customer_name: document.getElementById('inp-name').value.trim(),
+          customer_email: document.getElementById('inp-email').value.trim(),
+          notes: document.getElementById('inp-notes').value.trim(),
+        })
+      });
+
+      const data = await res.json();
+      if (!res.ok || !data.url) {
+        errEl.textContent = data.error || 'Something went wrong. Please try again.';
+        errEl.classList.add('show');
+        btn.disabled = false;
+        btn.textContent = 'Pay Securely →';
+        return;
+      }
+
+      window.location.href = data.url;
+    } catch (e) {
+      errEl.textContent = 'Network error. Please check your connection and try again.';
+      errEl.classList.add('show');
+      btn.disabled = false;
+      btn.textContent = 'Pay Securely →';
+    }
+  }
+
+  // ── INIT ─────────────────────────────────────────────────
+  renderCalendar();
+</script>
+</body>
+</html>
