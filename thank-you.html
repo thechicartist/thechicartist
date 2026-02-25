@@ -256,7 +256,10 @@
         slot_label: slotLabel,
         date: niceDateStr,
         time: timeDisplay,
-        booking_id: booking.id
+        booking_id: booking.id,
+        booking_date: booking.booking_date,
+        booking_time: booking.booking_time,
+        duration_mins: booking.slot_type === '15min' ? 15 : 30
       })
     });
 
@@ -295,10 +298,7 @@
     }
   }
 
-  if (!order) {
-    // No order data at all — redirect home
-    window.location.href = 'index.html';
-  } else {
+  if (order) {
     // Show order summary
     const itemsHtml = (order.items || [])
       .map(i => `
