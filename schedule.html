@@ -792,6 +792,16 @@
 
   // ── STEP NAVIGATION ──────────────────────────────────────
   function goToStep(n) {
+    // Going back to step 1 — reset date/time selection and hide time slots
+    if (n === 1) {
+      state.selectedDate = null;
+      state.selectedTime = null;
+      state.selectedTimeDisplay = null;
+      document.getElementById('time-slots-wrap').style.display = 'none';
+      document.getElementById('time-grid').innerHTML = '';
+      document.querySelectorAll('.cal-cell.selected').forEach(c => c.classList.remove('selected'));
+      document.getElementById('btn-next-2').disabled = true;
+    }
     if (n === 3) {
       // validation
       if (!state.selectedDate || !state.selectedTime) return;
