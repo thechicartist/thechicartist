@@ -251,38 +251,7 @@
     </div>
     <div class="testimonials-carousel">
       <div class="testimonials-track" id="testimonialsTrack">
-        <div class="testimonial-card">
-          <div class="testimonial-stars">★★★★★</div>
-          <p class="testimonial-text">"The wedding place cards were absolutely stunning. Every single guest commented on them. Neetika captured our floral theme perfectly — they felt like tiny works of art."</p>
-          <div class="testimonial-author">
-            <span class="testimonial-name">Sarah M.</span>
-            <span class="testimonial-detail">Wedding, Toronto</span>
-          </div>
-        </div>
-        <div class="testimonial-card">
-          <div class="testimonial-stars">★★★★★</div>
-          <p class="testimonial-text">"I gifted a custom watercolor bookmark to my book-loving mom and she cried. The detail and care in the painting was beyond anything I expected. Will order again!"</p>
-          <div class="testimonial-author">
-            <span class="testimonial-name">Priya K.</span>
-            <span class="testimonial-detail">Custom Bookmark, Vancouver</span>
-          </div>
-        </div>
-        <div class="testimonial-card">
-          <div class="testimonial-stars">★★★★★</div>
-          <p class="testimonial-text">"Took the sunflower online class and it completely changed how I paint. Neetika's teaching style is so warm and encouraging — I felt like I could actually do this."</p>
-          <div class="testimonial-author">
-            <span class="testimonial-name">Jennifer L.</span>
-            <span class="testimonial-detail">Online Class, New York</span>
-          </div>
-        </div>
-        <div class="testimonial-card">
-          <div class="testimonial-stars">★★★★★</div>
-          <p class="testimonial-text">"Ordered a custom painting of our first home as an anniversary gift. It arrived beautifully packed and the quality was breathtaking. My husband was speechless."</p>
-          <div class="testimonial-author">
-            <span class="testimonial-name">Emma R.</span>
-            <span class="testimonial-detail">Custom Painting, Calgary</span>
-          </div>
-        </div>
+        <!-- Loaded dynamically from reviews-db -->
       </div>
     </div>
     <div class="testimonials-dots" id="testimonialsDots"></div>
@@ -428,7 +397,30 @@ form.addEventListener('submit', () => {
 
 <script>
 // ── Testimonials Infinite Auto-Scroll Carousel ──
-(function() {
+// Loads reviews from DB, then inits carousel
+async function loadAndInitCarousel() {
+  const track  = document.getElementById('testimonialsTrack');
+  const dotsEl = document.getElementById('testimonialsDots');
+  if (!track) return;
+
+  // Fetch all approved reviews
+  try {
+    const res = await fetch('https://stripe-worker.thechicartiststudio.workers.dev/reviews');
+    const data = await res.json();
+    if (data.reviews && data.reviews.length) {
+      track.innerHTML = data.reviews.map(r => `
+        <div class="testimonial-card">
+          <div class="testimonial-stars">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</div>
+          <p class="testimonial-text">"${r.comment}"</p>
+          <div class="testimonial-author">
+            <span class="testimonial-name">${r.reviewer_name}</span>
+          </div>
+        </div>
+      `).join('');
+    }
+  } catch(e) { console.error('Failed to load reviews', e); }
+
+  (function() {
   const track  = document.getElementById('testimonialsTrack');
   const dotsEl = document.getElementById('testimonialsDots');
   if (!track) return;
@@ -524,7 +516,9 @@ form.addEventListener('submit', () => {
   jumpSilent(0);
   updateDots();
   resetTimer();
-})();
+  })(); // end carousel IIFE
+} // end loadAndInitCarousel
+loadAndInitCarousel();
 </script>
 
 <script>

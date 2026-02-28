@@ -489,6 +489,36 @@
         </div>
 
       </div>
+
+      <!-- REVIEWS SECTION -->
+      <div id="reviewsSection" style="max-width:720px; margin:48px auto 0; padding:0 16px;">
+        <h3 style="font-family:'Libre Baskerville',serif; font-weight:400; font-size:1.3rem; margin-bottom:24px; border-bottom:1px solid #ece8e1; padding-bottom:12px;">Customer Reviews</h3>
+
+        <!-- Existing reviews -->
+        <div id="reviewsList" style="margin-bottom:40px;"></div>
+
+        <!-- Submit form -->
+        <div id="reviewForm" style="background:#fdf8f4; border-radius:12px; padding:28px;">
+          <h4 style="font-family:'Libre Baskerville',serif; font-weight:400; font-size:1.05rem; margin-bottom:20px;">Leave a Review</h4>
+
+          <!-- Star picker -->
+          <div style="margin-bottom:16px;">
+            <div id="starPicker" style="display:flex; gap:6px; font-size:1.8rem; cursor:pointer; user-select:none;">
+              <span data-val="1">☆</span>
+              <span data-val="2">☆</span>
+              <span data-val="3">☆</span>
+              <span data-val="4">☆</span>
+              <span data-val="5">☆</span>
+            </div>
+            <input type="hidden" id="reviewRating" value="0">
+          </div>
+
+          <input type="text" id="reviewName" placeholder="Your name" style="width:100%; padding:10px 14px; border:1px solid #ddd; border-radius:6px; margin-bottom:12px; font-size:0.9rem; font-family:inherit;">
+          <textarea id="reviewComment" placeholder="Share your thoughts (optional)" rows="3" style="width:100%; padding:10px 14px; border:1px solid #ddd; border-radius:6px; margin-bottom:16px; font-size:0.9rem; font-family:inherit; resize:vertical;"></textarea>
+          <button id="submitReviewBtn" style="background:#2c2c2c; color:#fff; border:none; border-radius:6px; padding:11px 28px; font-size:0.9rem; cursor:pointer; transition:background 0.2s;">Submit Review</button>
+          <p id="reviewMsg" style="font-size:0.85rem; margin-top:10px; color:#666;"></p>
+        </div>
+      </div>
     `;
 
     // ── Slider logic ──
@@ -565,6 +595,95 @@
       `).join('');
     }
   }
+
+  // ── Reviews ──
+  const WORKER = 'https://stripe-worker.thechicartiststudio.workers.dev';
+
+  async function loadReviews() {
+    try {
+      const res = await fetch(`${WORKER}/reviews?product_id=${product.id}`);
+      const data = await res.json();
+      const list = document.getElementById('reviewsList');
+      if (!list) return;
+      if (!data.reviews || data.reviews.length === 0) {
+        list.innerHTML = '<p style="color:#999; font-size:0.9rem;">No reviews yet — be the first!</p>';
+        return;
+      }
+      list.innerHTML = data.reviews.map(r => `
+        <div style="border-bottom:1px solid #ece8e1; padding:16px 0;">
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:6px;">
+            <span style="color:#c8a96e; font-size:1.1rem;">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</span>
+            <strong style="font-size:0.9rem;">${r.reviewer_name}</strong>
+            <span style="font-size:0.8rem; color:#aaa;">${new Date(r.created_at).toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' })}</span>
+          </div>
+          ${r.comment ? `<p style="font-size:0.9rem; color:#444; margin:0;">${r.comment}</p>` : ''}
+        </div>
+      `).join('');
+    } catch (e) { console.error('Failed to load reviews', e); }
+  }
+
+  // Star picker
+  const stars = document.querySelectorAll('#starPicker span');
+  const ratingInput = document.getElementById('reviewRating');
+  if (stars.length) {
+    stars.forEach(star => {
+      star.addEventListener('mouseover', () => {
+        stars.forEach(s => s.textContent = s.dataset.val <= star.dataset.val ? '★' : '☆');
+      });
+      star.addEventListener('mouseout', () => {
+        const val = ratingInput.value;
+        stars.forEach(s => s.textContent = s.dataset.val <= val ? '★' : '☆');
+      });
+      star.addEventListener('click', () => {
+        ratingInput.value = star.dataset.val;
+        stars.forEach(s => s.textContent = s.dataset.val <= star.dataset.val ? '★' : '☆');
+      });
+    });
+  }
+
+  // Submit review
+  const submitBtn = document.getElementById('submitReviewBtn');
+  if (submitBtn) {
+    submitBtn.addEventListener('click', async () => {
+      const name = document.getElementById('reviewName').value.trim();
+      const comment = document.getElementById('reviewComment').value.trim();
+      const rating = parseInt(document.getElementById('reviewRating').value);
+      const msg = document.getElementById('reviewMsg');
+
+      if (!name) { msg.textContent = 'Please enter your name.'; msg.style.color = '#c0392b'; return; }
+      if (!rating) { msg.textContent = 'Please select a star rating.'; msg.style.color = '#c0392b'; return; }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Submitting…';
+
+      try {
+        const res = await fetch(`${WORKER}/reviews/submit`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ product_id: product.id, reviewer_name: name, rating, comment })
+        });
+        const data = await res.json();
+        if (data.ok) {
+          msg.textContent = 'Thank you! Your review will appear after approval. 🌸';
+          msg.style.color = '#4a7c59';
+          document.getElementById('reviewName').value = '';
+          document.getElementById('reviewComment').value = '';
+          document.getElementById('reviewRating').value = 0;
+          stars.forEach(s => s.textContent = '☆');
+        } else {
+          msg.textContent = data.error || 'Something went wrong. Please try again.';
+          msg.style.color = '#c0392b';
+        }
+      } catch (e) {
+        msg.textContent = 'Something went wrong. Please try again.';
+        msg.style.color = '#c0392b';
+      }
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Submit Review';
+    });
+  }
+
+  loadReviews();
 
   // ── FAQ toggle ──
   const faqToggle = document.getElementById('footerFaqToggle');

@@ -325,6 +325,16 @@ export default {
       await sendBookingEmail(env, body);
       return corsResponse(JSON.stringify({ ok: true }), 200, env, origin);
     }
+    // ---- Review routes ----
+    if (request.method === 'GET' && url.pathname === '/reviews') {
+      return handleGetReviews(request, env);
+    }
+    if (request.method === 'POST' && url.pathname === '/reviews/submit') {
+      return handleSubmitReview(request, env);
+    }
+    if (request.method === 'GET' && url.pathname === '/reviews/approve') {
+      return handleApproveReview(request, env);
+    }
     return new Response('Not found', { status: 404 });
   }
 };
@@ -603,7 +613,7 @@ async function handleGetAvailableSlots(request, env) {
     for (let m = bookedStart; m < bookedStart + bookedDuration; m++) {
       blockedMinutes.add(m);
     }
-  } 
+  }
 
   const blocked = await env.BOOKINGS_DB.prepare(
     'SELECT blocked_time FROM blocked_slots WHERE blocked_date = ?'
@@ -751,6 +761,108 @@ async function handleBookingConfirm(request, env) {
   }
 
   return corsResponse(JSON.stringify({ ok: true, booking }), 200, env, origin);
+}
+
+// ============================================================
+//  REVIEWS: GET approved reviews for a product
+//  GET /reviews?product_id=bookmark1
+// ============================================================
+async function handleGetReviews(request, env) {
+  const origin = request.headers.get('Origin');
+  const url = new URL(request.url);
+  const product_id = url.searchParams.get('product_id');
+
+  let result;
+  if (product_id) {
+    result = await env.REVIEWS_DB.prepare(
+      "SELECT id, reviewer_name, rating, comment, product_id, created_at FROM reviews WHERE product_id = ? AND approved = 1 ORDER BY created_at DESC"
+    ).bind(product_id).all();
+  } else {
+    result = await env.REVIEWS_DB.prepare(
+      "SELECT id, reviewer_name, rating, comment, product_id, created_at FROM reviews WHERE approved = 1 ORDER BY created_at DESC"
+    ).all();
+  }
+
+  return corsResponse(JSON.stringify({ reviews: result.results }), 200, env, origin);
+}
+
+// ============================================================
+//  REVIEWS: Submit a new review (pending approval)
+//  POST /reviews/submit { product_id, reviewer_name, rating, comment }
+// ============================================================
+async function handleSubmitReview(request, env) {
+  const origin = request.headers.get('Origin');
+  let body;
+  try { body = await request.json(); }
+  catch { return corsResponse(JSON.stringify({ error: 'Invalid JSON' }), 400, env, origin); }
+
+  const { product_id, reviewer_name, rating, comment } = body;
+  if (!product_id || !reviewer_name || !rating)
+    return corsResponse(JSON.stringify({ error: 'Missing required fields' }), 400, env, origin);
+  if (rating < 1 || rating > 5)
+    return corsResponse(JSON.stringify({ error: 'Rating must be 1–5' }), 400, env, origin);
+
+  const id = `RV-${Date.now()}-${Math.random().toString(36).substr(2, 6).toUpperCase()}`;
+
+  await env.REVIEWS_DB.prepare(
+    'INSERT INTO reviews (id, product_id, reviewer_name, rating, comment) VALUES (?, ?, ?, ?, ?)'
+  ).bind(id, product_id, reviewer_name.trim(), parseInt(rating), (comment || '').trim()).run();
+
+  // Notify Neetika with one-click approval link
+  if (env.RESEND_API_KEY && env.REVIEW_SECRET) {
+    const approveUrl = `https://stripe-worker.thechicartiststudio.workers.dev/reviews/approve?id=${id}&key=${env.REVIEW_SECRET}`;
+    await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        from: 'Reviews <neetika@thechicartist.com>',
+        to: 'thechicartiststudio@gmail.com',
+        subject: `New review pending approval — ${product_id}`,
+        html: `
+          <div style="font-family:'Georgia',serif; max-width:560px; margin:0 auto; color:#2c2c2c;">
+            <h2 style="font-weight:400;">New Review ⭐</h2>
+            <p><strong>Product:</strong> ${product_id}</p>
+            <p><strong>From:</strong> ${reviewer_name}</p>
+            <p><strong>Rating:</strong> ${'★'.repeat(rating)}${'☆'.repeat(5 - rating)}</p>
+            <p><strong>Comment:</strong> ${comment || '(no comment)'}</p>
+            <hr style="border:none; border-top:1px solid #ece8e1; margin:24px 0;">
+            <a href="${approveUrl}" style="display:inline-block; padding:12px 24px; background:#4a7c59; color:#fff; text-decoration:none; border-radius:4px; font-family:Arial,sans-serif;">
+              ✓ Approve this review
+            </a>
+            <p style="font-size:0.8rem; color:#999; margin-top:16px;">If you don't approve it, it simply won't show on the site.</p>
+          </div>
+        `
+      })
+    }).catch(e => console.error('Review notification error:', e));
+  }
+
+  return corsResponse(JSON.stringify({ ok: true }), 200, env, origin);
+}
+
+// ============================================================
+//  REVIEWS: Approve a review via secret link
+//  GET /reviews/approve?id=RV-xxx&key=YOUR_SECRET
+// ============================================================
+async function handleApproveReview(request, env) {
+  const url = new URL(request.url);
+  const id = url.searchParams.get('id');
+  const key = url.searchParams.get('key');
+
+  if (!key || key !== env.REVIEW_SECRET)
+    return new Response('Unauthorized', { status: 401 });
+  if (!id)
+    return new Response('Missing id', { status: 400 });
+
+  await env.REVIEWS_DB.prepare(
+    "UPDATE reviews SET approved = 1 WHERE id = ?"
+  ).bind(id).run();
+
+  return new Response(`
+    <html><body style="font-family:Georgia,serif; text-align:center; padding:60px; color:#2c2c2c;">
+      <h2>✓ Review approved!</h2>
+      <p>The review is now live on the product page.</p>
+    </body></html>
+  `, { status: 200, headers: { 'Content-Type': 'text/html' } });
 }
 
 function corsResponse(body, status, env, requestOrigin) {
