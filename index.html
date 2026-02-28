@@ -173,6 +173,40 @@
 <section id="gallery" class="category-section">
   <div class="container">
 
+    <!-- Bookmarks -->
+    <div class="category-row">
+      <h2>Bookmarks</h2>
+      <div class="category-grid">        <div class="category-arrow" id="bookmarksArrow">
+          <span>See All</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="arrow-icon">
+            <path d="M5 12h14M13 6l6 6-6 6"/>
+          </svg>
+        </div>
+        <script>
+          document.getElementById('bookmarksArrow').addEventListener('click', () => {
+            window.location.href = 'bookmarks.html';
+          });
+        </script>
+      </div>
+    </div>
+
+    <!-- Paintings -->
+    <div class="category-row">
+      <h2>Paintings</h2>
+      <div class="category-grid">        <div class="category-arrow" id="cardsArrow">
+          <span>See All</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="arrow-icon">
+            <path d="M5 12h14M13 6l6 6-6 6"/>
+          </svg>
+        </div>
+        <script>
+          document.getElementById('cardsArrow').addEventListener('click', () => {
+            window.location.href = 'cards.html';
+          });
+        </script>
+      </div>
+    </div>
+
     <!-- Weddings -->
     <div class="category-row">
       <h2>Weddings</h2>
@@ -197,54 +231,6 @@
       </div>
     </div>
 
-    <!-- Bookmarks -->
-    <div class="category-row">
-      <h2>Bookmarks</h2>
-      <div class="category-grid">
-        <img src="images/bookmarks/b1.jpeg">
-        <img src="images/bookmarks/b2.jpeg">
-        <img src="images/bookmarks/b3.jpeg">
-        <img src="images/bookmarks/b4.jpeg">
-        <img src="images/bookmarks/b5.jpeg">
-        <img src="images/bookmarks/b5.jpeg">
-        <div class="category-arrow" id="bookmarksArrow">
-          <span>See All</span>
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="arrow-icon">
-            <path d="M5 12h14M13 6l6 6-6 6"/>
-          </svg>
-        </div>
-        <script>
-          document.getElementById('bookmarksArrow').addEventListener('click', () => {
-            window.location.href = 'bookmarks.html';
-        });
-      </script>
-
-      </div>
-    </div>
-
-    <!-- Paintings -->
-    <div class="category-row">
-      <h2>Paintings</h2>
-      <div class="category-grid">
-        <img src="images/cards/c1.jpeg">
-        <img src="images/cards/c2.jpeg">
-        <img src="images/cards/c3.jpeg">
-        <img src="images/cards/c4.jpeg">
-        <img src="images/cards/c5.jpeg">
-        <img src="images/cards/c6.jpeg">
-        <div class="category-arrow" id="cardsArrow">
-          <span>See All</span>
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="arrow-icon">
-            <path d="M5 12h14M13 6l6 6-6 6"/>
-          </svg>
-        </div>
-        <script>
-          document.getElementById('cardsArrow').addEventListener('click', () => {
-            window.location.href = 'cards.html';
-        });
-      </script>
-      </div>
-    </div>
 
   </div>
 </section>
@@ -564,6 +550,46 @@ document.querySelectorAll('#mobileSideConsole a').forEach(link => {
 
 </script>
 
+
+
+<!-- Toast (needed by cart.js) -->
+<div id="cartToast" class="cart-toast">Added to cart ✨</div>
+
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
+<script>
+  // Render a preview of the 6 most recent products directly as plain linked images
+  // so the existing category-grid CSS works exactly as before
+  document.addEventListener('DOMContentLoaded', () => {
+    function renderPreview(arrowId, keys) {
+      const arrow = document.getElementById(arrowId);
+      if (!arrow) return;
+      const grid = arrow.parentElement; // the .category-grid div
+      keys.slice(0, 6).forEach(key => {
+        const p = PRODUCTS[key];
+        if (!p) return;
+        const a = document.createElement('a');
+        a.href = `product.html?id=${p.id}`;
+        const img = document.createElement('img');
+        img.src = p.images[0];
+        img.alt = p.name;
+        img.loading = 'lazy';
+        a.appendChild(img);
+        grid.insertBefore(a, arrow); // insert before the arrow, as direct grid children
+      });
+    }
+
+    // Most recent bookmarks first (highest number first)
+    const bookmarkKeys = [];
+    for (let i = 129; i >= 1; i--) if (PRODUCTS[`bookmark${i}`]) bookmarkKeys.push(`bookmark${i}`);
+    renderPreview('bookmarksArrow', bookmarkKeys);
+
+    // Most recent cards first
+    const cardKeys = [];
+    for (let i = 42; i >= 1; i--) if (PRODUCTS[`card${i}`]) cardKeys.push(`card${i}`);
+    renderPreview('cardsArrow', cardKeys);
+  });
+</script>
 
 </body>
 </html>

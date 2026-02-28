@@ -529,6 +529,7 @@ html {
 
 /* category images use the shared square thumbnail rules */
 .category-grid img,
+.category-grid > a img,
 .product-grid img,
 .photo-grid img {
   width: 100%;
@@ -538,24 +539,35 @@ html {
   border-radius: 16px;
 }
 
-/* Hide extra images so only whole thumbnails are visible (no half-image) */
-/* Default: show 4 images */
-.category-grid img:nth-of-type(n+6) { display: none; }
+/* <a> wrappers in category-grid behave like the images they wrap */
+.category-grid > a {
+  display: block;
+  min-width: 0;
+}
+
+/* Hide extra items so only whole thumbnails are visible (no half-image) */
+/* Targets both plain <img> (wedding) and <a> wrappers (bookmarks/cards) */
+/* Default: show 5 items */
+.category-grid > img:nth-of-type(n+6),
+.category-grid > a:nth-of-type(n+6) { display: none; }
 
 @media (max-width: 1199px) {
-  /* show 3 images */
-  .category-grid img:nth-of-type(n+5) { display: none; }
-  .category-grid img:nth-of-type(-n+4) { display: block; }
+  .category-grid > img:nth-of-type(n+5),
+  .category-grid > a:nth-of-type(n+5) { display: none; }
+  .category-grid > img:nth-of-type(-n+4),
+  .category-grid > a:nth-of-type(-n+4) { display: block; }
 }
 @media (max-width: 767px) {
-  /* show 2 images */
-  .category-grid img:nth-of-type(n+3) { display: none; }
-  .category-grid img:nth-of-type(-n+2) { display: block; }
+  .category-grid > img:nth-of-type(n+3),
+  .category-grid > a:nth-of-type(n+3) { display: none; }
+  .category-grid > img:nth-of-type(-n+2),
+  .category-grid > a:nth-of-type(-n+2) { display: block; }
 }
 @media (max-width: 479px) {
-  /* show 1 image */
-  .category-grid img:nth-of-type(n+3) { display: none; }
-  .category-grid img:nth-of-type(-n+2) { display: block; }
+  .category-grid > img:nth-of-type(n+3),
+  .category-grid > a:nth-of-type(n+3) { display: none; }
+  .category-grid > img:nth-of-type(-n+2),
+  .category-grid > a:nth-of-type(-n+2) { display: block; }
 }
 
 @media (max-width: 767px) {
