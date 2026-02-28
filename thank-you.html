@@ -35,8 +35,8 @@
         <span class="nav-dropdown-toggle">Shop &#9662;</span>
         <div class="nav-dropdown-menu">
           <div class="nav-dropdown-menu-inner">
-            <a href="bookmarks.html">Bookmarks</a>
-            <a href="cards.html">Paintings</a>
+      <a href="bookmarks.html">Bookmarks</a>
+      <a href="cards.html">Paintings</a>
             <a href="ebooks.html">E-Books</a>
           </div>
         </div>
@@ -358,6 +358,26 @@
           email: order.payerEmail,
           name: order.payerName,
           downloads: order.ebookDownloads
+        })
+      });
+    }
+
+    // Send order confirmation email for physical orders
+    if (order.cartType === 'physical') {
+      fetch('https://stripe-worker.thechicartiststudio.workers.dev/send-order-confirmation', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: order.payerEmail,
+          name: order.payerName,
+          items: order.items,
+          total: order.total,
+          shipping: order.shipping,
+          tax: order.tax,
+          currency: order.currency,
+          province: order.province,
+          country: order.country,
+          zip: order.zip
         })
       });
     }

@@ -325,6 +325,15 @@ export default {
       await sendBookingEmail(env, body);
       return corsResponse(JSON.stringify({ ok: true }), 200, env, origin);
     }
+    if (request.method === 'POST' && url.pathname === '/send-order-confirmation') {
+      const origin = request.headers.get('Origin');
+      const body = await request.json();
+      await sendOrderConfirmationEmail(env, body);
+      return corsResponse(JSON.stringify({ ok: true }), 200, env, origin);
+    }
+    if (request.method === 'GET' && url.pathname === '/send-shipping-email') {
+      return handleSendShippingEmail(request, env);
+    }
     // ---- Review routes ----
     if (request.method === 'GET' && url.pathname === '/reviews') {
       return handleGetReviews(request, env);
@@ -861,6 +870,160 @@ async function handleApproveReview(request, env) {
     <html><body style="font-family:Georgia,serif; text-align:center; padding:60px; color:#2c2c2c;">
       <h2>✓ Review approved!</h2>
       <p>The review is now live on the product page.</p>
+    </body></html>
+  `, { status: 200, headers: { 'Content-Type': 'text/html' } });
+}
+
+// ============================================================
+//  PHYSICAL ORDER: Confirmation email sent immediately after payment
+//  POST /send-order-confirmation
+// ============================================================
+async function sendOrderConfirmationEmail(env, { email, name, items, total, shipping, tax, currency, province, country, zip }) {
+  const itemsHtml = (items || []).map(i => `
+    <tr>
+      <td style="padding:10px 0; border-bottom:1px solid #ece8e1; color:#2c2c2c;">${i.name}</td>
+      <td style="padding:10px 0; border-bottom:1px solid #ece8e1; text-align:right; color:#2c2c2c;">$${Number(i.price).toFixed(2)}</td>
+    </tr>`).join('');
+
+  const shippingNote = country === 'Canada'
+    ? 'Ships via Canada Post Lettermail (no tracking). Delivery typically 15–20 business days.'
+    : 'Ships via ChitChats. You will receive a tracking number by email once your order has been shipped.';
+
+  const res = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: { 'Authorization': `Bearer ${env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      from: 'Neetika <neetika@thechicartist.com>',
+      to: email,
+      subject: 'Your order is confirmed — The Chic Artist 🌸',
+      html: `
+        <div style="font-family:'Georgia',serif; max-width:560px; margin:0 auto; color:#2c2c2c; background:#fdfaf7; padding:40px;">
+          <h2 style="font-weight:400; font-style:italic; margin-bottom:4px;">Thank you, ${name || 'friend'}! 💐</h2>
+          <p style="color:#888; margin-top:0; font-size:0.9rem;">Your order has been received and is being prepared with care.</p>
+
+          <table style="width:100%; border-collapse:collapse; margin:24px 0;">
+            <thead>
+              <tr>
+                <th style="text-align:left; padding-bottom:8px; border-bottom:2px solid #ece8e1; font-size:0.8rem; color:#999; font-weight:400; letter-spacing:0.05em; text-transform:uppercase;">Item</th>
+                <th style="text-align:right; padding-bottom:8px; border-bottom:2px solid #ece8e1; font-size:0.8rem; color:#999; font-weight:400; letter-spacing:0.05em; text-transform:uppercase;">Price</th>
+              </tr>
+            </thead>
+            <tbody>${itemsHtml}</tbody>
+          </table>
+
+          <table style="width:100%; border-collapse:collapse; margin-bottom:24px;">
+            <tr>
+              <td style="padding:6px 0; color:#888; font-size:0.9rem;">Shipping</td>
+              <td style="padding:6px 0; text-align:right; font-size:0.9rem;">$${Number(shipping).toFixed(2)}</td>
+            </tr>
+            <tr>
+              <td style="padding:6px 0; color:#888; font-size:0.9rem;">Tax${province ? ` (${province})` : ''}</td>
+              <td style="padding:6px 0; text-align:right; font-size:0.9rem;">$${Number(tax).toFixed(2)}</td>
+            </tr>
+            <tr>
+              <td style="padding:10px 0 0; font-weight:600;">Total Paid</td>
+              <td style="padding:10px 0 0; text-align:right; font-weight:600;">$${Number(total).toFixed(2)} ${(currency || 'CAD').toUpperCase()}</td>
+            </tr>
+          </table>
+
+          <div style="background:#fff; border:1px solid #ece8e1; border-radius:8px; padding:16px; margin-bottom:24px;">
+            <p style="margin:0; font-size:0.85rem; color:#666;">
+              <strong style="color:#2c2c2c;">Shipping to:</strong> ${[province, country, zip].filter(Boolean).join(', ')}<br><br>
+              ${shippingNote}
+            </p>
+          </div>
+
+          <hr style="border:none; border-top:1px solid #ece8e1; margin:24px 0;">
+          <p style="font-size:0.85rem; color:#888;">Questions? Just reply to this email — I'm happy to help.</p>
+          <p style="font-size:0.85rem; color:#888;">— Neetika, The Chic Artist</p>
+        </div>
+      `
+    })
+  });
+  if (!res.ok) console.error('Order confirmation email error:', await res.text());
+}
+
+// ============================================================
+//  PHYSICAL ORDER: Shipping notification (manual trigger)
+//  GET /send-shipping-email?key=SECRET&email=x&name=x&country=x&items=x&tracking=x
+//  Open this URL from your browser when you ship the order
+//  Shipping email triger links:
+//  USA:
+//  https://stripe-worker.thechicartiststudio.workers.dev/send-shipping-email?key=chic-reviews-2026&email=jane@email.com&name=Jane&country=USA&tracking=ABC123XYZ
+//  Canada:
+//  https://stripe-worker.thechicartiststudio.workers.dev/send-shipping-email?key=chic-reviews-2026&email=jane@email.com&name=Jane&country=Canada
+// ============================================================
+async function handleSendShippingEmail(request, env) {
+  const url = new URL(request.url);
+  const key      = url.searchParams.get('key');
+  const email    = url.searchParams.get('email');
+  const name     = url.searchParams.get('name');
+  const country  = url.searchParams.get('country');
+  const tracking = url.searchParams.get('tracking'); // optional, USA only
+
+  if (!key || key !== env.REVIEW_SECRET)
+    return new Response('Unauthorized', { status: 401 });
+  if (!email || !name || !country)
+    return new Response('Missing email, name or country', { status: 400 });
+
+  const isUSA = country.toLowerCase().includes('usa') || country.toLowerCase().includes('united states');
+
+  let trackingHtml = '';
+  if (isUSA && tracking) {
+    const trackingUrl = `https://chitchats.com/tracking/${tracking}`;
+    trackingHtml = `
+      <div style="margin:24px 0;">
+        <p style="margin-bottom:12px; font-size:0.9rem; color:#2c2c2c;">You can track your package here:</p>
+        <a href="${trackingUrl}" target="_blank"
+           style="display:inline-block; padding:12px 24px; background:#2c2c2c; color:#fff;
+                  text-decoration:none; border-radius:4px; font-family:Arial,sans-serif; font-size:0.9rem;">
+          📦 Track your order
+        </a>
+        <p style="font-size:0.8rem; color:#999; margin-top:10px;">Tracking ID: ${tracking}</p>
+      </div>`;
+  } else {
+    trackingHtml = `
+      <div style="background:#fdf8f4; border:1px solid #ece8e1; border-radius:8px; padding:16px; margin:24px 0;">
+        <p style="margin:0; font-size:0.85rem; color:#666;">
+          Your order ships via <strong>Canada Post Lettermail</strong>, which does not include tracking.<br>
+          Delivery typically takes <strong>15–20 business days</strong>.<br><br>
+        </p>
+      </div>`;
+  }
+
+  const res = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: { 'Authorization': `Bearer ${env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      from: 'Neetika <neetika@thechicartist.com>',
+      to: email,
+      subject: 'Your order has shipped! 📦 — The Chic Artist',
+      html: `
+        <div style="font-family:'Georgia',serif; max-width:560px; margin:0 auto; color:#2c2c2c; background:#fdfaf7; padding:40px;">
+          <h2 style="font-weight:400; font-style:italic; margin-bottom:4px;">Your order is on its way! 🌸</h2>
+          <p style="color:#888; margin-top:0; font-size:0.9rem;">Hi ${name}, your hand-painted piece has been carefully packaged and shipped.</p>
+
+          ${trackingHtml}
+
+          <hr style="border:none; border-top:1px solid #ece8e1; margin:24px 0;">
+          <p style="font-size:0.85rem; color:#888;">Thank you so much for your support — it truly means the world. I hope you love your piece! 💐</p>
+          <p style="font-size:0.85rem; color:#888;">— Neetika, The Chic Artist</p>
+        </div>
+      `
+    })
+  });
+
+  if (!res.ok) {
+    const err = await res.text();
+    console.error('Shipping email error:', err);
+    return new Response(`Failed to send: ${err}`, { status: 500 });
+  }
+
+  return new Response(`
+    <html><body style="font-family:Georgia,serif; text-align:center; padding:60px; color:#2c2c2c;">
+      <h2>📦 Shipping email sent!</h2>
+      <p>Email delivered to <strong>${email}</strong> (${country}).</p>
+      ${isUSA && tracking ? `<p>Tracking: <a href="https://chitchats.com/tracking/${tracking}">${tracking}</a></p>` : ''}
     </body></html>
   `, { status: 200, headers: { 'Content-Type': 'text/html' } });
 }
