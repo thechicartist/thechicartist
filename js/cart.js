@@ -440,6 +440,13 @@
         return;
       }
 
+      // Require province for Canada digital orders only (physical gets it via Google autocomplete)
+      if (cartType === 'digital' && country === 'Canada' && !province) {
+        alert('Please select your province before proceeding.');
+        qs('#digitalProvince')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+
       // Require zip code for physical orders (Google Form has it as mandatory)
       if (cartType !== 'digital' && (!zipInput?.value || zipInput.value.trim() === '' || zipInput.value.trim() === 'zip code')) {
         alert('Please enter a valid shipping address with a zip/postal code to proceed.');
@@ -493,6 +500,13 @@
 
     const stripeBtn = qs('#stripeCheckoutBtn');
     if (stripeBtn) stripeBtn.addEventListener('click', handleStripeCheckout);
+
+    // Reset button if user comes back from Stripe via browser back button
+    // pageshow fires on both fresh load and bfcache restore
+    window.addEventListener('pageshow', () => {
+      const btn = qs('#stripeCheckoutBtn');
+      if (btn) { btn.disabled = false; btn.textContent = 'Pay with Card'; }
+    });
 
     // Wire up coupon Apply button — validates against the worker before confirming
     const couponBtn = qs('#applyCouponBtn');
