@@ -27,7 +27,7 @@ const defaultBookmarkDesc = `
   for (let i = 1; i <= 129; i++) {
     const price = (i === 115) ? 39.99
                 : (i === 126 || i === 124) ? 25.99
-                : (i === 49 || i === 128 || i === 45) ? 11.99
+                : (i === 49 || i === 128 || i === 45 || i === 123) ? 11.99
                 : 9.99;
     const name = (i === 115 || i === 126 || i === 124)
       ? `Set of 2 Hand-painted Watercolor Bookmarks ${i}`
