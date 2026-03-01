@@ -429,10 +429,7 @@
         alert('Please enter your email before proceeding.');
         return;
       }
-      if (!provinceSelect?.value) {
-        alert('Please select your province/state.');
-        return;
-      }
+
       if (cart.length === 0) {
         alert('Your cart is empty.');
         return;
