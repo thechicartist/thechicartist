@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const classes = Object.values(PRODUCTS).filter(p => p.category === 'class');
 
   if (classes.length === 0) {
-    grid.innerHTML = '<p class="text-center">No classes available at this time. Check back soon!</p>';
+    grid.innerHTML = '<p class="text-center">No class is scheduled at this time. Please book a private session if you have any specific requests.</p> ';
     return;
   }
 

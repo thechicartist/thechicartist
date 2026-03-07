@@ -86,7 +86,7 @@ const defaultCardDesc = `
 //  To add a new class, copy one block and update the fields.
 // ============================================================
 
-addProduct({
+/*addProduct({
   id: 'class-lavender',
   name: 'Watercolor Lavender Bookmark Workshop',
   price: 30.00,
@@ -119,7 +119,7 @@ addProduct({
     </p>
     
   `
-});
+});*/
 
 // Note id must always start with 'class-' for digital products to work properly in cart.js
 // To add more classes:
