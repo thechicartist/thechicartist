@@ -29,7 +29,7 @@ function getProductPrice(productId) {
   };
     const ebookPrices = {
     'ebook-watercolor-basics': 15.99,
-    'ebook-spring-flowers':    20.99,
+    'ebook-watercolor-spring-flowers':    15.99,
     // add more classes here
   };
   if (classPrices[productId] !== undefined) return classPrices[productId];
@@ -117,7 +117,7 @@ function itemIsEligible(itemId, productTypes) {
 // ============================================================
 const EBOOK_FILES = {
   'ebook-watercolor-basics': 'Watercolor_Made_Simple.pdf',
-  'ebook-spring-flowers': 'Spring_Flowers_in_Watercolor.pdf'
+  'ebook-watercolor-spring-flowers': 'Spring_Flowers_in_Watercolor.pdf'
   // add more: 'ebook-florals': 'florals-guide.pdf',
 };
 

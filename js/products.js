@@ -183,6 +183,45 @@ addProduct({
   `
 });
 
+addProduct({
+  id: 'ebook-watercolor-spring-flowers',
+  name: 'Spring Flowers in Watercolor: A beginner\'s guide to Loose Floral Painting - eBook',
+  price: 15.99,
+  polarPrice:15.99,
+  type: 'digital',
+  category: 'ebook',
+  polarUrl: 'https://buy.polar.sh/polar_cl_Hosj0DAyTfO2HQoifvgpJs2yKcRsf11O1CXvQ3zviHb',
+  images: ['images/ebooks/e5.jpg', 'images/ebooks/e6.jpg', 'images/ebooks/e7.jpg', 'images/ebooks/e8.jpg'],
+  description: `
+  
+    <p>Learn how to paint beautiful spring flowers with watercolor in a calm, simple, and approachable way.</p>
+    
+    <p>This digital book was created to guide you through the gentle process of painting loose watercolor florals. 
+    Whether you are completely new to watercolor or looking to develop a softer floral style, this guide will help 
+    you understand the basics while enjoying the creative process.</p>
+
+
+
+
+     <p>Inside the book, you’ll find step-by-step demonstrations of popular spring flowers along with 
+     simple brush techniques, color guidance, and floral composition tips.</p>
+
+     <p>
+
+        What You'll Learn:<br>
+        ✔ Understanding watercolor basics<br>
+        ✔ The colors of spring and how to use them<br>
+        ✔ My personal spring palette<br>
+        ✔ Simple brush techniques for petals and leaves<br>
+        ✔ Step-by-step flower tutorials<br>
+        ✔ How to paint stems, greenery, and leaf clusters<br>
+        ✔ Creating simple floral compositions<br>
+        ✔ Turning your florals into small projects
+
+</p>
+  `
+});
+
 // Note id must always start with 'ebook-' for digital products to work properly in cart.js
 // To add more e-books:
 // addProduct({
