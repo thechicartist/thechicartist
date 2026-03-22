@@ -176,8 +176,9 @@ async function sendEbookEmail(env, email, name, downloads) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      from: 'Neetika <neetika@thechicartist.com>',  // replace with your domain once verified
+      from: 'Neetika <neetika@thechicartist.com>', 
       to: email,
+      bcc: 'thechicartiststudio@gmail.com',
       subject: 'Your E-Book Download — The Chic Artist',
       html: `
         <div style="font-family:'Georgia',serif; max-width:560px; margin:0 auto; color:#2c2c2c;">
