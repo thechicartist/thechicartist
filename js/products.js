@@ -21,17 +21,21 @@ const defaultBookmarkDesc = `
   <p>Size: <strong>2 × 6 inches</strong> — fits perfectly in any book.</p>
   <p>Comes with a high-quality protective sleeve to keep it pristine.</p>
   <p>Ships carefully packaged to arrive in perfect condition.</p>
+  <p>Please note: Due to the handmade nature of these pieces, slight variations may occur — making each set truly one-of-a-kind.
+</p>
 `;
 
 (function() {
-  for (let i = 1; i <= 129; i++) {
+  for (let i = 1; i <= 139; i++) {
     const price = (i === 115) ? 39.99
-                : (i === 126 || i === 124) ? 25.99
+                : (i === 126 || i === 124 || i === 137) ? 25.99
                 : (i === 49 || i === 128 || i === 45 || i === 123) ? 11.99
                 : 9.99;
     const name = (i === 115 || i === 126 || i === 124)
       ? `Set of 2 Hand-painted Watercolor Bookmarks ${i}`
-      : `Hand-painted Watercolor Bookmark ${i}`;
+      : (i === 137) 
+        ? `Bridgerton themed Original Watercolor Bookmarks- Set of 2` 
+        : `Hand-painted Watercolor Bookmark ${i}`;
     addProduct({
       id: `bookmark${i}`, name, price,
       type: 'physical',
@@ -55,6 +59,8 @@ const defaultCardDesc = `
   <p>Available as a greeting card upon request at no additional cost,
      with a blank interior and a white envelope included.</p>
   <p>Ships carefully packaged to arrive in perfect condition.</p>
+    <p>Please note: Due to the handmade nature of these pieces, slight variations may occur — making each set truly one-of-a-kind.
+</p>
 `;
 
 (function() {
