@@ -473,16 +473,19 @@
           <p class="product-category-tag">${product.category === 'card' ? 'Original Painting' : product.category === 'class' ? 'Online Class' : product.category === 'ebook' ? 'E-Book' : 'Watercolor Bookmark'}</p>
           <h1>${product.name}</h1>
           <p class="product-price-tag">$${Number(product.price).toFixed(2)}</p>
-          <button
-            class="btn-add-cart add-to-cart"
-            data-id="${product.id}"
-            data-name="${product.name}"
-            data-price="${product.price}"
-            data-image="${product.images[0]}"
-            data-type="${(product.category === 'class' || product.category === 'ebook') ? 'digital' : 'physical'}"
-          >
-            Add to Cart
-          </button>
+          ${product.soldOut
+            ? `<button class="btn-add-cart sold-out" disabled>Sold Out</button>`
+            : `<button
+                class="btn-add-cart add-to-cart"
+                data-id="${product.id}"
+                data-name="${product.name}"
+                data-price="${product.price}"
+                data-image="${product.images[0]}"
+                data-type="${(product.category === 'class' || product.category === 'ebook') ? 'digital' : 'physical'}"
+              >
+                Add to Cart
+              </button>`
+          }
           <div class="product-description">
             ${product.description}
           </div>

@@ -650,6 +650,23 @@ html {
 }
 
 /* Product item: place price & Add-to-cart centered below the image */
+.sold-out-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(44,44,44,0.82);
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 20px;
+  pointer-events: none;
+  z-index: 5;
+}
+
 .product-item {
   position: relative;
   overflow: hidden;

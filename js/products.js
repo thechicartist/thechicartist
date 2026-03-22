@@ -48,6 +48,9 @@ const defaultBookmarkDesc = `
 
 // ---- Per-product overrides ----
  PRODUCTS['bookmark42'].images = ['images/bookmarks/b42.jpeg', 'images/bookmarks/b42.jpeg'];
+ PRODUCTS['bookmark82'].soldOut = true;
+ PRODUCTS['bookmark65'].soldOut = true;
+ PRODUCTS['bookmark8'].soldOut = true;
 
 
 // ============================================================
@@ -84,6 +87,7 @@ const defaultCardDesc = `
  PRODUCTS['card7'].images = ['images/cards/c7.jpeg', 'images/cards/c7b.jpeg'];
  PRODUCTS['card10'].images = ['images/cards/c10.jpeg', 'images/cards/c10b.jpeg'];
  PRODUCTS['card16'].images = ['images/cards/c16.jpeg', 'images/cards/c16b.jpeg'];
+ PRODUCTS['card26'].soldOut = true;
 
 
 
