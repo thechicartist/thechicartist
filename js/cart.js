@@ -440,9 +440,9 @@
         return;
       }
 
-      // Require province for Canada digital orders only (physical gets it via Google autocomplete)
-      if (cartType === 'digital' && country === 'Canada' && !province) {
-        alert('Please select your province before proceeding.');
+      // Require province/state for all digital orders (Canada and USA)
+      if (cartType === 'digital' && (country === 'Canada' || country === 'USA') && !province) {
+        alert(`Please select your ${country === 'Canada' ? 'province' : 'state'} before proceeding.`);
         qs('#digitalProvince')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
         return;
       }
