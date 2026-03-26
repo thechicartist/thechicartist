@@ -1002,7 +1002,7 @@ async function handleSendShippingEmail(request, env) {
       html: `
         <div style="font-family:'Georgia',serif; max-width:560px; margin:0 auto; color:#2c2c2c; background:#fdfaf7; padding:40px;">
           <h2 style="font-weight:400; font-style:italic; margin-bottom:4px;">Your order is on its way! 🌸</h2>
-          <p style="color:#888; margin-top:0; font-size:0.9rem;">Hi ${name}, your hand-painted piece has been carefully packaged and shipped.</p>
+          <p style="color:#888; margin-top:0; font-size:0.9rem;">Hi ${name}, your hand-painted pieces have been carefully packaged and shipped.</p>
 
           ${trackingHtml}
 
