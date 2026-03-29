@@ -29,7 +29,15 @@
 
   <style>
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    /* Scope resets to booking content only — don't touch site header */
+    main *, main *::before, main *::after { box-sizing: border-box; }
+
+    main {
+      font-family: 'Jost', sans-serif;
+      color: var(--ink);
+    }
+    .page-intro { font-family: 'Jost', sans-serif; }
+    body { background: var(--cream); min-height: 100vh; }
 
     :root {
       --cream: #fdfaf6;
@@ -41,28 +49,6 @@
       --line:  #e8ddd3;
     }
 
-    body {
-      font-family: 'Jost', sans-serif;
-      background: var(--cream);
-      color: var(--ink);
-      min-height: 100vh;
-    }
-
-    /* ---- HEADER ---- */
-    header {
-      text-align: center;
-      padding: 60px 24px 40px;
-      border-bottom: 1px solid var(--line);
-      position: relative;
-      overflow: hidden;
-    }
-    header::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse 80% 60% at 50% 0%, #f0e4d5 0%, transparent 70%);
-      pointer-events: none;
-    }
     .site-name {
       font-family: 'Cormorant Garamond', serif;
       font-size: clamp(0.7rem, 1.5vw, 0.85rem);
@@ -72,7 +58,7 @@
       color: var(--muted);
       margin-bottom: 16px;
     }
-    h1 {
+    main h1, .page-intro h1 {
       font-family: 'Cormorant Garamond', serif;
       font-size: clamp(2.2rem, 5vw, 3.4rem);
       font-weight: 300;
@@ -505,17 +491,15 @@
 
 <header class="site-header">
   <div class="container header-inner">
-
-    <!-- Brand / Logo -->
     <div class="brand">
       <a href="index.html" class="logo-link" data-scroll="top">
         <img src="images/logo.png" alt="The Chic Artist Logo" class="logo">
       </a>
     </div>
-
+    
     <!-- Desktop Nav -->
     <nav class="main-nav d-flex justify-content-center align-items-center">
-      <a href="index.html" data-scroll="top">Home</a>
+      <a href="index.html">Home</a>
 
       <!-- Shop Dropdown -->
       <div class="nav-dropdown">
@@ -533,8 +517,7 @@
       <a href="index.html#contact">Contact</a>
       <a href="schedule.html" class="nav-schedule-btn">Book a Session</a>
     </nav>
-
-    <!-- Social Icons + Cart -->
+    
     <div class="header-right d-flex align-items-center">
       <div class="social-icons d-flex">
         <a href="https://www.instagram.com/the.chic.artist" target="_blank"><img src="images/icons/instagram.svg"></a>
@@ -543,17 +526,12 @@
         <a href="https://www.tiktok.com/@the.chic.artist" target="_blank"><img src="images/icons/tiktok.svg"></a>
         <a href="https://thechicartiststudio.etsy.com" target="_blank"><img src="images/icons/etsy.svg"></a>
       </div>
-
-      <!-- Cart Icon -->
       <div class="cart-wrapper position-relative ms-3">
         <img src="images/icons/cart.svg" id="cartIcon" style="width:28px; cursor:pointer;">
         <span id="cartCount" style="top:-5px; right:-5px; font-size:0.7rem;">0</span>
       </div>
-
-      <!-- Mobile Hamburger -->
-      <div class="mobile-menu-icon ms-3" onclick="toggleMobileMenu()">&#9776;</div>
+      <div class="mobile-menu-icon ms-3" onclick="toggleMobileMenu()">☰</div>
     </div>
-
   </div>
 </header>
 
