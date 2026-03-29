@@ -24,7 +24,7 @@ function getProductPrice(productId) {
     return 19.99;
   }
   const classPrices = {
-    'class-lavender': 30.00,
+    'class-cherry-blossom': 30.00,
     // add more classes here
   };
     const ebookPrices = {
@@ -56,14 +56,14 @@ function isDigital(productId) {
 //  Examples:
 //    'SAVE5':    { type: 'fixed',   amount: 5,  minCart: 25 }
 //    'CLASSOFF': { type: 'percent', amount: 10, productTypes: ['class'] }
-//    'BOOKOFF':  { type: 'percent', amount: 15, productTypes: ['physical'], minCart: 20 }
+//    'EBOOKOFF':  { type: 'percent', amount: 15, productTypes: ['ebook'], minCart: 20 }
 // ============================================================
 const COUPON_CODES = {
   'WELCOME10': { type: 'percent', amount: 10 },
   'CHIC15':    { type: 'percent', amount: 15, minCart: 50 },
   'FLAT5':     { type: 'fixed',   amount: 5.00, minCart: 30 },
-  'CLASSOFF':  { type: 'percent', amount: 20, productTypes: ['class'] },
-  'EBOOKOFF':  { type: 'percent', amount: 10, productTypes: ['ebook'] },
+  'CLASSOFF':  { type: 'percent', amount: 10, productTypes: ['class'] },
+  'EBOOKOFF':  { type: 'percent', amount: 15, productTypes: ['ebook'] },
 };
 
 function applyDiscount(subtotal, code, cartItems) {

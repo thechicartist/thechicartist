@@ -96,23 +96,23 @@ const defaultCardDesc = `
 //  To add a new class, copy one block and update the fields.
 // ============================================================
 
-/*addProduct({
-  id: 'class-lavender',
-  name: 'Watercolor Lavender Bookmark Workshop',
+addProduct({
+  id: 'class-cherry-blossom',
+  name: 'Watercolor Cherry Blossom Bookmark Workshop',
   price: 30.00,
   type: 'digital',
   category: 'class',
-  images: ['images/onlineclass/o2.jpeg'],
-  date: 'March 17th, 2026, 1:00 PM – 2:00 PM EST',
-  time: '1:00 PM – 2:00 PM EST',
+  images: ['images/onlineclass/o3.jpeg'],
+  date: 'April 9th, 2026, 2:00 PM – 3:00 PM EST',
+  time: '2:00 PM – 3:00 PM EST',
   format: 'Live Online on Zoom',
   description: `
-    <p>Join me for a cozy, creative watercolor session where we'll paint my
-    <strong>signature lavender bookmark</strong> — a design loved for its warmth,
+    <p>Join me for a cozy, creative watercolor session where we'll paint 
+    <strong>Cherry Blossom bookmark</strong> — a design loved for its warmth,
     softness, and joyful flow.</p>
-    <p>You'll learn how to create loose, expressive lavenders using simple brush movements,
+    <p>You'll learn how to create loose, expressive cherry blossoms using simple brush movements,
     gentle color blending, and an intuitive approach to watercolor.</p>
-    <p>By the end of the session, you'll walk away with a set of hand-painted lavender bookmarks
+    <p>By the end of the session, you'll walk away with a hand-painted cherry blossom bookmark
     that feel personal, beautiful, and truly one of a kind.</p>
     <p>✨ No prior watercolor experience needed<br>
     ✨ Slow, guided, and confidence-building<br>
@@ -120,7 +120,7 @@ const defaultCardDesc = `
     <h5 style="margin-top:1.5rem; margin-bottom:0.5rem;">Materials Required for this workshops</h5>
     <p>
       Watercolor paper (cut to bookmark size, 2" × 6")<br>
-      Round brushes (Size 2 / 4 / 6 / 8 recommended)<br>
+      Round brushes (Size 2 / 4 / 6 recommended)<br>
       Watercolor paints<br>
       Mixing palette<br>
       Two water containers<br>
@@ -129,7 +129,7 @@ const defaultCardDesc = `
     </p>
     
   `
-});*/
+});
 
 // Note id must always start with 'class-' for digital products to work properly in cart.js
 // To add more classes:
