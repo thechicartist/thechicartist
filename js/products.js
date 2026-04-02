@@ -103,11 +103,11 @@ addProduct({
   type: 'digital',
   category: 'class',
   images: ['images/onlineclass/o3.jpeg'],
-  date: 'April 9th, 2026, 2:00 PM – 3:00 PM EST',
+  date: 'April 16th, 2026, 2:00 PM – 3:00 PM EST',
   time: '2:00 PM – 3:00 PM EST',
   format: 'Live Online on Zoom',
   description: `
-    <p>Join me for a cozy, creative watercolor session where we'll paint 
+    <p>Join me for a cozy, creative watercolor session, where we'll paint 
     <strong>Cherry Blossom bookmark</strong> — a design loved for its warmth,
     softness, and joyful flow.</p>
     <p>You'll learn how to create loose, expressive cherry blossoms using simple brush movements,
@@ -117,6 +117,11 @@ addProduct({
     <p>✨ No prior watercolor experience needed<br>
     ✨ Slow, guided, and confidence-building<br>
     ✨ A creative keepsake you'll love using again and again</p>
+    <h5 style="margin-top:1.5rem; margin-bottom:0.5rem;">Date and Time</h5>
+    <p>
+      Date: April 16th, 2026<br>
+      Time: 2:00 PM – 3:00 PM EST
+    </p>
     <h5 style="margin-top:1.5rem; margin-bottom:0.5rem;">Materials Required for this workshops</h5>
     <p>
       Watercolor paper (cut to bookmark size, 2" × 6")<br>
