@@ -14,13 +14,14 @@ function getProductPrice(productId) {
   if (productId.startsWith('bookmark')) {
     const n = parseInt(productId.replace('bookmark', ''));
     if (n === 115)                          return 39.99;
-    if (n === 126 || n === 124)             return 25.99;
+    if (n === 126 || n === 124 || n == 137) return 25.99;
     if (n === 49 || n === 128 || n === 45)  return 11.99;
     return 9.99;
   }
   if (productId.startsWith('card')) {
     const n = parseInt(productId.replace('card', ''));
     if (n === 2 || n === 5 || n === 6)    return 39.99;
+    if (n === 43) return 25.99;
     return 19.99;
   }
   const classPrices = {
@@ -56,7 +57,7 @@ function isDigital(productId) {
 //  Examples:
 //    'SAVE5':    { type: 'fixed',   amount: 5,  minCart: 25 }
 //    'CLASSOFF': { type: 'percent', amount: 10, productTypes: ['class'] }
-//    'EBOOKOFF':  { type: 'percent', amount: 15, productTypes: ['ebook'], minCart: 20 }
+//    'EBOOKOFF':  { type: 'percent', amount: 15, productTypes: ['physical'], minCart: 20 }
 // ============================================================
 const COUPON_CODES = {
   'WELCOME10': { type: 'percent', amount: 10 },
@@ -1007,7 +1008,7 @@ async function handleSendShippingEmail(request, env) {
           ${trackingHtml}
 
           <hr style="border:none; border-top:1px solid #ece8e1; margin:24px 0;">
-          <p style="font-size:0.85rem; color:#888;">Thank you so much for your support — it truly means the world. I hope you love your piece! 💐</p>
+          <p style="font-size:0.85rem; color:#888;">Thank you so much for your support — it truly means the world. I hope you love your pieces! 💐</p>
           <p style="font-size:0.85rem; color:#888;">— Neetika, The Chic Artist</p>
         </div>
       `

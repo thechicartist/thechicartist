@@ -20,7 +20,7 @@ const defaultBookmarkDesc = `
   <p>Each bookmark is hand-painted with watercolors, making every piece truly one of a kind.</p>
   <p>Size: <strong>2 × 6 inches</strong> — fits perfectly in any book.</p>
   <p>Comes with a high-quality protective sleeve to keep it pristine.</p>
-  <p>Ships carefully packaged to arrive in perfect condition.</p>
+  <p>All products are shipped carefully packaged to arrive in perfect condition.</p>
   <p>Please note: Due to the handmade nature of these pieces, slight variations may occur — making each set truly one-of-a-kind.
 </p>
 `;
@@ -56,24 +56,33 @@ const defaultBookmarkDesc = `
 // ============================================================
 //  CARDS / PAINTINGS
 // ============================================================
-const defaultCardDesc = `
+
+(function() {
+  for (let i = 1; i <= 43; i++) {
+    const price = (i === 2 || i === 5 || i === 6) ? 39.99
+                : (i === 43) ? 25.99
+                : 19.99;
+    const name = (i === 43) ? `Mothers Day Original Watercolor Gereeting Card` 
+        : `Hand-painted Watercolor Painting ${i}`;
+    const defaultCardDesc = (i===43) ? `
+  <p>A beautiful Floral Mother's Day greeting card, hand-painted with watercolors.</p>
+  <p>Size: <strong>5 × 7 inches</strong>, unframed — ready for styling or gifting.</p>
+  <p> All Greeting cards come with a blank interior and a white envelope.</p>
+  <p> All products are shipped carefully packaged to arrive in perfect condition.</p>
+  <p>Please note: Due to the handmade nature of these pieces, slight variations may occur — making each set truly one-of-a-kind.
+</p>
+` : `
   <p>An original hand-painted watercolor painting, crafted with care and attention to detail.</p>
   <p>Size: <strong>5 × 7 inches</strong>, unframed — ready for styling or gifting.</p>
   <p>Available as a greeting card upon request at no additional cost,
      with a blank interior and a white envelope included.</p>
-  <p>Ships carefully packaged to arrive in perfect condition.</p>
+  <p>All products are shipped carefully packaged to arrive in perfect condition.</p>
     <p>Please note: Due to the handmade nature of these pieces, slight variations may occur — making each set truly one-of-a-kind.
 </p>
-`;
+`
 
-(function() {
-  for (let i = 1; i <= 42; i++) {
-    const price = (i === 2 || i === 5 || i === 6) ? 39.99
-                : 19.99;
     addProduct({
-      id: `card${i}`,
-      name: `Hand-painted Watercolor Painting ${i}`,
-      price,
+      id: `card${i}`, name, price,
       type: 'physical',
       images: [`images/cards/c${i}.jpeg`],
       description: defaultCardDesc,
