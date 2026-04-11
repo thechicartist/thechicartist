@@ -31,13 +31,10 @@ const defaultBookmarkDesc = `
                 : (i === 126 || i === 124 || i === 137) ? 25.99
                 : (i === 49 || i === 128 || i === 45 || i === 123) ? 11.99
                 : 9.99;
-    const name = (i === 115 || i === 126 || i === 124)
-      ? `Set of 2 Hand-painted Watercolor Bookmarks ${i}`
-      : (i === 137) 
-        ? `Bridgerton themed Original Watercolor Bookmarks- Set of 2` 
-        : `Hand-painted Watercolor Bookmark ${i}`;
     addProduct({
-      id: `bookmark${i}`, name, price,
+      id: `bookmark${i}`, 
+      name: `Hand-painted Watercolor Bookmark ${i}`, 
+      price,
       type: 'physical',
       images: [`images/bookmarks/b${i}.jpeg`],
       description: defaultBookmarkDesc,
@@ -51,38 +48,40 @@ const defaultBookmarkDesc = `
  PRODUCTS['bookmark82'].soldOut = true;
  PRODUCTS['bookmark65'].soldOut = true;
  PRODUCTS['bookmark8'].soldOut = true;
+ PRODUCTS['bookmark115'].name = `Coffee Loving Reader Set of 2 Hand-painted Watercolor Bookmarks`;
+ PRODUCTS['bookmark124'].name = `Set of 2 Hand-painted Sunflower Watercolor Bookmarks`;
+ PRODUCTS['bookmark126'].name = `Honey Bee; Honey Comb Set of 2 Hand-painted Watercolor Bookmarks`;
+
+ PRODUCTS['bookmark137'] = {...PRODUCTS['bookmark137'], name: `Bridgerton themed Original Watercolor Bookmarks- Set of 2`, description: `<p>A pair of original hand-painted watercolor bookmarks inspired by the beloved Bridgerton series.</p>
+  <p>Each bookmark is carefully crafted with attention to detail, capturing the romantic and elegant essence of the Bridgerton world.</p>
+  <p>Size: <strong>2 × 6 inches</strong> — perfect for marking your place in any book.</p>
+  <p>Comes with a high-quality protective sleeve to keep it pristine.</p>
+  <p>All products are shipped carefully packaged to arrive in perfect condition.</p>
+  <p>Please note: Due to the handmade nature of these pieces, slight variations may occur — making each set truly one-of-a-kind.
+</p>`};
 
 
 // ============================================================
 //  CARDS / PAINTINGS
 // ============================================================
+const defaultCardDesc = `<p>An original hand-painted watercolor painting, crafted with care and attention to detail.</p>
+  <p>Size: <strong>5 × 7 inches</strong>, unframed — ready for styling or gifting.</p>
+  <p>Available as a greeting card upon request at no additional cost,
+     with a blank interior and a white envelope included.</p>
+  <p>All products are shipped carefully packaged to arrive in perfect condition.</p>
+    <p>Please note: Due to the handmade nature of these pieces, slight variations may occur — making each set truly one-of-a-kind.
+</p>`;
 
 (function() {
   for (let i = 1; i <= 43; i++) {
     const price = (i === 2 || i === 5 || i === 6) ? 39.99
                 : (i === 43) ? 25.99
                 : 19.99;
-    const name = (i === 43) ? `Mother's Day Original Watercolor Greeting Card` 
-        : `Hand-painted Watercolor Painting ${i}`;
-    const defaultCardDesc = (i===43) ? `
-  <p>A beautiful Floral Mother's Day greeting card, hand-painted with watercolors.</p>
-  <p>Size: <strong>5 × 7 inches</strong>.</p>
-  <p> All Greeting cards come with a blank interior and a white envelope.</p>
-  <p> All products are shipped carefully packaged to arrive in perfect condition.</p>
-  <p>Please note: Due to the handmade nature of these pieces, slight variations may occur — making each set truly one-of-a-kind.
-</p>
-` : `
-  <p>An original hand-painted watercolor painting, crafted with care and attention to detail.</p>
-  <p>Size: <strong>5 × 7 inches</strong>, unframed — ready for styling or gifting.</p>
-  <p>Available as a greeting card upon request at no additional cost,
-     with a blank interior and a white envelope included.</p>
-  <p>All products are shipped carefully packaged to arrive in perfect condition.</p>
-    <p>Please note: Due to the handmade nature of these pieces, slight variations may occur — making each set truly one-of-a-kind.
-</p>
-`
 
     addProduct({
-      id: `card${i}`, name, price,
+      id: `card${i}`, 
+      name: `Hand-painted Watercolor Painting ${i}`, 
+      price,
       type: 'physical',
       images: [`images/cards/c${i}.jpeg`],
       description: defaultCardDesc,
@@ -97,6 +96,16 @@ const defaultBookmarkDesc = `
  PRODUCTS['card10'].images = ['images/cards/c10.jpeg', 'images/cards/c10b.jpeg'];
  PRODUCTS['card16'].images = ['images/cards/c16.jpeg', 'images/cards/c16b.jpeg'];
  PRODUCTS['card26'].soldOut = true;
+
+
+ PRODUCTS['card43'] = {...PRODUCTS['card43'],
+  name: `Mother's Day Original Watercolor Greeting Card` , 
+  description : `<p>A beautiful Floral Mother's Day greeting card, hand-painted with watercolors.</p>
+  <p>Size: <strong>5 × 7 inches</strong>.</p>
+  <p> All Greeting cards come with a blank interior and a white envelope.</p>
+  <p> All products are shipped carefully packaged to arrive in perfect condition.</p>
+  <p>Please note: Due to the handmade nature of these pieces, slight variations may occur — making each set truly one-of-a-kind.
+</p>`};
 
 
 
