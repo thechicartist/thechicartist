@@ -1,42 +1,248 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 
+http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
   <url>
-    <loc>https://www.thechicartist.com/</loc>
-    <priority>1.0</priority>
+    <loc>https://thechicartist.com/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.00</priority>
   </url>
-
   <url>
-    <loc>https://www.thechicartist.com/wedding.html</loc>
-    <priority>0.9</priority>
+    <loc>https://thechicartist.com/bookmarks</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
   </url>
-
   <url>
-    <loc>https://www.thechicartist.com/cards.html</loc>
-    <priority>0.8</priority>
+    <loc>https://thechicartist.com/cards</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
   </url>
-
   <url>
-    <loc>https://www.thechicartist.com/bookmarks.html</loc>
-    <priority>0.7</priority>
+    <loc>https://thechicartist.com/ebooks</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
   </url>
-
   <url>
-    <loc>https://www.thechicartist.com/ebooks.html</loc>
-    <priority>0.6</priority>
+    <loc>https://thechicartist.com/wedding</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
   </url>
-
   <url>
-    <loc>https://www.thechicartist.com/OnlineClass.html</loc>
-    <priority>0.5</priority>
+    <loc>https://thechicartist.com/OnlineClass</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
   </url>
-    <url>
-    <loc>https://www.thechicartist.com/about.html</loc>
-    <priority>0.5</priority>
+  <url>
+    <loc>https://thechicartist.com/schedule</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
   </url>
-    <url>
+  <url>
+    <loc>https://thechicartist.com/about</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://www.thechicartist.com/international_store.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://thechicartist.com/terms-and-conditions</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
     <loc>https://www.thechicartist.com/cart.html</loc>
-    <priority>0.5</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.30</priority>
   </url>
+
+<url><loc>https://www.thechicartist.com/product.html?id=bookmark1</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark2</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark3</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark4</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark5</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark6</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark7</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark9</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark10</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark11</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark12</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark13</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark14</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark15</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark16</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark17</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark18</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark19</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark20</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark21</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark22</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark23</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark24</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark25</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark26</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark27</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark28</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark29</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark30</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark31</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark32</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark33</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark34</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark35</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark36</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark37</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark38</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark39</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark40</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark41</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark42</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark43</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark44</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark45</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark46</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark47</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark48</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark49</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark50</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark51</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark52</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark53</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark54</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark55</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark56</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark57</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark58</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark59</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark60</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark61</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark62</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark63</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark64</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark66</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark67</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark68</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark69</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark70</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark71</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark72</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark73</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark74</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark75</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark76</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark77</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark78</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark79</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark80</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark81</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark83</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark84</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark85</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark86</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark87</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark88</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark89</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark90</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark91</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark92</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark93</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark94</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark95</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark96</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark97</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark98</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark99</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark100</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark101</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark102</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark103</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark104</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark105</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark106</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark107</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark108</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark109</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark110</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark111</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark112</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark113</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark114</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark115</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark116</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark117</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark118</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark119</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark120</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark121</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark122</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark123</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark124</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark125</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark126</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark127</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark128</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark129</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark130</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark131</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark132</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark133</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark134</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark135</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark136</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark137</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark138</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=bookmark139</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+
+  
+  <url><loc>https://www.thechicartist.com/product.html?id=card1</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=card2</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=card3</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=card4</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=card5</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=card6</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=card7</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=card8</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=card9</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=card10</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=card11</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=card12</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=card13</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=card14</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=card15</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=card16</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=card17</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=card18</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=card19</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=card20</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=card21</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=card22</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=card23</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=card24</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=card25</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=card27</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=card28</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=card29</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=card30</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=card31</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=card32</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=card33</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=card34</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=card35</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=card36</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=card37</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=card38</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=card39</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=card40</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=card41</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=card42</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=card43</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+
+
+  <!-- Digital products -->
+  <url><loc>https://www.thechicartist.com/product.html?id=class-cherry-blossom</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=ebook-watercolor-basics</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=ebook-watercolor-spring-flowers</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
 
 </urlset>
