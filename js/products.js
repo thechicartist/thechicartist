@@ -62,11 +62,11 @@ const defaultBookmarkDesc = `
     const price = (i === 2 || i === 5 || i === 6) ? 39.99
                 : (i === 43) ? 25.99
                 : 19.99;
-    const name = (i === 43) ? `Mothers Day Original Watercolor Gereeting Card` 
+    const name = (i === 43) ? `Mother's Day Original Watercolor Greeting Card` 
         : `Hand-painted Watercolor Painting ${i}`;
     const defaultCardDesc = (i===43) ? `
   <p>A beautiful Floral Mother's Day greeting card, hand-painted with watercolors.</p>
-  <p>Size: <strong>5 × 7 inches</strong>, unframed — ready for styling or gifting.</p>
+  <p>Size: <strong>5 × 7 inches</strong>.</p>
   <p> All Greeting cards come with a blank interior and a white envelope.</p>
   <p> All products are shipped carefully packaged to arrive in perfect condition.</p>
   <p>Please note: Due to the handmade nature of these pieces, slight variations may occur — making each set truly one-of-a-kind.
