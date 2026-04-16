@@ -154,6 +154,8 @@ addProduct({
   `
 });
 
+PRODUCTS['class-cherry-blossom'].soldOut = true;
+
 // Note id must always start with 'class-' for digital products to work properly in cart.js
 // To add more classes:
 // addProduct({

@@ -22,20 +22,24 @@ document.addEventListener('DOMContentLoaded', () => {
                class="img-fluid"
                id="${product.id}"
                loading="lazy">
+               ${product.soldOut ? `<div class="sold-out-badge">Sold Out</div>` : ''}
         </a>
         <div class="product-overlay">
           <div class="product-overlay-inner">
             <p class="product-price">$${Number(product.price).toFixed(2)}</p>
             ${product.date ? `<p style="font-size:0.75rem; margin:4px 0;">${product.date}</p>` : ''}
             <a href="product.html?id=${product.id}" class="btn btn-sm btn-outline-dark mb-1">View Details</a>
-            <button class="btn btn-sm add-to-cart"
+            ${product.soldOut
+              ? `<button class="btn btn-sm" disabled style="opacity:0.5; cursor:not-allowed;">Sold Out</button>`
+              : ` <button class="btn btn-sm add-to-cart"
                     data-id="${product.id}"
                     data-name="${product.name}"
                     data-price="${product.price}"
                     data-image="${product.images[0]}"
                     data-type="digital">
-              Add to Cart
-            </button>
+                Add to Cart
+              </button>`
+            }
           </div>
         </div>
       </div>
