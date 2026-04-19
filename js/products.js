@@ -38,6 +38,7 @@ const defaultBookmarkDesc = `
       type: 'physical',
       images: [`images/bookmarks/b${i}.jpeg`],
       description: defaultBookmarkDesc,
+      soldOut: false,
       category: 'bookmark'
     });
   }
@@ -85,6 +86,7 @@ const defaultCardDesc = `<p>An original hand-painted watercolor painting, crafte
       type: 'physical',
       images: [`images/cards/c${i}.jpeg`],
       description: defaultCardDesc,
+      soldOut: false,
       category: 'card'
     });
   }
