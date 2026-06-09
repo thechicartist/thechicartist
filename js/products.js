@@ -30,7 +30,7 @@ const defaultBookmarkDesc = `
     const price = (i === 115) ? 39.99
                 : (i === 126 || i === 124 || i === 137) ? 25.99
                 : (i === 49 || i === 128 || i === 45 || i === 123) ? 11.99
-                : 9.99;
+                : 11.99;
     addProduct({
       id: `bookmark${i}`, 
       name: `Hand-painted Watercolor Bookmark ${i}`, 
@@ -38,7 +38,7 @@ const defaultBookmarkDesc = `
       type: 'physical',
       images: [`images/bookmarks/b${i}.jpeg`],
       description: defaultBookmarkDesc,
-      soldOut: true,
+      soldOut: false,
       category: 'bookmark'
     });
   }
@@ -86,7 +86,7 @@ const defaultCardDesc = `<p>An original hand-painted watercolor painting, crafte
       type: 'physical',
       images: [`images/cards/c${i}.jpeg`],
       description: defaultCardDesc,
-      soldOut: true,
+      soldOut: false,
       category: 'card'
     });
   }

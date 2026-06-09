@@ -16,7 +16,7 @@ function getProductPrice(productId) {
     if (n === 115)                          return 39.99;
     if (n === 126 || n === 124 || n == 137) return 25.99;
     if (n === 49 || n === 128 || n === 45)  return 11.99;
-    return 9.99;
+    return 11.99;
   }
   if (productId.startsWith('card')) {
     const n = parseInt(productId.replace('card', ''));
