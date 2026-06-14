@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VoxCue — Legal Agreements</title>
+    <style>
+        :root {
+            --bg-color: #0b0b0b;
+            --card-bg: #141414;
+            --accent-color: #facc15; /* Yellow */
+            --text-primary: #f3f4f6;
+            --text-secondary: #9ca3af;
+            --border-color: #262626;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            letter-spacing: -0.05em;
+            margin-bottom: 8px;
+        }
+
+        header p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        /* Tabs Navigation */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 16px;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 8px 16px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-primary);
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .tab-btn.active {
+            color: #000;
+            background-color: var(--accent-color);
+        }
+
+        /* Content Sections */
+        .content-section {
+            display: none;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 40px;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin-top: 30px;
+            margin-bottom: 12px;
+            border-left: 3px solid var(--accent-color);
+            padding-left: 12px;
+        }
+
+        h2:first-of-type {
+            margin-top: 0;
+        }
+
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+            font-size: 0.95rem;
+        }
+
+        ul {
+            margin-bottom: 16px;
+            padding-left: 24px;
+            color: var(--text-secondary);
+        }
+
+        li {
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        /* Responsive scaling */
+        @media (max-width: 600px) {
+            body { padding: 20px 12px; }
+            .content-section { padding: 24px; }
+            header h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>VoxCue</h1>
+            <p>Legal Center</p>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('privacy')">Privacy Policy</button>
+            <button class="tab-btn" onclick="switchTab('terms')">Terms of Use</button>
+        </div>
+
+        <!-- PRIVACY POLICY -->
+        <div id="privacy" class="content-section active">
+            <p><em>Last updated: June 13, 2026</em></p>
+            
+            <h2>1. Privacy by Design</h2>
+            <p>VoxCue is designed from the ground up to respect your absolute privacy. We firmly believe that your speech data, scripts, and video recordings belong solely to you.</p>
+
+            <h2>2. On-Device Speech Processing</h2>
+            <p>All voice recognition, transcription, and tracking calculations are performed entirely locally on your Apple device utilizing iOS core framework technologies. Audio files or streams are never sent to external servers, processed by remote third parties, or collected by us.</p>
+
+            <h2>3. Camera and Microphone Access</h2>
+            <p>VoxCue requires explicit system permissions to access your device's microphone and camera. These permissions are strictly utilized to enable real-time teleprompter tracking and to record your performance directly into your local photo gallery stack. We do not transmit, review, or store this data.</p>
+
+            <h2>4. Data Storage</h2>
+            <p>Any scripts, settings, or videos generated within the app are stored exclusively on your local device storage or within your private iCloud container if enabled. We maintain no server databases and have no technical capability to view or modify your data.</p>
+
+            <h2>5. Analytics & Crash Data</h2>
+            <p>We may collect anonymized, aggregate telemetry data or hardware crash reports provided strictly through Apple's developer consoles (App Store Connect) to help maintain app stability. This information cannot be linked back to you personally.</p>
+
+            <h2>6. Contact Us</h2>
+            <p>If you have any questions or feedback regarding our privacy standards, contact us directly at: <strong>thechicartist@thechicartist.com</strong></p>
+        </div>
+
+        <!-- TERMS OF USE -->
+        <div id="terms" class="content-section">
+            <p><em>Last updated: June 13, 2026</em></p>
+
+            <h2>1. Acceptance of Terms</h2>
+            <p>By downloading, installing, or accessing the VoxCue mobile application, you agree to comply with and be bound by these Terms of Use. If you do not agree to these terms, do not download or use the application.</p>
+
+            <h2>2. Licensing and Permitted Use</h2>
+            <p>We grant you a personal, non-exclusive, non-transferable, revocable license to use VoxCue on any compatible Apple iOS device that you own or control, strictly for personal or professional content generation purposes.</p>
+
+            <h2>3. Purchases and Licensing Tiers</h2>
+            <p>VoxCue may offer certain premium capabilities via a one-time lifetime license utility purchase managed securely through Apple's App Store infrastructure. 
+            <ul>
+                <li>All transactions are governed exclusively by Apple's digital commerce terms.</li>
+                <li>Refund configurations are handled exclusively through Apple ID account channels and are non-refundable except where mandated by local statutes.</li>
+            </ul>
+            </p>
+
+            <h2>4. Prohibited Conduct</h2>
+            <p>You agree not to modify, reverse engineer, decompile, or attempt to extract source structures from the software code. You further agree not to utilize the utility framework for illicit distributions or malicious intent.</p>
+
+            <h2>5. Disclaimer of Warranties</h2>
+            <p>VoxCue is provided entirely "as is" and "as available" without warranties of any kind, whether explicit or implicit. While we strive to optimize transcription precision, we make no claims or representations concerning perfect system reliability under unusual acoustic environments.</p>
+
+            <h2>6. Limitation of Liability</h2>
+            <p>To the maximum extent permitted by applicable law, [Neetika Agarwal The Chic Artist] shall not be liable for any direct, indirect, incidental, or consequential damages resulting from the loss of recordings, script text variations, or device configuration errors.</p>
+        </div>
+
+        <footer>
+            <p>&copy; 2026 VoxCue. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        function switchTab(tabId) {
+            // Hide all content sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            // Deactivate all tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected section and activate button
+            document.getElementById(tabId).classList.add('active');
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>
