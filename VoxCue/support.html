@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Support — VoxCue</title>
+  <meta name="description" content="Get help with VoxCue — the voice-activated teleprompter and camera recorder. FAQs, troubleshooting, and contact information.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+:root {
+  --bg: #0B0C0E;
+  --surface: #16181C;
+  --surface-2: #1D2025;
+  --text: #F2F0EA;
+  --text-muted: #9CA3AF;
+  --text-dim: #6B7280;
+  --accent: #FFB648;
+  --accent-dim: rgba(255, 182, 72, 0.12);
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.14);
+  --font-display: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'SF Mono', Menlo, monospace;
+  --radius: 14px;
+  --radius-sm: 8px;
+  --max-width: 1080px;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: 16px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+img, svg { display: block; max-width: 100%; }
+
+/* ---------- Layout ---------- */
+.wrap {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(11, 12, 14, 0.85);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 18px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+
+.brand-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-dim);
+}
+
+.nav-links {
+  display: flex;
+  gap: 28px;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.nav-links a { color: var(--text-muted); }
+.nav-links a:hover { color: var(--text); text-decoration: none; }
+
+.nav-cta {
+  font-size: 14px;
+  color: var(--text);
+  border: 1px solid var(--border-strong);
+  padding: 8px 18px;
+  border-radius: 100px;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+.nav-cta:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+@media (max-width: 720px) {
+  .nav-links { display: none; }
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  padding: 96px 0 64px;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 64px;
+  align-items: center;
+}
+
+@media (max-width: 860px) {
+  .hero { grid-template-columns: 1fr; padding: 56px 0 40px; gap: 40px; }
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 20px;
+}
+
+.eyebrow::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+h1 {
+  font-size: clamp(36px, 5.5vw, 56px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.08;
+  margin: 0 0 20px;
+}
+
+.hero p.lead {
+  font-size: 18px;
+  color: var(--text-muted);
+  max-width: 480px;
+  margin: 0 0 32px;
+}
+
+.hero-ctas {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 26px;
+  border-radius: 100px;
+  font-size: 15px;
+  font-weight: 500;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #1A1300;
+}
+.btn-primary:hover { opacity: 0.9; text-decoration: none; }
+
+.btn-secondary {
+  background: transparent;
+  border-color: var(--border-strong);
+  color: var(--text);
+}
+.btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+/* ---------- Teleprompter signature element ---------- */
+.prompter {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+  position: relative;
+  overflow: hidden;
+  height: 320px;
+}
+
+.prompter::before,
+.prompter::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  height: 80px;
+  z-index: 2;
+  pointer-events: none;
+}
+.prompter::before {
+  top: 0;
+  background: linear-gradient(to bottom, var(--surface) 20%, transparent);
+}
+.prompter::after {
+  bottom: 0;
+  background: linear-gradient(to top, var(--surface) 20%, transparent);
+}
+
+.prompter-frame {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-dim);
+  letter-spacing: 0.08em;
+}
+
+.rec-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--accent);
+}
+.rec-badge::before {
+  content: '';
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.prompter-track {
+  font-family: var(--font-mono);
+  font-size: 19px;
+  line-height: 2;
+  color: var(--text-dim);
+  animation: scrollUp 16s linear infinite;
+}
+
+.prompter-track .active {
+  color: var(--text);
+}
+
+@keyframes scrollUp {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .prompter-track, .eyebrow::before { animation: none; }
+}
+
+/* ---------- Sections ---------- */
+section { padding: 64px 0; }
+.section-border { border-top: 1px solid var(--border); }
+
+.section-head {
+  max-width: 560px;
+  margin-bottom: 48px;
+}
+
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+
+h2 {
+  font-size: clamp(28px, 4vw, 38px);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 0 0 12px;
+}
+
+h2 + p {
+  color: var(--text-muted);
+  font-size: 17px;
+  margin: 0;
+}
+
+/* ---------- Feature grid ---------- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+@media (max-width: 720px) {
+  .grid { grid-template-columns: 1fr; }
+}
+
+.card {
+  background: var(--surface);
+  padding: 32px;
+}
+
+.card-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  background: var(--accent-dim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+  margin-bottom: 20px;
+  font-size: 18px;
+}
+
+.card h3 {
+  font-size: 17px;
+  font-weight: 500;
+  margin: 0 0 8px;
+  letter-spacing: -0.005em;
+}
+
+.card p {
+  font-size: 15px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* ---------- Steps ---------- */
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+@media (max-width: 860px) {
+  .steps { grid-template-columns: 1fr; }
+}
+
+.step {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+}
+
+.step-num {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--accent);
+  margin-bottom: 16px;
+}
+
+.step h3 {
+  font-size: 17px;
+  font-weight: 500;
+  margin: 0 0 8px;
+}
+
+.step p {
+  font-size: 15px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* ---------- Pricing ---------- */
+.pricing-card {
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  padding: 40px;
+  background: var(--surface);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 40px;
+  align-items: center;
+}
+
+@media (max-width: 720px) {
+  .pricing-card { grid-template-columns: 1fr; text-align: left; gap: 28px; }
+}
+
+.price {
+  font-size: 48px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.price span {
+  font-size: 16px;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.pricing-list {
+  list-style: none;
+  padding: 0;
+  margin: 16px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.pricing-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pricing-list li::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+
+/* ---------- Footer ---------- */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 48px 0;
+}
+
+.footer-grid {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 32px;
+}
+
+.footer-links {
+  display: flex;
+  gap: 28px;
+  font-size: 14px;
+  flex-wrap: wrap;
+}
+
+.footer-links a { color: var(--text-muted); }
+.footer-links a:hover { color: var(--text); }
+
+.footer-meta {
+  font-size: 13px;
+  color: var(--text-dim);
+  margin-top: 24px;
+}
+
+/* ---------- Legal / content pages ---------- */
+.legal {
+  padding: 64px 0 96px;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.legal h1 {
+  font-size: clamp(30px, 5vw, 44px);
+  margin-bottom: 8px;
+}
+
+.legal .updated {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-dim);
+  margin-bottom: 48px;
+}
+
+.legal h2 {
+  font-size: 21px;
+  margin-top: 40px;
+  margin-bottom: 12px;
+}
+
+.legal p, .legal li {
+  color: var(--text-muted);
+  font-size: 15.5px;
+  line-height: 1.75;
+}
+
+.legal ul, .legal ol {
+  padding-left: 22px;
+}
+
+.legal a { word-break: break-word; }
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-bottom: 32px;
+}
+.back-link:hover { color: var(--accent); text-decoration: none; }
+
+/* ---------- Support page extras ---------- */
+.contact-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px;
+  background: var(--surface);
+  margin-bottom: 24px;
+}
+
+.contact-card h3 {
+  margin: 0 0 8px;
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.contact-card p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 15px;
+}
+
+.faq-item {
+  border-bottom: 1px solid var(--border);
+  padding: 24px 0;
+}
+
+.faq-item:last-child { border-bottom: none; }
+
+.faq-item h3 {
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0 0 8px;
+}
+
+.faq-item p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 15px;
+}
+
+</style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="brand">
+        <span class="brand-dot"></span>
+        VoxCue
+      </a>
+      <div class="nav-links">
+        <a href="index.html#features">Features</a>
+        <a href="index.html#how-it-works">How it works</a>
+        <a href="index.html#pricing">Pricing</a>
+        <a href="support.html">Support</a>
+      </div>
+      <a href="mailto:thechicartist@thechicartist.com" class="nav-cta">Contact us</a>
+    </div>
+  </nav>
+
+  <div class="legal">
+    <a href="index.html" class="back-link">&larr; Back to home</a>
+    <h1>Support</h1>
+    <div class="updated">We're here to help</div>
+
+    <p>
+      Have a question, found a bug, or need help getting set up? Reach out and
+      we'll get back to you as soon as we can — usually within 1–2 business days.
+    </p>
+
+    <div class="contact-card" style="margin-top: 32px;">
+      <h3>Email support</h3>
+      <p><a href="mailto:thechicartist@thechicartist.com">thechicartist@thechicartist.com</a></p>
+    </div>
+
+    <h2>Frequently asked questions</h2>
+
+    <div class="faq-item">
+      <h3>How does the free trial work?</h3>
+      <p>
+        VoxCue is free to use in full for 7 days from the moment you first open the app.
+        No account or credit card is required to start your trial. After 7 days, you can
+        unlock VoxCue forever with a single one-time purchase of $19.99 — there are no
+        subscriptions or recurring charges.
+      </p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Does VoxCue require an internet connection?</h3>
+      <p>
+        No. VoxCue works entirely offline. Your scripts, recordings, and edits are stored
+        only on your device — nothing is uploaded to a server or cloud service.
+      </p>
+    </div>
+
+    <div class="faq-item">
+      <h3>How does voice-activated scrolling work?</h3>
+      <p>
+        VoxCue uses on-device speech recognition to detect your speaking pace and scrolls
+        your script to keep up with you in real time. If you'd rather control the pace
+        yourself, you can switch to manual scroll mode at any time in settings.
+      </p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Can I record with the front camera too?</h3>
+      <p>
+        VoxCue is built around back-camera, landscape recording for sharper, more
+        professional footage — ideal for YouTube videos and long-form content.
+      </p>
+    </div>
+
+    <div class="faq-item">
+      <h3>What happens to my videos after I record?</h3>
+      <p>
+        Your recordings are saved directly to VoxCue's in-app gallery and to your photo
+        library on your device. You can trim, edit, and share them directly from the app —
+        they never leave your device unless you choose to share them.
+      </p>
+    </div>
+
+    <div class="faq-item">
+      <h3>I purchased VoxCue but it's showing as locked on a new device. What do I do?</h3>
+      <p>
+        Open VoxCue, go to the unlock screen, and tap "Restore Purchase." This restores
+        your one-time purchase using your Apple ID at no additional cost.
+      </p>
+    </div>
+
+    <div class="faq-item">
+      <h3>How do I request a refund?</h3>
+      <p>
+        All purchases are processed by Apple through the App Store. To request a refund,
+        visit
+        <a href="https://reportaproblem.apple.com" target="_blank" rel="noopener">reportaproblem.apple.com</a>
+        and follow Apple's refund process.
+      </p>
+    </div>
+
+    <div class="faq-item">
+      <h3>I found a bug or have a feature request.</h3>
+      <p>
+        We'd love to hear from you — email
+        <a href="mailto:thechicartist@thechicartist.com">thechicartist@thechicartist.com</a>
+        with as much detail as possible, including your device model and iOS version, and
+        we'll take a look.
+      </p>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="wrap footer-grid">
+      <div>
+        <a href="index.html" class="brand">
+          <span class="brand-dot"></span>
+          VoxCue
+        </a>
+        <div class="footer-meta">© 2026 Neetika Agarwal. All rights reserved.</div>
+      </div>
+      <div class="footer-links">
+        <a href="support.html">Support</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms &amp; Conditions</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
