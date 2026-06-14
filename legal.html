@@ -225,5 +225,22 @@
             event.target.classList.add('active');
         }
     </script>
+    <script>
+    // Automatically switch tabs based on the URL anchor (e.g., #terms or #privacy)
+    window.addEventListener('DOMContentLoaded', () => {
+        const hash = window.location.hash.replace('#', '');
+        if (hash === 'terms' || hash === 'privacy') {
+            switchTab(hash);
+            
+            // Update the active state on the buttons visually
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('onclick').includes(hash)) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+    });
+</script>
 </body>
 </html>
