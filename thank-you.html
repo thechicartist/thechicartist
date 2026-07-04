@@ -298,10 +298,6 @@
     }
   }
 
-  const _urlParams = new URLSearchParams(window.location.search);
-  const _sessionId = _urlParams.get('session_id');
-
-
   if (order) {
     // Show order summary
     const itemsHtml = (order.items || [])
@@ -384,28 +380,8 @@
           zip: order.zip
         })
       });
-      if (_sessionId) {
-        fetch('https://stripe-worker.thechicartiststudio.workers.dev/confirm-order', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ session_id: _sessionId })
-        })
-        .then(r => r.json())
-        .then(data => {
-          if (!data.ok) {
-            console.error('confirm-order failed:', data.error);
-            // Optional: surface a soft warning to the customer without blocking the page
-            // e.g. a small note "We hit a snag preparing your shipment — we'll follow up by email."
-          }
-        })
-        .catch(err => console.error('confirm-order request failed:', err));
-      } else {
-        console.warn('No session_id in URL — cannot confirm order / create shipment');
-      }
-    
     }
 
-    
     // Send order notification email via Google Form
     sendOrderEmail(order);
 
