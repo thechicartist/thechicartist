@@ -5,6 +5,9 @@
  *   STRIPE_SECRET_KEY_SANDBOX → sk_test_xxxx
  *   RESEND_API_KEY     → key_xxxx
  *   ALLOWED_ORIGIN     → https://thechicartist.com
+ *   CHITCHATS_ACCESS_TOKEN → your Chit Chats API access token (Settings > Developer > Access Tokens)
+ *   CHITCHATS_CLIENT_ID    → your Chit Chats client ID (numeric)
+ *
  */
 
 // ============================================================
@@ -37,6 +40,21 @@ function getProductPrice(productId) {
   if (ebookPrices[productId] !== undefined) return ebookPrices[productId];
   
   return null;
+}
+
+// ============================================================
+//  PRODUCT SHIPPING DETAILS — needed for Chit Chats shipments
+//  Chit Chats requires weight + size for every shipment. Fill these in
+//  with your real measurements. Anything not listed falls back to
+//  DEFAULT_PACKAGE below, which you should treat as a rough placeholder.
+// ============================================================
+const DEFAULT_PACKAGE = { weight: 60, size_x: 25, size_y: 15, size_z: 1 }; // grams, cm
+const PRODUCT_SHIPPING = {
+  // 'bookmark115': { weight: 20, size_x: 15, size_y: 5, size_z: 0.5 },
+  // 'card2':       { weight: 15, size_x: 15, size_y: 10, size_z: 0.3 },
+};
+function getShippingDims(productId) {
+  return PRODUCT_SHIPPING[productId] || DEFAULT_PACKAGE;
 }
 
 function isDigital(productId) {
@@ -289,6 +307,65 @@ function computeTax(subtotal, shipping, country, province) {
 }
 
 // ============================================================
+//  CHIT CHATS — create a shipment from a paid order
+//  Docs: https://github.com/chitchats/chitchats-api-doc
+// ============================================================
+async function createChitChatsShipment(env, order) {
+  // order = { name, address_1, address_2, city, province_code, postal_code,
+  //           country_code, phone, email, description, value, currency,
+  //           weight, size_x, size_y, size_z, orderId }
+  if (!env.CHITCHATS_ACCESS_TOKEN || !env.CHITCHATS_CLIENT_ID) {
+    console.error('Chit Chats not configured: missing CHITCHATS_ACCESS_TOKEN or CHITCHATS_CLIENT_ID');
+    return { error: 'Chit Chats not configured' };
+  }
+
+  const payload = {
+    name: order.name,
+    address_1: order.address_1,
+    address_2: order.address_2 || undefined,
+    city: order.city,
+    province_code: order.province_code,
+    postal_code: order.postal_code,
+    country_code: order.country_code, // e.g. 'CA' or 'US'
+    phone: order.phone || undefined,
+    email: order.email || undefined,
+    package_contents: 'merchandise',
+    description: order.description || 'Handmade artwork',
+    value: order.value,               // dollar value as a string, e.g. "25.99"
+    value_currency: (order.currency || 'usd').toLowerCase(),
+    order_id: order.orderId || '',
+    order_store: 'thechicartist.com',
+    package_type: 'parcel',
+    size_unit: 'cm',
+    size_x: order.size_x,
+    size_y: order.size_y,
+    size_z: order.size_z,
+    weight_unit: 'g',
+    weight: order.weight,
+    // postage_type is intentionally omitted — Chit Chats will let you pick the
+    // cheapest rate in the dashboard. Set one here (e.g. 'chit_chats_canada_tracked'
+    // or 'usps_priority') if you want shipments auto-rated/booked instead.
+    ship_date: 'today'
+  };
+
+  const res = await fetch(`https://chitchats.com/api/v1/clients/${env.CHITCHATS_CLIENT_ID}/shipments`, {
+    method: 'POST',
+    headers: {
+      'Authorization': env.CHITCHATS_ACCESS_TOKEN,
+      'Content-Type': 'application/json; charset=utf-8'
+    },
+    body: JSON.stringify(payload)
+  });
+
+  const data = await res.json().catch(() => null);
+  if (!res.ok) {
+    console.error('Chit Chats shipment error:', data);
+    return { error: data?.error || 'Chit Chats API error', status: res.status };
+  }
+  return { shipment: data.shipment || data };
+}
+
+// ============================================================
 //  MAIN
 // ============================================================
 export default {
@@ -332,6 +409,11 @@ export default {
       const body = await request.json();
       await sendOrderConfirmationEmail(env, body);
       return corsResponse(JSON.stringify({ ok: true }), 200, env, origin);
+    }
+    // ---- Order confirmation: verifies payment with Stripe, then creates the
+    //      Chit Chats shipment from the *verified* Stripe session data ----
+    if (request.method === 'POST' && url.pathname === '/confirm-order') {
+      return handleConfirmOrder(request, env);
     }
     if (request.method === 'GET' && url.pathname === '/send-shipping-email') {
       return handleSendShippingEmail(request, env);
@@ -525,14 +607,25 @@ async function handleCheckout(request, env) {
 
   const encodedOrder = encodeURIComponent(JSON.stringify(verifiedOrderData));
 
-  const formBody = buildStripeFormBody({
+  const sessionParams = {
     mode: 'payment',
     customer_email: email,
     success_url: `${env.ALLOWED_ORIGIN}/thank-you.html?order=${encodedOrder}&session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${env.ALLOWED_ORIGIN}/cart.html`,
     line_items,
-    metadata: { country, province: province || '', email, name: name || '', shipping: String(shipping), tax: tax.toFixed(2), currency, discount: discount.toFixed(2), couponCode: couponCode || '' }
-  });
+    metadata: { country, province: province || '', email, name: name || '', shipping: String(shipping), tax: tax.toFixed(2), currency, discount: discount.toFixed(2), couponCode: couponCode || '', cartType: cartIsDigital ? 'digital' : 'physical' }
+  };
+
+  // Physical orders: let Stripe collect the real street address + name at
+  // checkout. This is required for Chit Chats shipment creation — without it
+  // there's no address_1/city to send them.
+  if (!cartIsDigital) {
+    sessionParams.shipping_address_collection = {
+      allowed_countries: country === 'Canada' ? ['CA'] : ['US']
+    };
+  }
+
+  const formBody = buildStripeFormBody(sessionParams);
 
   // 3. Create Stripe session
   const stripeRes = await fetch('https://api.stripe.com/v1/checkout/sessions', {
@@ -772,6 +865,82 @@ async function handleBookingConfirm(request, env) {
   }
 
   return corsResponse(JSON.stringify({ ok: true, booking }), 200, env, origin);
+}
+
+// ============================================================
+//  ORDER: CONFIRM AFTER PAYMENT + CREATE CHIT CHATS SHIPMENT
+//  POST /confirm-order  { session_id }
+//
+//  Call this from thank-you.html for physical orders (in addition to, or
+//  instead of, /send-order-confirmation). It re-verifies payment with
+//  Stripe directly and pulls the shipping address Stripe collected, so a
+//  customer can't spoof the shipment by editing the URL/localStorage.
+// ============================================================
+async function handleConfirmOrder(request, env) {
+  const origin = request.headers.get('Origin');
+  let body;
+  try { body = await request.json(); }
+  catch { return corsResponse(JSON.stringify({ error: 'Invalid JSON' }), 400, env, origin); }
+
+  const { session_id } = body;
+  if (!session_id) return corsResponse(JSON.stringify({ error: 'Missing session_id' }), 400, env, origin);
+
+  // Pull the full session, including line items and the address Stripe collected
+  const stripeRes = await fetch(
+    `https://api.stripe.com/v1/checkout/sessions/${session_id}?expand[]=line_items&expand[]=customer_details`,
+    { headers: { 'Authorization': `Bearer ${env.STRIPE_SECRET_KEY}` } }
+  );
+  const session = await stripeRes.json();
+
+  if (!stripeRes.ok || session.payment_status !== 'paid')
+    return corsResponse(JSON.stringify({ error: 'Payment not completed' }), 400, env, origin);
+
+  const meta = session.metadata || {};
+  if (meta.cartType === 'digital') {
+    // Nothing to ship
+    return corsResponse(JSON.stringify({ ok: true, shipped: false }), 200, env, origin);
+  }
+
+  // Stripe puts the collected shipping address on customer_details.address
+  // when shipping_address_collection was enabled on the session.
+  const addr = session.customer_details?.address;
+  const customerName = session.customer_details?.name || meta.name || 'Customer';
+  if (!addr || !addr.line1 || !addr.city || !addr.postal_code) {
+    console.error('No shipping address on session', session_id);
+    return corsResponse(JSON.stringify({ error: 'No shipping address found on this order' }), 400, env, origin);
+  }
+
+  const items = (session.line_items?.data || [])
+    .filter(li => li.description !== 'Shipping' && !li.description?.startsWith('Tax'));
+  const totalWeight = items.reduce((s, li) => s + getShippingDims('').weight, 0) || DEFAULT_PACKAGE.weight;
+  const description = items.map(li => li.description).join(', ') || 'Handmade artwork';
+
+  const countryCode = meta.country === 'Canada' ? 'CA' : 'US';
+
+  const result = await createChitChatsShipment(env, {
+    name: customerName,
+    address_1: addr.line1,
+    address_2: addr.line2,
+    city: addr.city,
+    province_code: addr.state,
+    postal_code: addr.postal_code,
+    country_code: countryCode,
+    email: session.customer_details?.email || meta.email,
+    description,
+    value: ((session.amount_total || 0) / 100).toFixed(2),
+    currency: session.currency,
+    weight: totalWeight,
+    size_x: DEFAULT_PACKAGE.size_x,
+    size_y: DEFAULT_PACKAGE.size_y,
+    size_z: DEFAULT_PACKAGE.size_z,
+    orderId: session.id
+  });
+
+  if (result.error) {
+    return corsResponse(JSON.stringify({ ok: false, shipped: false, error: result.error }), 200, env, origin);
+  }
+
+  return corsResponse(JSON.stringify({ ok: true, shipped: true, shipment: result.shipment }), 200, env, origin);
 }
 
 // ============================================================
