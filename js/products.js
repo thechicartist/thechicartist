@@ -74,9 +74,10 @@ const defaultCardDesc = `<p>An original hand-painted watercolor painting, crafte
 </p>`;
 
 (function() {
-  for (let i = 1; i <= 43; i++) {
+  for (let i = 1; i <= 44; i++) {
     const price = (i === 2 || i === 5 || i === 6) ? 39.99
                 : (i === 43) ? 25.99
+                : (i === 44) ? 49.99
                 : 19.99;
 
     addProduct({
@@ -108,6 +109,21 @@ const defaultCardDesc = `<p>An original hand-painted watercolor painting, crafte
   <p> All products are shipped carefully packaged to arrive in perfect condition.</p>
   <p>Please note: Due to the handmade nature of these pieces, slight variations may occur — making each set truly one-of-a-kind.
 </p>`};
+
+ PRODUCTS['card44'] = {...PRODUCTS['card44'],
+  name: `Golden Handwritten Calligraphy Quote (4" × 6")` , 
+  description : `<p> A timeless keepsake, lovingly handwritten in shimmering gold calligraphy </p>
+  <p> on premium watercolor paper. Each piece is created by hand, making it a beautiful gift for weddings, </p>
+  <p> anniversaries, engagements, or as meaningful home décor. </p>
+  <p> <br>
+Details 
+ <li> Original handwritten calligraphy (not printed) </li>
+ <li> Size: 4" × 6" </li>
+ <li> Premium 300gsm deckle-edge watercolor paper </li>
+ <li> Metallic gold calligraphy ink </li>
+ <li> One-of-a-kind handmade artwork </li>
+
+  </p>`};
 
 
 

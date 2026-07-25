@@ -22,6 +22,7 @@ function getProductPrice(productId) {
     const n = parseInt(productId.replace('card', ''));
     if (n === 2 || n === 5 || n === 6)    return 39.99;
     if (n === 43) return 25.99;
+    if (n === 44) return 49.99;
     return 19.99;
   }
   const classPrices = {
