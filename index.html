@@ -588,9 +588,51 @@ document.querySelectorAll('#mobileSideConsole a').forEach(link => {
      not as a playerVars option or a raw iframe src parameter — so each player
      is created plain, then cued to its index once the API reports it's ready. -->
 <script src="https://www.youtube.com/iframe_api"></script>
+
 <script>
   var TCA_UPLOADS_PLAYLIST = 'UULFP0R-6_bfkFxGPFqSVBBV7Q';
   var tcaPlayers = [];
+
+  function initTcaPlayers() {
+  var players = [
+    { id: 'yt-player-hero',     index: 0 },
+    { id: 'yt-player-lesson-1', index: 1 },
+    { id: 'yt-player-lesson-2', index: 2 },
+    { id: 'yt-player-lesson-3', index: 3 }
+  ];
+
+  players.forEach(function (cfg) {
+    var el = document.getElementById(cfg.id);
+    if (!el) return;
+
+    var player = new YT.Player(cfg.id, {
+      width: '100%',
+      height: '100%',
+      playerVars: { rel: 0, modestbranding: 1 },
+      events: {
+        onReady: function (event) {
+          event.target.cuePlaylist({
+            listType: 'playlist',
+            list: TCA_UPLOADS_PLAYLIST,
+            index: cfg.index
+          });
+          tcaPlayers.push(event.target);
+        },
+        onError: function (e) {
+          console.warn('YT player error on', cfg.id, e.data);
+        }
+      }
+    });
+  });
+}
+
+// Handles both the normal "API loads, then calls this" path,
+// AND the case where YT is already defined by the time we get here
+if (window.YT && window.YT.Player) {
+  initTcaPlayers();
+} else {
+  window.onYouTubeIframeAPIReady = initTcaPlayers;
+}
 
   function onYouTubeIframeAPIReady() {
     var players = [
