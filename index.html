@@ -36,6 +36,8 @@
 
   <!-- CSS -->
   <link rel="stylesheet" href="css/style.css">
+
+  <link rel="stylesheet" href="css/youtube.css">
 </head>
 <body>
 
@@ -65,10 +67,10 @@
           </div>
         </div>
       </div>
-      <a href="wedding.html">Weddings</a>
+      
       <a href="OnlineClass.html">OnlineClasses</a>
       <a href="#" data-scroll="contact">Contact</a>
-      <a href="schedule.html" class="nav-schedule-btn">Book a Session</a>
+      <a href="schedule.html" class="nav-schedule-btn">Learn with Me</a>
     </nav>
 
     <!-- Social Icons + Cart -->
@@ -100,11 +102,11 @@
     <li><a href="#" data-scroll="top">Home</a></li>
     <li><a href="bookmarks.html">Bookmarks</a></li>
     <li><a href="cards.html">Paintings</a></li>
-    <li><a href="wedding.html">Weddings</a></li>
+    
     <li><a href="OnlineClass.html">OnlineClasses</a></li>
     <li><a href="ebooks.html">E-Books</a></li>
     <li><a href="#" data-scroll="contact">Contact</a></li>
-    <li><a href="schedule.html" class="nav-schedule-btn">Book a Session</a></li>
+    <li><a href="schedule.html" class="nav-schedule-btn">Learn with Me</a></li>
   </ul>
 </div>
 
@@ -117,21 +119,25 @@
 <!-- HERO COLLAGE -->
 <section id="hero" class="hero-section">
   <div class="hero-collage">
-    <div class="tile tile-vertical"><img src="images/hero/hero-left.jpeg" alt="Hand painted watercolor wedding place card"></div>
-    <div class="tile tile-small"><video src="images/hero/video-2.MP4" muted autoplay loop playsinline></video></div>
-    <div class="tile tile-intro">
+    <div class="tile tile-vertical1"><img src="images/hero/hero-about.jpeg" alt="About the chic artist - Neetika"></div>
+    <div class="tile tile-horizontal"><img src="images/hero/hero-right-top2.jpeg" alt="Hand painted watercolor wedding Bouquet"></div>
+        <div class="tile tile-vertical">
       <img src="images/hero/hero-center.jpg" alt="About the chic artist - Neetika">
 
       <a href="about.html" class="tile-cta">
-        Hi, I’m Neetika
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="arrow-icon">
-            <path d="M5 12h14M13 6l6 6-6 6"/>
-        </svg>
+          Hi, I’m Neetika
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="arrow-icon">
+              <path d="M5 12h14M13 6l6 6-6 6"/>
+          </svg>
       </a>
     </div>
+    
+    
+    <div class="tile tile-intro">
+      <div id="yt-player-hero"></div>    
+    </div>
+    
 
-    <div class="tile tile-horizontal"><img src="images/hero/hero-right-top.jpg" alt="Hand painted watercolor wedding Bouquet"></div>
-    <div class="tile tile-small"><video src="images/hero/video-1.mp4" muted loop autoplay playsinline></video></div>
     <div class="tile tile-small tile-feature" onclick="window.location.href='OnlineClass.html'">
       <img src="images/hero/hero-left-bottom.jpg" alt="Hand painted watercolor wedding vows">
       <div class="tile-feature-overlay">
@@ -149,7 +155,7 @@
   </div>
 </section>
 
-<!-- MOBILE DIGITAL CARDS (visible only on mobile, replaces hero tiles for classes/ebooks) -->
+<!-- MOBILE DIGITAL CARDS (visible only on mobile) -->
 <section class="mobile-digital-cards">
   <a href="OnlineClass.html" class="mobile-digital-card">
     <img src="images/hero/hero-left-bottom.jpg" alt="Online Classes">
@@ -167,22 +173,64 @@
   </a>
 </section>
 
-<!-- TEXT DIVIDER -->
-<section id = "main-text" class="text-divider">
-  <div class="container text-center">
-    <h3>Celebrating Art & Weddings</h3>
-    <p>Hand-painted florals & memories captured with love</p>
+
+<!-- LESSONS / YOUTUBE -->
+<section id="lessons" class="lessons-section">
+  <div class="container">
+    <div class="section-header text-center">
+      <p class="section-eyebrow">On YouTube</p>
+      <h2 class="section-title-italic">Watch &amp; learn</h2>
+    </div>
+    <div class="lessons-grid">
+      <div class="lesson-card">
+        <div class="lesson-card-video">
+          <div id="yt-player-lesson-1"></div>
+        </div>
+        <div class="lesson-card-body">
+          
+        </div>
+      </div>
+      <div class="lesson-card">
+        <div class="lesson-card-video">
+          <div id="yt-player-lesson-2"></div>
+        </div>
+        <div class="lesson-card-body">
+          
+        </div>
+      </div>
+      <div class="lesson-card">
+        <div class="lesson-card-video">
+          <div id="yt-player-lesson-3"></div>
+        </div>
+        <div class="lesson-card-body">
+          
+        </div>
+      </div>
+    </div>
+    <div class="lessons-cta text-center">
+      <a href="https://www.youtube.com/@TheChicArtist" target="_blank" class="btn-primary-youtube">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        Subscribe on YouTube
+      </a>
+    </div>
   </div>
 </section>
 
-<!-- Catagory section -->
-<section id="gallery" class="category-section">
+
+<!-- Catagory section (demoted shop) -->
+<section id="gallery" class="category-section shop-demoted">
   <div class="container">
+
+    <div class="section-header text-center">
+      <p class="section-eyebrow">Also available</p>
+      <h2 class="section-title-italic">Shop the originals</h2>
+    </div>
 
     <!-- Bookmarks -->
     <div class="category-row">
       <h2>Bookmarks</h2>
-      <div class="category-grid">        <div class="category-arrow" id="bookmarksArrow">
+      <div class="category-grid">       
+        <div class="category-arrow" id="bookmarksArrow">
           <span>See All</span>
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="arrow-icon">
             <path d="M5 12h14M13 6l6 6-6 6"/>
@@ -210,30 +258,6 @@
             window.location.href = 'cards.html';
           });
         </script>
-      </div>
-    </div>
-
-    <!-- Weddings -->
-    <div class="category-row">
-      <h2>Weddings</h2>
-      <div class="category-grid">
-        <img src="images/wedding/w1.jpeg">
-        <img src="images/wedding/w2.jpeg">
-        <img src="images/wedding/w3.jpeg">
-        <img src="images/wedding/w4.jpeg">
-        <img src="images/wedding/w5.jpeg">
-        <img src="images/wedding/w6.jpeg">
-        <div class="category-arrow" id="weddingArrow">
-          <span>See All</span>
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="arrow-icon">
-            <path d="M5 12h14M13 6l6 6-6 6"/>
-          </svg>
-        </div>
-        <script>
-          document.getElementById('weddingArrow').addEventListener('click', () => {
-            window.location.href = 'wedding.html';
-        });
-      </script>
       </div>
     </div>
 
@@ -268,8 +292,8 @@
 <section id="contact" class="main-content contact-section">
   <div class="container text-center mb-4">
     <div class="container text-center mb-4">
-  <h1>Ready to embark on a floral journey?</h1>
-  <p>Let’s bring your wedding visions, watercolor dreams, and custom blooms to life together!</p>
+  <h1>Let's Create Something Beautiful Together</h1>
+  <p>Whether you're here to learn watercolor, collaborate on a project, or simply say hello, I'm just a message away.</p>
 </div>
 
   </div>
@@ -557,6 +581,66 @@ document.querySelectorAll('#mobileSideConsole a').forEach(link => {
 
 <script src="js/products.js"></script>
 <script src="js/cart.js"></script>
+
+<!-- YouTube players: hero + 3 lesson tiles, each pinned to a specific position
+     in the uploads playlist so they show different (not duplicate) videos.
+     Note: 'index' is only honored via the cuePlaylist()/loadPlaylist() calls,
+     not as a playerVars option or a raw iframe src parameter — so each player
+     is created plain, then cued to its index once the API reports it's ready. -->
+<script src="https://www.youtube.com/iframe_api"></script>
+<script>
+  var TCA_UPLOADS_PLAYLIST = 'UULFP0R-6_bfkFxGPFqSVBBV7Q';
+  var tcaPlayers = [];
+
+  function onYouTubeIframeAPIReady() {
+    var players = [
+      { id: 'yt-player-hero',     index: 0 },
+      { id: 'yt-player-lesson-1', index: 1 },
+      { id: 'yt-player-lesson-2', index: 2 },
+      { id: 'yt-player-lesson-3', index: 3 }
+    ];
+
+    players.forEach(function (cfg) {
+      if (!document.getElementById(cfg.id)) return;
+      new YT.Player(cfg.id, {
+        width: '100%',
+        height: '100%',
+        playerVars: { rel: 0, modestbranding: 1 },
+        events: {
+          onReady: function (event) {
+            event.target.cuePlaylist({
+              listType: 'playlist',
+              list: TCA_UPLOADS_PLAYLIST,
+              index: cfg.index
+            });
+            tcaPlayers.push(event.target);
+          }
+        }
+      });
+    });
+  }
+
+  function tcaPauseAllPlayers() {
+    tcaPlayers.forEach(function (p) {
+      try { p.pauseVideo(); } catch (e) { /* player not ready yet, ignore */ }
+    });
+  }
+
+  // Primary mechanism: pause everything whenever this tab loses visibility.
+  // This is what actually catches YouTube's own "Watch on YouTube" overlay
+  // link inside the embedded player — that link lives inside a cross-origin
+  // iframe, so we have no way to attach a click listener to it directly.
+  // Losing tab focus/visibility is the one signal we can reliably observe.
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) tcaPauseAllPlayers();
+  });
+
+  // Belt-and-suspenders: also pause immediately on our own "go to YouTube"
+  // buttons/links, so there's no lag waiting for the visibility event.
+  document.querySelectorAll('a[href*="youtube.com"][target="_blank"]').forEach(function (link) {
+    link.addEventListener('click', tcaPauseAllPlayers);
+  });
+</script>
 <script>
   // Render a preview of the 6 most recent products directly as plain linked images
   // so the existing category-grid CSS works exactly as before

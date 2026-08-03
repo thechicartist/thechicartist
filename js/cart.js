@@ -171,7 +171,7 @@
           if (!country) {
             shippingMsg.innerText = '';
           } else if (!allowed && cartType === 'digital' && province === 'SK') {
-            shippingMsg.innerHTML = 'Sorry, we are in process to get registered for Saskatchewan provincial tax and cannot process orders from SK from this webpage. <a href="international_store.html" style="color:#b09a82; font-weight:500;">Please visit our International Store</a>';
+            shippingMsg.innerHTML = 'Sorry, we are in process to get registered for Saskatchewan provincial tax and cannot process orders from SK from this webpage. <a href="https://thechicartiststudio.etsy.com" style="color:#b09a82; font-weight:500;">Please visit our etsyStore</a>';
           } else if (!allowed && country === 'Canada' && province === 'SK') {
             shippingMsg.innerText = 'Sorry, we do not deliver to Saskatchewan.';
           } else if (!allowed) {

@@ -23,11 +23,6 @@ http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
     <priority>0.90</priority>
   </url>
   <url>
-    <loc>https://thechicartist.com/wedding</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
-  </url>
-  <url>
     <loc>https://thechicartist.com/OnlineClass</loc>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
@@ -41,11 +36,6 @@ http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
     <loc>https://thechicartist.com/about</loc>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
-  </url>
-  <url>
-    <loc>https://www.thechicartist.com/international_store.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.70</priority>
   </url>
   <url>
     <loc>https://thechicartist.com/terms-and-conditions</loc>

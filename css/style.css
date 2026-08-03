@@ -67,12 +67,12 @@ body {
   }
 
   /* Hide all tiles except the intro */
-  .hero-collage .tile:not(.tile-intro) {
+  .hero-collage .tile:not(.tile-vertical) {
     display: none;
   }
 
   /* Make intro tile take full width */
-  .tile-intro {
+  .tile-vertical {
     grid-column: 1 / -1; /* full width */
     grid-row: auto;
   }
@@ -104,7 +104,7 @@ body {
 .tile video {
   pointer-events: none;
 }
-.tile-small { grid-column: span 1; grid-row: span 1; }
+.tile-vertical1 { grid-row: span 2; }
 .tile-horizontal { grid-column: span 2; }
 .tile-vertical { grid-row: span 2; }
 .tile-intro { grid-column: 2 / span 2; grid-row: 2 / span 2; }
@@ -1077,7 +1077,6 @@ html {
   position: relative;
   overflow: hidden;
   cursor: pointer;
-  /* size is inherited from tile-small — no grid-column/row override needed */
 }
 .tile-feature:hover {
   transform: scale(1.03);
@@ -1393,7 +1392,7 @@ html {
     .nav-schedule-btn {
       margin-left: 8px;
       padding: 7px 16px !important;
-      background: #b09a82;
+      background: #C48A93;
       color: #fff !important;
       border-radius: 4px;
       font-size: 0.82rem !important;
@@ -1401,4 +1400,4 @@ html {
       white-space: nowrap;
       transition: background 0.2s;
     }
-    .nav-schedule-btn:hover { background: #9a8470 !important; color: #fff !important; }
+    .nav-schedule-btn:hover { background: #c47984 !important; color: #fff !important; }
