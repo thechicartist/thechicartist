@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Creator Tips — VoxCue</title>
+
+  <meta
+    name="description"
+    content="Practical tips for creators, YouTubers, educators and anyone who wants to feel more confident and natural on camera."
+  >
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+
+    :root {
+      --bg: #0B0C0E;
+      --surface: #16181C;
+      --surface-2: #1D2025;
+      --text: #F2F0EA;
+      --text-muted: #9CA3AF;
+      --text-dim: #6B7280;
+      --accent: #FFB648;
+      --accent-dim: rgba(255, 182, 72, 0.12);
+      --border: rgba(255, 255, 255, 0.08);
+      --border-strong: rgba(255, 255, 255, 0.14);
+
+      --font-display: 'Inter', -apple-system,
+        BlinkMacSystemFont, sans-serif;
+
+      --font-mono: 'IBM Plex Mono',
+        'SF Mono', Menlo, monospace;
+
+      --radius: 14px;
+      --radius-sm: 8px;
+      --max-width: 1080px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-display);
+      font-size: 16px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    /* ---------------- NAV ---------------- */
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+
+      background: rgba(11, 12, 14, 0.85);
+      backdrop-filter: blur(10px);
+
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+
+      padding: 18px 24px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      font-weight: 600;
+      font-size: 18px;
+
+      color: var(--text);
+
+      letter-spacing: -0.01em;
+    }
+
+    .brand:hover {
+      text-decoration: none;
+    }
+
+    .brand-dot {
+      width: 10px;
+      height: 10px;
+
+      border-radius: 50%;
+
+      background: var(--accent);
+
+      box-shadow:
+        0 0 0 4px var(--accent-dim);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .nav-cta {
+      font-size: 14px;
+      color: var(--text);
+
+      border: 1px solid var(--border-strong);
+
+      padding: 8px 18px;
+
+      border-radius: 100px;
+    }
+
+    .nav-cta:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+
+      text-decoration: none;
+    }
+
+    @media (max-width: 820px) {
+      .nav-links {
+        display: none;
+      }
+    }
+
+    /* ---------------- LAYOUT ---------------- */
+
+    .wrap {
+      max-width: var(--max-width);
+      margin: 0 auto;
+
+      padding: 0 24px;
+    }
+
+    /* ---------------- HERO ---------------- */
+
+    .tips-hero {
+      padding: 92px 0 72px;
+
+      max-width: 760px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+
+      font-family: var(--font-mono);
+
+      font-size: 12px;
+      letter-spacing: 0.12em;
+
+      text-transform: uppercase;
+
+      color: var(--accent);
+
+      margin-bottom: 20px;
+    }
+
+    .eyebrow::before {
+      content: '';
+
+      width: 8px;
+      height: 8px;
+
+      border-radius: 50%;
+
+      background: var(--accent);
+    }
+
+    h1 {
+      font-size: clamp(38px, 6vw, 58px);
+
+      font-weight: 600;
+
+      letter-spacing: -0.025em;
+
+      line-height: 1.06;
+
+      margin: 0 0 22px;
+    }
+
+    .hero-description {
+      font-size: 19px;
+
+      color: var(--text-muted);
+
+      max-width: 650px;
+
+      margin: 0;
+    }
+
+    /* ---------------- ARTICLES ---------------- */
+
+    .articles {
+      border-top: 1px solid var(--border);
+
+      padding: 20px 0 80px;
+    }
+
+    .article-card {
+      display: grid;
+
+      grid-template-columns: 160px 1fr auto;
+
+      gap: 32px;
+
+      align-items: center;
+
+      padding: 32px 0;
+
+      border-bottom: 1px solid var(--border);
+    }
+
+    .article-number {
+      font-family: var(--font-mono);
+
+      font-size: 13px;
+
+      color: var(--accent);
+
+      letter-spacing: 0.08em;
+    }
+
+    .article-content h2 {
+      margin: 0 0 8px;
+
+      font-size: 22px;
+
+      font-weight: 500;
+
+      letter-spacing: -0.01em;
+    }
+
+    .article-content h2 a {
+      color: var(--text);
+    }
+
+    .article-content h2 a:hover {
+      color: var(--accent);
+
+      text-decoration: none;
+    }
+
+    .article-content p {
+      margin: 0;
+
+      color: var(--text-muted);
+
+      font-size: 15px;
+
+      max-width: 650px;
+    }
+
+    .article-meta {
+      font-family: var(--font-mono);
+
+      font-size: 12px;
+
+      color: var(--text-dim);
+
+      white-space: nowrap;
+    }
+
+    .article-arrow {
+      margin-left: 8px;
+
+      color: var(--accent);
+
+      font-size: 18px;
+    }
+
+    @media (max-width: 720px) {
+
+      .tips-hero {
+        padding: 64px 0 52px;
+      }
+
+      .article-card {
+        grid-template-columns: 1fr;
+
+        gap: 10px;
+
+        padding: 28px 0;
+      }
+
+      .article-meta {
+        margin-top: 6px;
+      }
+
+    }
+
+    /* ---------------- CTA ---------------- */
+
+    .cta-section {
+      border-top: 1px solid var(--border);
+
+      padding: 72px 0;
+    }
+
+    .cta-box {
+      background: var(--surface);
+
+      border: 1px solid var(--border);
+
+      border-radius: var(--radius);
+
+      padding: 48px;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      gap: 32px;
+    }
+
+    .cta-box h2 {
+      margin: 0 0 8px;
+
+      font-size: 28px;
+
+      font-weight: 500;
+    }
+
+    .cta-box p {
+      margin: 0;
+
+      color: var(--text-muted);
+
+      max-width: 560px;
+    }
+
+    .btn {
+      display: inline-flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      padding: 13px 26px;
+
+      border-radius: 100px;
+
+      font-size: 15px;
+
+      font-weight: 500;
+
+      white-space: nowrap;
+
+      background: var(--accent);
+
+      color: #1A1300;
+
+      border: none;
+    }
+
+    .btn:hover {
+      opacity: 0.9;
+
+      text-decoration: none;
+    }
+
+    @media (max-width: 720px) {
+
+      .cta-box {
+        padding: 32px;
+
+        flex-direction: column;
+
+        align-items: flex-start;
+      }
+
+    }
+
+    /* ---------------- FOOTER ---------------- */
+
+    footer {
+      border-top: 1px solid var(--border);
+
+      padding: 48px 0;
+    }
+
+    .footer-grid {
+      display: flex;
+
+      justify-content: space-between;
+
+      align-items: flex-start;
+
+      flex-wrap: wrap;
+
+      gap: 32px;
+    }
+
+    .footer-links {
+      display: flex;
+
+      gap: 28px;
+
+      font-size: 14px;
+
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+    }
+
+    .footer-links a:hover {
+      color: var(--text);
+    }
+
+    .footer-meta {
+      font-size: 13px;
+
+      color: var(--text-dim);
+
+      margin-top: 24px;
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+
+  <nav class="nav">
+
+    <div class="nav-inner">
+
+      <a href="index.html" class="brand">
+        <span class="brand-dot"></span>
+        VoxCue
+      </a>
+
+      <div class="nav-links">
+
+        <a href="index.html#features">
+          Features
+        </a>
+
+        <a href="index.html#how-it-works">
+          How it works
+        </a>
+
+        <a href="index.html#pricing">
+          Pricing
+        </a>
+
+        <a href="creator-tips.html">
+          Creator Tips
+        </a>
+
+        <a href="support.html">
+          Support
+        </a>
+
+      </div>
+
+      <a
+        href="https://apps.apple.com/us/app/voxcue-smart-teleprompter/id6780070606"
+        class="nav-cta"
+      >
+        Get the app
+      </a>
+
+    </div>
+
+  </nav>
+
+
+  <!-- MAIN -->
+
+  <main>
+
+    <div class="wrap">
+
+      <!-- HERO -->
+
+      <section class="tips-hero">
+
+        <div class="eyebrow">
+          Creator Tips
+        </div>
+
+        <h1>
+          Create better videos.
+          <br>
+          Feel better on camera.
+        </h1>
+
+        <p class="hero-description">
+          Practical tips for creators, educators, YouTubers,
+          coaches and anyone who wants to feel more natural
+          and confident on camera.
+        </p>
+
+      </section>
+
+
+      <!-- ARTICLES -->
+
+      <section class="articles">
+
+        <!-- ARTICLE 01 -->
+
+        <article class="article-card">
+
+          <div class="article-number">
+            01 / TELEPROMPTERS
+          </div>
+
+          <div class="article-content">
+
+            <h2>
+              <a href="creator-tips/how-to-use-a-teleprompter.html">
+                How to Use a Teleprompter Without
+                Sounding Like You're Reading
+              </a>
+            </h2>
+
+            <p>
+              Simple techniques to sound natural,
+              maintain eye contact and feel more
+              confident while using a script.
+            </p>
+
+          </div>
+
+          <div class="article-meta">
+            <a href="creator-tips/how-to-use-a-teleprompter.html" class="meta-link">
+            7 min read <span class="article-arrow">→</span>
+            </a>
+        </div> 
+
+        </article>
+
+
+        <!-- FUTURE ARTICLE -->
+
+        <article class="article-card">
+
+          <div class="article-number">
+            02 / VIDEO
+          </div>
+
+          <div class="article-content">
+
+            <h2>
+              <a href="#">
+                How to Record YouTube Videos Without
+                Memorizing Your Script
+              </a>
+            </h2>
+
+            <p>
+              Coming soon — practical tips for
+              creating confident, natural YouTube videos.
+            </p>
+
+          </div>
+
+          <div class="article-meta">
+            Coming soon
+          </div>
+
+        </article>
+
+
+        <!-- FUTURE ARTICLE -->
+
+        <article class="article-card">
+
+          <div class="article-number">
+            03 / ON CAMERA
+          </div>
+
+          <div class="article-content">
+
+            <h2>
+              <a href="#">
+                How to Sound Natural When Reading
+                From a Teleprompter
+              </a>
+            </h2>
+
+            <p>
+              Coming soon — how to turn a written
+              script into a natural conversation.
+            </p>
+
+          </div>
+
+          <div class="article-meta">
+            Coming soon
+          </div>
+
+        </article>
+
+
+        <!-- FUTURE ARTICLE -->
+
+        <article class="article-card">
+
+          <div class="article-number">
+            04 / CREATORS
+          </div>
+
+          <div class="article-content">
+
+            <h2>
+              <a href="#">
+                7 Simple Tips for Recording
+                Better Talking-Head Videos
+              </a>
+            </h2>
+
+            <p>
+              Coming soon — small changes that can
+              make your videos feel more polished.
+            </p>
+
+          </div>
+
+          <div class="article-meta">
+            Coming soon
+          </div>
+
+        </article>
+
+      </section>
+
+
+      <!-- CTA -->
+
+      <section class="cta-section">
+
+        <div class="cta-box">
+
+          <div>
+
+            <h2>
+              Ready to make recording easier?
+            </h2>
+
+            <p>
+              VoxCue listens as you speak and
+              scrolls your script with your voice.
+              Speak naturally. Your script keeps up.
+            </p>
+
+          </div>
+
+          <a
+            href="https://apps.apple.com/us/app/voxcue-smart-teleprompter/id6780070606"
+            class="btn"
+          >
+            Try VoxCue
+          </a>
+
+        </div>
+
+      </section>
+
+    </div>
+
+  </main>
+
+
+  <!-- FOOTER -->
+
+  <footer>
+
+    <div class="wrap footer-grid">
+
+      <div>
+
+        <a href="index.html" class="brand">
+
+          <span class="brand-dot"></span>
+
+          VoxCue
+
+        </a>
+
+        <div class="footer-meta">
+          © 2026 Neetika Agarwal. All rights reserved.
+        </div>
+
+      </div>
+
+      <div class="footer-links">
+
+        <a href="creator-tips.html">
+          Creator Tips
+        </a>
+
+        <a href="support.html">
+          Support
+        </a>
+
+        <a href="privacy.html">
+          Privacy Policy
+        </a>
+
+        <a href="terms.html">
+          Terms &amp; Conditions
+        </a>
+
+      </div>
+
+    </div>
+
+  </footer>
+
+</body>
+</html>
