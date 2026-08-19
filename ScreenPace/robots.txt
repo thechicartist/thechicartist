@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://thechicartist.com/ScreenPace/sitemap.xml

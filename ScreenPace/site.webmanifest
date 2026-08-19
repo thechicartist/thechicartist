@@ -1,0 +1,21 @@
+{
+  "name": "ScreenPace",
+  "short_name": "ScreenPace",
+  "description": "Hourly screen time for self-control.",
+  "start_url": "./index.html",
+  "display": "browser",
+  "background_color": "#0b0c0e",
+  "theme_color": "#0b0c0e",
+  "icons": [
+    {
+      "src": "assets/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/screenpace-icon.png",
+      "sizes": "1024x1024",
+      "type": "image/png"
+    }
+  ]
+}
