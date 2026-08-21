@@ -234,5 +234,6 @@ http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
   <url><loc>https://www.thechicartist.com/product.html?id=class-cherry-blossom</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.thechicartist.com/product.html?id=ebook-watercolor-basics</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.thechicartist.com/product.html?id=ebook-watercolor-spring-flowers</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.thechicartist.com/product.html?id=ebook-all_about_pumpkins</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
 
 </urlset>

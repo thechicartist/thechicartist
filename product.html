@@ -413,6 +413,15 @@
     // Update page title
     document.title = `${product.name} | The Chic Artist`;
 
+    const onSale = product.salePrice != null && product.salePrice < product.price;
+    const effectivePrice = onSale ? product.salePrice : product.price;
+    const priceTagHTML = onSale
+      ? `<p class="product-price-tag">
+           <span class="original-price">$${Number(product.price).toFixed(2)}</span>
+           <span class="sale-price">$${Number(product.salePrice).toFixed(2)}</span>
+         </p>`
+      : `<p class="product-price-tag">$${Number(product.price).toFixed(2)}</p>`;
+
     // Back link
     backLink.href = product.category === 'card' ? 'cards.html'
                   : product.category === 'class' ? 'OnlineClass.html'
@@ -474,14 +483,14 @@
         <div class="product-info">
           <p class="product-category-tag">${product.category === 'card' ? 'Original Painting' : product.category === 'class' ? 'Online Class' : product.category === 'ebook' ? 'E-Book' : 'Watercolor Bookmark'}</p>
           <h1>${product.name}</h1>
-          <p class="product-price-tag">$${Number(product.price).toFixed(2)}</p>
+          ${priceTagHTML}
           ${product.soldOut
             ? `<button class="btn-add-cart sold-out" disabled>Sold Out</button>`
             : `<button
                 class="btn-add-cart add-to-cart"
                 data-id="${product.id}"
                 data-name="${product.name}"
-                data-price="${product.price}"
+                data-price="${effectivePrice}"
                 data-image="${product.images[0]}"
                 data-type="${(product.category === 'class' || product.category === 'ebook') ? 'digital' : 'physical'}"
               >
@@ -579,25 +588,36 @@
       const section = document.getElementById('youMayAlsoLike');
       const grid = document.getElementById('relatedGrid');
       section.style.display = 'block';
-      grid.innerHTML = shuffled.map(p => `
+      grid.innerHTML = shuffled.map(p => {
+        const pOnSale = p.salePrice != null && p.salePrice < p.price;
+        const pEffectivePrice = pOnSale ? p.salePrice : p.price;
+        const pPriceHTML = pOnSale
+          ? `<p class="related-price">
+               <span class="original-price">$${Number(p.price).toFixed(2)}</span>
+               <span class="sale-price">$${Number(p.salePrice).toFixed(2)}</span>
+             </p>`
+          : `<p class="related-price">$${Number(p.price).toFixed(2)}</p>`;
+
+        return `
         <div class="related-card-wrapper">
           <a href="product.html?id=${p.id}" class="related-card">
             <div class="related-img-wrap">
               <img src="${p.images[0]}" alt="${p.name}" loading="lazy">
             </div>
             <p class="related-name">${p.name}</p>
-            <p class="related-price">$${Number(p.price).toFixed(2)}</p>
+            ${pPriceHTML}
           </a>
           <button class="related-add-btn add-to-cart"
                 data-id="${p.id}"
                 data-name="${p.name}"
-                data-price="${p.price}"
+                data-price="${pEffectivePrice}"
                 data-image="${p.images[0]}"
                 data-type="${(p.category === 'class' || p.category === 'ebook') ? 'digital' : 'physical'}">
                 Add to Cart
               </button>
         </div>
-      `).join('');
+      `;
+      }).join('');
     }
   }
 

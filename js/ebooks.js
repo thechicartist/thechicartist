@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const grid = document.getElementById('ebookGrid');
   if (!grid) return;
 
-  // Get only e-book products
   const ebooks = Object.values(PRODUCTS).filter(p => p.category === 'ebook');
 
   if (ebooks.length === 0) {
@@ -13,6 +12,16 @@ document.addEventListener('DOMContentLoaded', () => {
   ebooks.forEach(product => {
     const col = document.createElement('div');
     col.className = 'col-6 col-md-4 col-lg-3 mb-4';
+
+    const onSale = product.salePrice != null && product.salePrice < product.price;
+    const effectivePrice = onSale ? product.salePrice : product.price;
+
+    const priceHtml = onSale
+      ? `<p class="product-price">
+           <span class="original-price">$${Number(product.price).toFixed(2)}</span>
+           <span class="sale-price">$${Number(product.salePrice).toFixed(2)}</span>
+         </p>`
+      : `<p class="product-price">$${Number(product.price).toFixed(2)}</p>`;
 
     col.innerHTML = `
       <div class="product-item">
@@ -25,12 +34,12 @@ document.addEventListener('DOMContentLoaded', () => {
         </a>
         <div class="product-overlay">
           <div class="product-overlay-inner">
-            <p class="product-price">$${Number(product.price).toFixed(2)}</p>
+            ${priceHtml}
             <a href="product.html?id=${product.id}" class="btn btn-sm btn-outline-dark mb-1">View Details</a>
             <button class="btn btn-sm add-to-cart"
                     data-id="${product.id}"
                     data-name="${product.name}"
-                    data-price="${product.price}"
+                    data-price="${effectivePrice}"
                     data-image="${product.images[0]}"
                     data-type="digital">
                   Add to Cart

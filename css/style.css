@@ -1401,3 +1401,15 @@ html {
       transition: background 0.2s;
     }
     .nav-schedule-btn:hover { background: #c47984 !important; color: #fff !important; }
+
+  .original-price {
+  text-decoration: line-through;
+  color: #999;
+  font-size: 0.85em;
+  margin-right: 6px;
+}
+
+.sale-price {
+  color: #c0392b;
+  font-weight: bold;
+}

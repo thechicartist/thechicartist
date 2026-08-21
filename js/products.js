@@ -275,6 +275,48 @@ addProduct({
   `
 });
 
+addProduct({
+  id: 'ebook-all_about_pumpkins',
+  name: 'All About Pumpkins: An Autumn Collection of Watercolor Pumpkins - eBook',
+  price: 10.99,
+  salePrice: 8.25,
+  polarPrice:10.99,
+  type: 'digital',
+  category: 'ebook',
+  polarUrl: 'https://buy.polar.sh/polar_cl_Hosj0DAyTfO2HQoifvgpJs2yKcRsf11O1CXvQ3zviHb',
+  images: ['images/ebooks/e9.jpg', 'images/ebooks/e10.jpg', 'images/ebooks/e11.jpg', 'images/ebooks/e12.jpg'],
+  description: `
+  
+    <p>Step into a world of crisp autumn air, glowing golden light, and irresistible cozy charm.</p>
+    
+    <p>Whether you are an aspiring artist picking up a brush for the first time, 
+    a seasoned painter seeking fresh inspiration, or simply someone who adores the quiet beauty of the fall season, 
+    this e-book is crafted as a magical sanctuary for your creative soul.</p>
+
+
+
+     <p>More than just an instructional guide, this collection is an immersive artistic journey through the harvest patch. 
+     Meet a whimsical cast of heirloom pumpkin characters—from the rich, fiery tones of Ignatius to the ghostly alabaster magic of Genevieve and the graceful, 
+     sweeping curves of Willoughby. Each chapter celebrates the warmth, nostalgia, and rich textures that make autumn feel like home..</p>
+
+     <p>
+
+        Why You’ll Fall in Love With This Book:<br>
+        🧡 Step-by-Step Watercolor Tutorials: Clear, encouraging, and delightful instruction suitable for all skill levels.<br>
+        🧡 Ready-to-Trace Master Outlines: Skip the stress of drawing from scratch—simply print or transfer the included sketches directly onto your paper.<br>
+        🧡 Curated Color Palettes & Swatches: Learn the secret to blending glowing underwashes, earthy moss tones, and rich rustic speckles.<br>
+        🧡 Versatile Layering & Texturing Techniques: Master foundational glazing, stippling, and wet-on-wet methods that you can apply to any future watercolor subject—from botanical florals to rich landscapes!<br>
+        🧡 Charming Autumn Lore & Fun Facts: Discover the fascinating history and cozy tales behind classic harvest gourds as you paint.<br>
+        🧡 A Visual Feast for Fall Lovers: Even if you just want to curl up with a hot cup of cider and flip through the gorgeous, vibrant pages, this book brings instant seasonal warmth to your screen.<br>
+
+</p>
+
+<p>Whether you are looking to create handmade greeting cards, frame your own seasonal wall art, or unwind with a relaxing autumn hobby, All About Pumpkins is your ultimate companion for the season.
+
+Bring the heart of the harvest straight to your studio today—and let the cozy painting begin!</p>
+  `
+});
+
 // Note id must always start with 'ebook-' for digital products to work properly in cart.js
 // To add more e-books:
 // addProduct({
