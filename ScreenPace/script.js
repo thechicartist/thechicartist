@@ -28,7 +28,7 @@
       link.rel = "noopener noreferrer";
       link.removeAttribute("aria-disabled");
       link.querySelectorAll("[data-app-cta-label]").forEach((label) => {
-        label.textContent = "Get ScreenPace";
+        label.textContent = "Start 7-Day Free Trial";
       });
       return;
     }
