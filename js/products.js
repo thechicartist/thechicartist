@@ -279,7 +279,7 @@ addProduct({
   id: 'ebook-all_about_pumpkins',
   name: 'All About Pumpkins: An Autumn Collection of Watercolor Pumpkins - eBook',
   price: 10.99,
-  salePrice: 8.25,
+  salePrice: 10.99,
   polarPrice:10.99,
   type: 'digital',
   category: 'ebook',
@@ -312,6 +312,35 @@ addProduct({
 </p>
 
 <p>Whether you are looking to create handmade greeting cards, frame your own seasonal wall art, or unwind with a relaxing autumn hobby, All About Pumpkins is your ultimate companion for the season.
+
+Bring the heart of the harvest straight to your studio today—and let the cozy painting begin!</p>
+  `
+});
+
+addProduct({
+  id: 'ebook-autumn-doodles',
+  name: 'Autumn Doodles: A Collection of Autumn-inspired Watercolor Doodles',
+  price: 1.99,
+  salePrice: 1.99,
+  polarPrice:1.99,
+  type: 'digital',
+  category: 'ebook',
+  polarUrl: 'https://buy.polar.sh/polar_cl_Hosj0DAyTfO2HQoifvgpJs2yKcRsf11O1CXvQ3zviHb',
+  images: ['images/ebooks/e14.jpg', 'images/ebooks/e13.jpg'],
+  description: `
+  
+    <p>Step into a world of crisp autumn air, glowing golden light, and irresistible cozy charm.</p>
+    
+    <p>Whether you are an aspiring artist picking up a brush for the first time, 
+    a seasoned painter seeking fresh inspiration, or simply someone who adores the quiet beauty of the fall season, 
+    this doodle page is crafted as a magical sanctuary for your creative soul.</p>
+
+
+
+     <p>Follow my youtube video <a href="https://youtu.be/oh2fUv5zyls" target="_blank">here</a> to color this page along!</p>
+
+
+<p>Whether you are looking to create handmade greeting cards, frame your own seasonal wall art, or unwind with a relaxing autumn hobby, Use this page as your creative outlet.
 
 Bring the heart of the harvest straight to your studio today—and let the cozy painting begin!</p>
   `
