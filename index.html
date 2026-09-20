@@ -4,6 +4,9 @@
   <!-- Basic Setup -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="apple-touch-icon" href="images/favicon.png">
 
   <!-- Primary SEO Metadata -->
   <title>The Chic Artist | Hand-Painted Watercolor Art & Online Workshops</title>
@@ -68,6 +71,16 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/youtube.css">
+  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+  <script>
+    window.OneSignalDeferred = window.OneSignalDeferred || [];
+    OneSignalDeferred.push(async function(OneSignal) {
+      OneSignal.setConsentRequired(true);
+      await OneSignal.init({ appId: "e5e02931-855a-4373-9949-dc7ab33a0ddf" });
+      window.TheChicArtistOneSignal = OneSignal;
+      window.dispatchEvent(new Event("onesignalready"));
+    });
+  </script>
 </head>
 <body>
 
@@ -348,6 +361,39 @@
 
 </section>
 
+<section id="inspiration" class="inspiration-section" aria-labelledby="inspiration-title">
+  <div class="inspiration-card">
+    <p class="section-eyebrow">A little creative nudge</p>
+    <h2 id="inspiration-title">Watercolor inspiration, your way</h2>
+    <p>Choose how often you’d like to hear from The Chic Artist. You can change your mind at any time.</p>
+
+    <form id="inspirationPreferences" class="inspiration-form">
+      <fieldset>
+        <legend>How often?</legend>
+        <div class="preference-options" role="radiogroup">
+          <label><input type="radio" name="frequency" value="daily" checked> Daily</label>
+          <label><input type="radio" name="frequency" value="weekly"> Weekly</label>
+          <label><input type="radio" name="frequency" value="off"> Not right now</label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>How should we reach you?</legend>
+        <label class="preference-check"><input type="checkbox" name="channels" value="push" checked> Browser notifications</label>
+        <label class="preference-check"><input type="checkbox" name="channels" value="email"> Email</label>
+        <label class="email-field" for="inspirationEmail">Email address
+          <input id="inspirationEmail" name="email" type="email" autocomplete="email" placeholder="you@example.com" disabled>
+        </label>
+      </fieldset>
+
+      <label class="consent-check"><input type="checkbox" name="consent" required> I agree to receive the selected inspiration. I can opt out whenever I like.</label>
+      <button type="submit" class="inspiration-submit">Save my preferences</button>
+      <p id="inspirationStatus" class="inspiration-status" role="status" aria-live="polite"></p>
+      <p class="inspiration-note">On iPhone and iPad, browser notifications are available after adding this site to your Home Screen.</p>
+    </form>
+  </div>
+</section>
+
 
 <footer class="py-4 text-center text-muted position-relative">
   © 2026 The Chic Artist<br>
@@ -611,6 +657,7 @@ document.querySelectorAll('#mobileSideConsole a').forEach(link => {
 
 <script src="js/products.js"></script>
 <script src="js/cart.js"></script>
+<script src="js/inspiration-preferences.js"></script>
 
 <!-- YouTube players: hero + 3 lesson tiles, each pinned to a specific position
      in the uploads playlist so they show different (not duplicate) videos.
