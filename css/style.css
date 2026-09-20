@@ -1418,6 +1418,7 @@ html {
 .inspiration-section {
   padding: 72px 20px;
   background: #faf8f5;
+  display: none;
 }
 .inspiration-card {
   width: min(100%, 620px);
