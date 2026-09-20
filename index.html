@@ -260,6 +260,38 @@
 </section>
 
 
+<section id="inspiration" class="inspiration-section" aria-labelledby="inspiration-title">
+  <div class="container">
+    <div class="section-header text-center">
+      <p class="section-eyebrow">A little creative nudge</p>
+      <h2 id="inspiration-title" class="section-title-italic">Watercolor inspiration, straight to your inbox</h2>
+    </div>
+
+    <div class="inspiration-card">
+      <p class="inspiration-subtext">Occasional notes, prompts, and pieces from The Chic Artist. No spam, unsubscribe anytime.</p>
+
+      <form id="inspirationPreferences" class="inspiration-form">
+        <label class="visually-hidden" for="inspirationName">Your name</label>
+        <input id="inspirationName" name="name" type="text" autocomplete="given-name" placeholder="Your name" required>
+
+        <div class="inspiration-row">
+          <label class="visually-hidden" for="inspirationEmail">Email address</label>
+          <input id="inspirationEmail" name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+          <button type="submit" class="inspiration-submit">Subscribe</button>
+        </div>
+
+        <label class="consent-check">
+          <input type="checkbox" name="consent" required>
+          I agree to receive emails from The Chic Artist. I can unsubscribe anytime.
+        </label>
+
+        <p id="inspirationStatus" class="inspiration-status" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </div>
+</section>
+
+
 <!-- Catagory section (demoted shop) -->
 <section id="gallery" class="category-section shop-demoted">
   <div class="container">
@@ -361,41 +393,6 @@
 
 </section>
 
-<section id="inspiration" class="inspiration-section" aria-labelledby="inspiration-title">
-  <div class="inspiration-card">
-    <p class="section-eyebrow">A little creative nudge</p>
-    <h2 id="inspiration-title">Watercolor inspiration, your way</h2>
-    <p>Choose how often you’d like to hear from The Chic Artist. You can change your mind at any time.</p>
-
-    <form id="inspirationPreferences" class="inspiration-form">
-      <fieldset>
-        <legend>How often?</legend>
-        <div class="preference-options" role="radiogroup">
-          <label><input type="radio" name="frequency" value="daily" checked> Daily</label>
-          <label><input type="radio" name="frequency" value="weekly"> Weekly</label>
-          <label><input type="radio" name="frequency" value="off"> Not right now</label>
-        </div>
-      </fieldset>
-
-      <fieldset>
-        <legend>How should we reach you?</legend>
-        <label class="preference-check"><input type="checkbox" name="channels" value="push" checked> Browser notifications</label>
-        <label class="preference-check"><input type="checkbox" name="channels" value="email"> Email</label>
-        <label class="email-field" for="inspirationEmail">Email address
-          <input id="inspirationEmail" name="email" type="email" autocomplete="email" placeholder="you@example.com" disabled>
-        </label>
-      </fieldset>
-
-      <label class="consent-check"><input type="checkbox" name="consent" required> I agree to receive the selected inspiration. I can opt out whenever I like.</label>
-      <button type="submit" class="inspiration-submit">Save my preferences</button>
-      <p id="inspirationStatus" class="inspiration-status" role="status" aria-live="polite"></p>
-      <p class="inspiration-note">On iPhone and iPad, browser notifications are available after adding this site to your Home Screen.</p>
-    </form>
-  </div>
-</section>
-
-
-<footer class="py-4 text-center text-muted position-relative">
   © 2026 The Chic Artist<br>
   <a href="terms-and-conditions.html" style="color:#888; text-decoration:underline; font-size:0.85rem;">Terms &amp; Conditions</a>
 
