@@ -2,7 +2,7 @@
  * ============================================================
  *  PRODUCT DATABASE — The Chic Artist
  *
- *  type: 'physical' → bookmarks, cards (shipped, CA+USA only)
+ *  type: 'physical' → bookmarks, paintings (shipped, CA+USA only)
  *  type: 'digital'  → online classes (CA+USA+UK, no shipping)
  * ============================================================
  */
@@ -63,7 +63,7 @@ const defaultBookmarkDesc = `
 
 
 // ============================================================
-//  CARDS / PAINTINGS
+// PAINTINGS
 // ============================================================
 const defaultCardDesc = `<p>An original hand-painted watercolor painting, crafted with care and attention to detail.</p>
   <p>Size: <strong>5 × 7 inches</strong>, unframed — ready for styling or gifting.</p>
@@ -74,18 +74,16 @@ const defaultCardDesc = `<p>An original hand-painted watercolor painting, crafte
 </p>`;
 
 (function() {
-  for (let i = 1; i <= 44; i++) {
-    const price = (i === 2 || i === 5 || i === 6) ? 39.99
-                : (i === 43) ? 25.99
-                : (i === 44) ? 49.99
-                : 19.99;
+  for (let i = 1; i <= 26; i++) {
+    const price = (i === 16 || i === 2) ? 39.99
+                : 24.99;
 
     addProduct({
-      id: `card${i}`, 
+      id: `painting${i}`, 
       name: `Hand-painted Watercolor Painting ${i}`, 
       price,
       type: 'physical',
-      images: [`images/cards/c${i}.jpeg`],
+      images: [`images/paintings/c${i}.jpeg`],
       description: defaultCardDesc,
       soldOut: false,
       category: 'card'
@@ -94,14 +92,8 @@ const defaultCardDesc = `<p>An original hand-painted watercolor painting, crafte
 })();
 
 // ---- Per-product overrides ----
- PRODUCTS['card2'].images = ['images/cards/c2.jpeg', 'images/cards/c2.jpeg'];
- PRODUCTS['card7'].images = ['images/cards/c7.jpeg', 'images/cards/c7b.jpeg'];
- PRODUCTS['card10'].images = ['images/cards/c10.jpeg', 'images/cards/c10b.jpeg'];
- PRODUCTS['card16'].images = ['images/cards/c16.jpeg', 'images/cards/c16b.jpeg'];
- PRODUCTS['card26'].soldOut = true;
 
-
- PRODUCTS['card43'] = {...PRODUCTS['card43'],
+ PRODUCTS['painting2'] = {...PRODUCTS['painting2'],
   name: `Mother's Day Original Watercolor Greeting Card` , 
   description : `<p>A beautiful Floral Mother's Day greeting card, hand-painted with watercolors.</p>
   <p>Size: <strong>5 × 7 inches</strong>.</p>
@@ -109,22 +101,6 @@ const defaultCardDesc = `<p>An original hand-painted watercolor painting, crafte
   <p> All products are shipped carefully packaged to arrive in perfect condition.</p>
   <p>Please note: Due to the handmade nature of these pieces, slight variations may occur — making each set truly one-of-a-kind.
 </p>`};
-
- PRODUCTS['card44'] = {...PRODUCTS['card44'],
-  name: `Golden Handwritten Calligraphy Quote (4" × 6")` , 
-  description : `<p> A timeless keepsake, lovingly handwritten in shimmering gold calligraphy </p>
-  <p> on premium watercolor paper. Each piece is created by hand, making it a beautiful gift for weddings, </p>
-  <p> anniversaries, engagements, or as meaningful home décor. </p>
-  <p> <br>
-Details 
- <li> Original handwritten calligraphy (not printed) </li>
- <li> Size: 4" × 6" </li>
- <li> Premium 300gsm deckle-edge watercolor paper </li>
- <li> Metallic gold calligraphy ink </li>
- <li> One-of-a-kind handmade artwork </li>
-
-  </p>`};
-
 
 
 // ============================================================
@@ -311,7 +287,7 @@ addProduct({
 
 </p>
 
-<p>Whether you are looking to create handmade greeting cards, frame your own seasonal wall art, or unwind with a relaxing autumn hobby, All About Pumpkins is your ultimate companion for the season.
+<p>Whether you are looking to create handmade greeting paintings, frame your own seasonal wall art, or unwind with a relaxing autumn hobby, All About Pumpkins is your ultimate companion for the season.
 
 Bring the heart of the harvest straight to your studio today—and let the cozy painting begin!</p>
   `
@@ -340,7 +316,7 @@ addProduct({
      <p>Follow my youtube video <a href="https://youtu.be/oh2fUv5zyls" target="_blank">here</a> to color this page along!</p>
 
 
-<p>Whether you are looking to create handmade greeting cards, frame your own seasonal wall art, or unwind with a relaxing autumn hobby, Use this page as your creative outlet.
+<p>Whether you are looking to create handmade greeting paintings, frame your own seasonal wall art, or unwind with a relaxing autumn hobby, Use this page as your creative outlet.
 
 Bring the heart of the harvest straight to your studio today—and let the cozy painting begin!</p>
   `

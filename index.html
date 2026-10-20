@@ -105,7 +105,7 @@
         <div class="nav-dropdown-menu">
           <div class="nav-dropdown-menu-inner">
             <a href="bookmarks.html">Bookmarks</a>
-            <a href="cards.html">Paintings</a>
+            <a href="paintings.html">Paintings</a>
             <a href="ebooks.html">E-Books</a>
           </div>
         </div>
@@ -144,7 +144,7 @@
   <ul>
     <li><a href="#" data-scroll="top">Home</a></li>
     <li><a href="bookmarks.html">Bookmarks</a></li>
-    <li><a href="cards.html">Paintings</a></li>
+    <li><a href="paintings.html">Paintings</a></li>
     
     <li><a href="OnlineClass.html">OnlineClasses</a></li>
     <li><a href="ebooks.html">E-Books</a></li>
@@ -198,8 +198,8 @@
   </div>
 </section>
 
-<!-- MOBILE DIGITAL CARDS (visible only on mobile) -->
-<section class="mobile-digital-cards">
+<!-- MOBILE DIGITAL paintings (visible only on mobile) -->
+<section class="mobile-digital-paintings">
   <a href="OnlineClass.html" class="mobile-digital-card">
     <img src="images/hero/hero-left-bottom.jpg" alt="Online Classes">
     <div class="mobile-digital-card-body">
@@ -322,15 +322,15 @@
     <!-- Paintings -->
     <div class="category-row">
       <h2>Paintings</h2>
-      <div class="category-grid">        <div class="category-arrow" id="cardsArrow">
+      <div class="category-grid">        <div class="category-arrow" id="paintingsArrow">
           <span>See All</span>
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="arrow-icon">
             <path d="M5 12h14M13 6l6 6-6 6"/>
           </svg>
         </div>
         <script>
-          document.getElementById('cardsArrow').addEventListener('click', () => {
-            window.location.href = 'cards.html';
+          document.getElementById('paintingsArrow').addEventListener('click', () => {
+            window.location.href = 'paintings.html';
           });
         </script>
       </div>
@@ -528,8 +528,8 @@ async function loadAndInitCarousel() {
   const dotsEl = document.getElementById('testimonialsDots');
   if (!track) return;
 
-  const origCards = Array.from(track.querySelectorAll('.testimonial-card'));
-  const total     = origCards.length;
+  const origpaintings = Array.from(track.querySelectorAll('.testimonial-card'));
+  const total     = origpaintings.length;
   const INTERVAL  = 3500;
   const DURATION  = 520;
 
@@ -537,12 +537,12 @@ async function loadAndInitCarousel() {
   let timer   = null;
   let paused  = false;
 
-  // Clone all cards and append — creates seamless infinite loop
+  // Clone all paintings and append — creates seamless infinite loop
   // Structure: [originals] [clones]
-  origCards.forEach(c => track.appendChild(c.cloneNode(true)));
+  origpaintings.forEach(c => track.appendChild(c.cloneNode(true)));
 
   // Build dots (one per original card)
-  origCards.forEach((_, i) => {
+  origpaintings.forEach((_, i) => {
     const d = document.createElement('button');
     d.className = 'testimonials-dot';
     d.setAttribute('aria-label', `Review ${i + 1}`);
@@ -784,10 +784,10 @@ if (window.YT && window.YT.Player) {
     for (let i = 129; i >= 1; i--) if (PRODUCTS[`bookmark${i}`]) bookmarkKeys.push(`bookmark${i}`);
     renderPreview('bookmarksArrow', bookmarkKeys);
 
-    // Most recent cards first
+    // Most recent paintings first
     const cardKeys = [];
     for (let i = 42; i >= 1; i--) if (PRODUCTS[`card${i}`]) cardKeys.push(`card${i}`);
-    renderPreview('cardsArrow', cardKeys);
+    renderPreview('paintingsArrow', cardKeys);
   });
 </script>
 

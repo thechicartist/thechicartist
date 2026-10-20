@@ -18,12 +18,10 @@ function getProductPrice(productId) {
     if (n === 49 || n === 128 || n === 45)  return 11.99;
     return 11.99;
   }
-  if (productId.startsWith('card')) {
-    const n = parseInt(productId.replace('card', ''));
-    if (n === 2 || n === 5 || n === 6)    return 39.99;
-    if (n === 43) return 25.99;
-    if (n === 44) return 49.99;
-    return 19.99;
+  if (productId.startsWith('painting')) {
+    const n = parseInt(productId.replace('painting', ''));
+    if (n === 2 || n === 16)    return 39.99;
+    return 24.99;
   }
   const classPrices = {
     'class-cherry-blossom': 30.00,

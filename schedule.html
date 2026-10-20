@@ -156,8 +156,8 @@
       margin-bottom: 28px;
     }
 
-    /* ---- SLOT TYPE CARDS ---- */
-    .slot-cards {
+    /* ---- SLOT TYPE paintings ---- */
+    .slot-paintings {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 16px;
@@ -480,7 +480,7 @@
     }
 
     @media (max-width: 600px) {
-      .slot-cards { grid-template-columns: 1fr; }
+      .slot-paintings { grid-template-columns: 1fr; }
       .form-row { grid-template-columns: 1fr; }
       .steps::before { display: none; }
     }
@@ -507,7 +507,7 @@
         <div class="nav-dropdown-menu">
           <div class="nav-dropdown-menu-inner">
             <a href="bookmarks.html">Bookmarks</a>
-            <a href="cards.html">Paintings</a>
+            <a href="paintings.html">Paintings</a>
             <a href="ebooks.html">E-Books</a>
           </div>
         </div>
@@ -540,7 +540,7 @@
   <ul>
     <li><a href="index.html" data-scroll="top">Home</a></li>
     <li><a href="bookmarks.html">Bookmarks</a></li>
-    <li><a href="cards.html">Paintings</a></li>
+    <li><a href="paintings.html">Paintings</a></li>
     
     <li><a href="OnlineClass.html">OnlineClasses</a></li>
     <li><a href="ebooks.html">E-Books</a></li>
@@ -586,7 +586,7 @@
     <p class="section-title">Choose your session</p>
     <p class="section-subtitle">Select the amount of time you'd like together.</p>
 
-    <div class="slot-cards" id="slot-cards-container"></div>
+    <div class="slot-paintings" id="slot-paintings-container"></div>
 
     <div class="nav-btns">
       <button class="btn-primary" id="btn-next-1" onclick="goToStep(2)" disabled>Continue →</button>
@@ -970,9 +970,9 @@
     }
   }
 
-  // ── RENDER SLOT CARDS ─────────────────────────────────
-  function renderSlotCards() {
-    const container = document.getElementById('slot-cards-container');
+  // ── RENDER SLOT paintings ─────────────────────────────────
+  function renderSlotpaintings() {
+    const container = document.getElementById('slot-paintings-container');
     const slots = ['15min', '30min'];
     const descriptions = {
       '15min': 'A quick focused session — perfect for a single question, feedback, or a mini creative burst.',
@@ -998,7 +998,7 @@
   }
 
   // ── INIT ─────────────────────────────────────────────────
-  renderSlotCards();
+  renderSlotpaintings();
   renderCalendar();
 
 </script>

@@ -143,7 +143,7 @@
     // ── Render cart ──
     function getProductPage(id) {
       if (!id) return 'index.html';
-      if (id.startsWith('card'))     return 'cards.html';
+      if (id.startsWith('card'))     return 'paintings.html';
       if (id.startsWith('bookmark')) return 'bookmarks.html';
       if (id.startsWith('class'))    return 'OnlineClass.html';
       return 'index.html';

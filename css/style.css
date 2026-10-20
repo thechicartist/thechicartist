@@ -546,7 +546,7 @@ html {
 }
 
 /* Hide extra items so only whole thumbnails are visible (no half-image) */
-/* Targets both plain <img> (wedding) and <a> wrappers (bookmarks/cards) */
+/* Targets both plain <img> (wedding) and <a> wrappers (bookmarks/paintings) */
 /* Default: show 5 items */
 .category-grid > img:nth-of-type(n+6),
 .category-grid > a:nth-of-type(n+6) { display: none; }
@@ -1135,22 +1135,22 @@ html {
   transform: translateX(6px);
 }
 
-/* Hide feature tiles on mobile (replaced by mobile-digital-cards) */
+/* Hide feature tiles on mobile (replaced by mobile-digital-paintings) */
 @media (max-width: 768px) {
   .tile-feature { display: none; }
 }
 
 
 /* ============================================================
-   MOBILE DIGITAL CARDS — Classes & E-Books shown below hero on mobile
+   MOBILE DIGITAL paintings — Classes & E-Books shown below hero on mobile
    ============================================================ */
-.mobile-digital-cards {
+.mobile-digital-paintings {
   display: none; /* hidden on desktop */
   gap: 12px;
   padding: 0 16px 4px;
 }
 @media (max-width: 768px) {
-  .mobile-digital-cards {
+  .mobile-digital-paintings {
     display: grid;
     grid-template-columns: 1fr 1fr;
   }
@@ -1257,7 +1257,7 @@ html {
   cursor: grabbing;
 }
 .testimonials-track .testimonial-card {
-  /* Show 3 cards on desktop, gap accounted for */
+  /* Show 3 paintings on desktop, gap accounted for */
   flex: 0 0 calc((100% - 44px) / 3);
   min-width: 0;
 }

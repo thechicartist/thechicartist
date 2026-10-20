@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!grid) return;
 
   for (let i = 44; i >= 1; i--) {
-    const product = PRODUCTS[`card${i}`];
+    const product = PRODUCTS[`painting${i}`];
     if (!product) continue;
 
     const col = document.createElement('div');
