@@ -216,6 +216,14 @@
     }
     .btn-add-cart:active { transform: translateY(0); }
 
+    /* Format picker */
+    .format-picker { border: 1px solid #eee; border-radius: 8px; padding: 14px 16px; margin-bottom: 16px; }
+    .format-picker legend { float: none; width: auto; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: #888; padding: 0 6px; margin: 0; }
+    .format-picker label { display: block; font-size: 0.92rem; color: #333; padding: 5px 0; cursor: pointer; }
+    .format-picker label small { color: #999; }
+    .format-picker input { margin-right: 8px; }
+    .format-msg { color: #c0392b; font-size: 0.82rem; margin: 6px 0 0; min-height: 1em; }
+
     /* Sold out state */
     .btn-add-cart.sold-out {
       background: #ccc;
@@ -412,6 +420,20 @@
   } else {
     // Update page title
     document.title = `${product.name} | The Chic Artist`;
+    const plainDesc = `${product.name}. ${product.description.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()}`.slice(0, 155);
+    let md = document.querySelector('meta[name="description"]');
+    if (!md) { md = document.createElement('meta'); md.name = 'description'; document.head.appendChild(md); }
+    md.content = plainDesc;
+    const ld = document.createElement('script');
+    ld.type = 'application/ld+json';
+    ld.textContent = JSON.stringify({
+      '@context': 'https://schema.org', '@type': 'Product',
+      name: product.name, description: plainDesc,
+      image: product.images.map(i => new URL(i, location.href).href),
+      offers: { '@type': 'Offer', priceCurrency: 'USD', price: String(product.salePrice ?? product.price),
+        availability: product.soldOut ? 'https://schema.org/SoldOut' : 'https://schema.org/InStock' }
+    });
+    document.head.appendChild(ld);
 
     const onSale = product.salePrice != null && product.salePrice < product.price;
     const effectivePrice = onSale ? product.salePrice : product.price;
@@ -431,6 +453,15 @@
                          : product.category === 'class' ? 'Back to Online Classes'
                          : product.category === 'ebook' ? 'Back to E-books'
                          : 'Back to Bookmarks';
+
+    const formatHTML = (product.category === 'card' && !product.soldOut) ? `
+      <fieldset class="format-picker">
+        <legend>Choose format</legend>
+        <label><input type="radio" name="format" value="Painting" ${product.defaultFormat === 'Painting' ? 'checked' : ''}> Painting <small>(unframed, 5 × 7 in)</small></label>
+        <label><input type="radio" name="format" value="Greeting Card" ${product.defaultFormat === 'Greeting Card' ? 'checked' : ''}> Greeting Card <small>(blank interior, white envelope)</small></label>
+        <p id="formatMsg" class="format-msg"></p>
+      </fieldset>` : '';
+
 
     // Build slider HTML — first image loads immediately, rest are lazy
     const slidesHTML = product.images.map((src, i) => `
@@ -484,6 +515,7 @@
           <p class="product-category-tag">${product.category === 'card' ? 'Original Painting' : product.category === 'class' ? 'Online Class' : product.category === 'ebook' ? 'E-Book' : 'Watercolor Bookmark'}</p>
           <h1>${product.name}</h1>
           ${priceTagHTML}
+          ${formatHTML}
           ${product.soldOut
             ? `<button class="btn-add-cart sold-out" disabled>Sold Out</button>`
             : `<button
@@ -581,6 +613,33 @@
       goTo(0);
     }
 
+    // ── Format picker (paintings) ──
+    if (product.category === 'card' && !product.soldOut) {
+      const addBtn = document.querySelector('.btn-add-cart.add-to-cart');
+      addBtn.dataset.formatOk = '1';
+      const formatMsg = document.getElementById('formatMsg');
+      const preChecked = document.querySelector('input[name="format"]:checked');
+      if (preChecked) addBtn.dataset.name = `${product.name} (${preChecked.value})`;
+      if (params.get('choose')) {
+        formatMsg.textContent = 'Please choose a format to add this to your cart.';
+        document.querySelector('.format-picker').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+      document.querySelectorAll('input[name="format"]').forEach(r => {
+        r.addEventListener('change', () => {
+          addBtn.dataset.name = `${product.name} (${r.value})`;
+          formatMsg.textContent = '';
+        });
+      });
+      // Capture phase: runs before cart.js handlers
+      document.addEventListener('click', e => {
+        if (e.target.closest('.btn-add-cart.add-to-cart') && !document.querySelector('input[name="format"]:checked')) {
+          e.preventDefault();
+          e.stopImmediatePropagation();
+          formatMsg.textContent = 'Please choose Painting or Greeting Card.';
+        }
+      }, true);
+    }
+
     // ── You May Also Like ──
     const allProducts = Object.values(PRODUCTS).filter(p => p.id !== product.id && p.category === product.category);
     const shuffled = allProducts.sort(() => Math.random() - 0.5).slice(0, 4);
@@ -607,7 +666,8 @@
             <p class="related-name">${p.name}</p>
             ${pPriceHTML}
           </a>
-          <button class="related-add-btn add-to-cart"
+          ${p.category === 'card' ? `<a href="product.html?id=${p.id}" class="related-add-btn" style="display:block;text-align:center;text-decoration:none;">Choose Option</a>` : ''}
+          <button class="related-add-btn add-to-cart" ${p.category === 'card' ? 'hidden' : ''}
                 data-id="${p.id}"
                 data-name="${p.name}"
                 data-price="${pEffectivePrice}"

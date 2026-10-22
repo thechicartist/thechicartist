@@ -28,6 +28,12 @@
       const btn = e.target.closest('.add-to-cart');
       if (!btn) return;
 
+      // Paintings need a format: send to product page unless added from there
+      if (btn.dataset.id && btn.dataset.id.startsWith('painting') && !btn.dataset.formatOk) {
+        window.location.href = `product.html?id=${btn.dataset.id}&choose=1`;
+        return;
+      }
+
       const item = {
         id:    btn.dataset.id,
         name:  btn.dataset.name,

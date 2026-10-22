@@ -67,7 +67,7 @@ const defaultBookmarkDesc = `
 // ============================================================
 const defaultCardDesc = `<p>An original hand-painted watercolor painting, crafted with care and attention to detail.</p>
   <p>Size: <strong>5 × 7 inches</strong>, unframed — ready for styling or gifting.</p>
-  <p>Available as a greeting card upon request at no additional cost,
+  <p>Choose your format: original painting, or a greeting card at no additional cost,
      with a blank interior and a white envelope included.</p>
   <p>All products are shipped carefully packaged to arrive in perfect condition.</p>
     <p>Please note: Due to the handmade nature of these pieces, slight variations may occur — making each set truly one-of-a-kind.
@@ -93,8 +93,9 @@ const defaultCardDesc = `<p>An original hand-painted watercolor painting, crafte
 
 // ---- Per-product overrides ----
 
+ PRODUCTS['painting1'].name = `Hand-painted Watercolor Painting: "Cake slice with candle and strawberry"`;
+
  PRODUCTS['painting2'] = {...PRODUCTS['painting2'],
-  name: `Mother's Day Original Watercolor Greeting Card` , 
   description : `<p>A beautiful Floral Mother's Day greeting card, hand-painted with watercolors.</p>
   <p>Size: <strong>5 × 7 inches</strong>.</p>
   <p> All Greeting cards come with a blank interior and a white envelope.</p>
@@ -102,6 +103,38 @@ const defaultCardDesc = `<p>An original hand-painted watercolor painting, crafte
   <p>Please note: Due to the handmade nature of these pieces, slight variations may occur — making each set truly one-of-a-kind.
 </p>`};
 
+const paintingNames = {
+  1:  'Strawberry Birthday Cake Slice with Candle Original Watercolor',
+  2:  "Mother's Day Mom Roses and Wildflowers Original Watercolor",
+  3:  'Pink Peony and Rose Spring Bouquet Original Watercolor',
+  4:  'Pink and Peach Magnolia Blossom Branch Original Watercolor',
+  5:  'Blush Peony and Rose Bouquet with Red Buds Original Watercolor',
+  6:  'Christmas Mistletoe with Red Bow Original Watercolor',
+  7:  'Poinsettia Christmas Bauble Original Watercolor',
+  8:  'Christmas Poinsettia Bouquet with Gold Outlines Original Watercolor',
+  9:  'Poinsettia and Berries Christmas Tree Original Watercolor',
+  10: 'Pine Branch with Red and Gold Christmas Ornaments Original Watercolor',
+  11: 'Evergreen and Teal Leaf Christmas Wreath Original Watercolor',
+  12: 'Christmas Orange Slices, Pinecones and Holly Original Watercolor',
+  13: 'Green Leaf Christmas Tree with Gold Border Original Watercolor',
+  14: 'Golden Christmas Bauble with Berries and Greenery Original Watercolor',
+  15: 'Christmas Holly and Pine Corner with Gold Accents Original Watercolor',
+  16: 'Christmas Owl in Orange Beanie and Red Scarf Original Watercolor',
+  17: 'Olive Leaf and Gold Berry Sprig Christmas Wreath Original Watercolor',
+  18: 'Red and Blush Berry Christmas Wreath Original Watercolor',
+  19: 'Smiling Christmas Snowman in Orange Beanie Original Watercolor',
+  20: 'Christmas Bouquet with Red Anemone and Cream Roses Original Watercolor',
+  21: 'Blue Floral Christmas Ornament Original Watercolor',
+  22: 'Christmas Snow Bird in Orange Beanie on a Pine Branch Original Watercolor',
+  23: 'Eucalyptus and Red Berry Christmas Wreath Original Watercolor',
+  24: 'Gilded Leaf Christmas Wreath Original Watercolor',
+  25: 'Golden Christmas Ornament with Leaf Pattern and Berries Original Watercolor',
+  26: 'Red Christmas Ornament with Holly and Pine Original Watercolor',
+};
+Object.entries(paintingNames).forEach(([n, name]) => PRODUCTS[`painting${n}`].name = name);
+Object.values(PRODUCTS)
+  .filter(p => p.category === 'card' && p.description === defaultCardDesc)
+  .forEach(p => p.description = `<p><strong>${p.name}</strong> is an original hand-painted watercolor, available as an unframed painting or as a greeting card.</p>` + defaultCardDesc);
 
 // ============================================================
 //  ONLINE CLASSES (digital)
