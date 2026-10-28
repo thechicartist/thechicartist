@@ -376,7 +376,7 @@
               : ' + Estimated U.S. import duty: calculating…'
             : '';
           const customsNote = country === 'USA' && customsEstimateReady && customsDuty > 0
-            ? ' (estimate; carrier or broker processing fees are not included)'
+            ? 'USA custom.'
             : '';
           totalBox.innerText = `Total: $${tot.toFixed(2)} (Subtotal: $${s.toFixed(2)}${discLine} + Shipping: $${sh.toFixed(2)} + Tax: $${tax.toFixed(2)}${customsLine})${customsNote}`;
         }
