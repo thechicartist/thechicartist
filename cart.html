@@ -121,6 +121,7 @@
     <input type="hidden" name="order_total" id="orderTotal">
     <input type="hidden" name="order_shipping" id="orderShipping">
     <input type="hidden" name="order_tax" id="orderTax">
+    <input type="hidden" name="order_customs_duty" id="orderCustomsDuty">
     <input type="hidden" name="order_province" id="orderProvince">
     <input type="hidden" name="order_zip" id="orderZip">
     <input type="hidden" name="order_country" id="orderCountry">
@@ -203,7 +204,9 @@
 
   </form>
   <!-- COUPON CODE -->
-  <div style="margin: 1rem 0; max-width:400px;">
+  <!-- Coupon entry is temporarily hidden. Coupon enforcement is also disabled server-side in worker.js.
+       To re-enable coupons, set COUPONS_ENABLED = true in worker.js. -->
+  <div id="couponSection" style="margin: 1rem 0; max-width:400px;">
     <div style="display:flex; gap:8px;">
       <input type="text" id="couponInput" placeholder="Coupon code" class="form-control" style="text-transform:uppercase;">
       <button type="button" id="applyCouponBtn" style="background:#222; color:#fff; border:none; border-radius:6px; padding:10px 20px; font-size:0.9rem; cursor:pointer; white-space:nowrap;">Apply</button>

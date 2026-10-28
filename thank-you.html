@@ -171,6 +171,7 @@
     country:  'entry.1320686186',
     zip:      'entry.829073282',
     address:  'entry.186903765',
+    customsDuty: 'entry.2082460523',
   };
 
   async function sendOrderEmail(order) {
@@ -191,6 +192,14 @@
       body.append(FORM_FIELDS.country,  pendingAddress.country  || order.country     || '');
       body.append(FORM_FIELDS.zip,      pendingAddress.zip      || order.zip         || '');
       body.append(FORM_FIELDS.address,  pendingAddress.address  || '');
+
+      // Customs duty is optional in Google Forms. Submit it only for U.S.
+      // orders where the Worker calculated a positive customs-duty amount.
+      const destinationCountry = String(order.country || pendingAddress.country || '').trim().toUpperCase();
+      const customsDuty = Number(order.customsDuty || 0);
+      if (destinationCountry === 'USA' && Number.isFinite(customsDuty) && customsDuty > 0) {
+        body.append(FORM_FIELDS.customsDuty, customsDuty.toFixed(2));
+      }
 
       // Google Forms blocks CORS but the submission still goes through
       await fetch(GOOGLE_FORM_ACTION_URL, {
@@ -316,6 +325,7 @@
       <ul style="list-style:none; padding-left:0;">${itemsHtml}</ul>
       <p><strong>Shipping:</strong> $${order.shipping}</p>
       <p><strong>Tax:</strong> $${order.tax}</p>
+      ${Number(order.customsDuty || 0) > 0 ? `<p><strong>Estimated U.S. Customs Duty:</strong> $${Number(order.customsDuty).toFixed(2)} ${order.currency || 'USD'}</p>` : ''}
       <p><strong>Total Paid:</strong> $${order.total} ${order.currency || ''}</p>
     `;
 
@@ -376,6 +386,7 @@
           total: order.total,
           shipping: order.shipping,
           tax: order.tax,
+          customsDuty: order.customsDuty || '0.00',
           currency: order.currency,
           province: order.province,
           country: order.country,

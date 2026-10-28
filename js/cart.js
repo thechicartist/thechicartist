@@ -21,6 +21,46 @@
     }
     function getCartType() { return cart.length === 0 ? null : (cart[0].type || 'physical'); }
 
+    // Read the selected painting/card format from the button or product-page controls.
+    // The product page can set data-format="painting" or data-format="greeting-card".
+    function readSelectedProductFormat(btn) {
+      const explicit = btn?.dataset?.format || btn?.dataset?.productFormat || btn?.dataset?.customsFormat;
+      if (explicit) return normalizeProductFormat(explicit);
+
+      const checked = qsa('input[type="radio"]:checked, input[type="hidden"][name="format"], input[type="hidden"][name="productFormat"]')
+        .find(el => /format/i.test(el.name || el.id || ''));
+      if (checked?.value) return normalizeProductFormat(checked.value);
+
+      const select = qsa('select[name="format"], select[name="productFormat"], select[name="paintingFormat"], #format, #productFormat, #paintingFormat')
+        .find(el => el.value);
+      if (select?.value) return normalizeProductFormat(select.value);
+
+      const selectedNode = document.querySelector('[data-selected-format]');
+      if (selectedNode?.dataset?.selectedFormat) return normalizeProductFormat(selectedNode.dataset.selectedFormat);
+      return '';
+    }
+
+    function normalizeProductFormat(value) {
+      const v = String(value || '').toLowerCase().trim().replace(/[_\s]+/g, '-');
+      if (/greeting-?card|(^|-)card($|-)/.test(v)) return 'greeting-card';
+      if (/painting|original|artwork/.test(v)) return 'painting';
+      return v;
+    }
+
+    function getItemFormat(item) {
+      if (!String(item?.id || '').startsWith('painting')) return '';
+      const name = String(item.name || '');
+      // The product page appends the selected format to the item name.
+      // Prefer this suffix to keep the cart and Worker classification consistent.
+      if (/\(\s*greeting\s*card\s*\)\s*$/i.test(name)) return 'greeting-card';
+      if (/\(\s*painting\s*\)\s*$/i.test(name)) return 'painting';
+      const explicit = normalizeProductFormat(item.format || item.productFormat || item.customsFormat || '');
+      if (explicit === 'greeting-card' || explicit === 'painting') return explicit;
+      if (/greeting\s*card|\bcard\b/i.test(name)) return 'greeting-card';
+      // Backward-compatible default for old cart entries: treat as an original painting.
+      return 'painting';
+    }
+
     updateCartCount();
 
     // ── Add to cart ──
@@ -39,8 +79,14 @@
         name:  btn.dataset.name,
         price: Number(btn.dataset.price) || 0,
         image: btn.dataset.image || '',
-        type:  btn.dataset.type || 'physical'
+        type:  btn.dataset.type || 'physical',
+        format: btn.dataset.id?.startsWith('painting')
+          ? (readSelectedProductFormat(btn) || normalizeProductFormat(btn.dataset.name || ''))
+          : ''
       };
+      if (item.id?.startsWith('painting') && item.format !== 'greeting-card' && item.format !== 'painting') {
+        item.format = getItemFormat(item);
+      }
 
       const cartType = getCartType();
       if (cartType && cartType !== item.type) {
@@ -81,6 +127,7 @@
     const orderTotalInput  = qs('#orderTotal');
     const orderShippingInput = qs('#orderShipping');
     const orderTaxInput    = qs('#orderTax');
+    const orderCustomsInput = qs('#orderCustomsDuty') || qs('#orderCustoms');
     const orderProvinceInput = qs('#orderProvince');
     const orderZipInput    = qs('#orderZip');
     const orderCountryInput = qs('#orderCountry');
@@ -95,8 +142,81 @@
     const addressSection   = qs('#addressSection');
 
     let currentCurrency = 'USD';
-    let appliedDiscount = 0; // discount amount in dollars, set when coupon is validated
+    let appliedDiscount = 0; // validated discount amount in dollars
+    let appliedCouponCode = '';
     let selectedDigitalCountry = ''; // set by the Canada/USA/Other buttons for digital carts
+
+    // Customs rates/classifications live only in worker.js. This page requests a quote
+    // from the Worker so tariff-rate changes never require website code changes.
+    let estimatedCustomsDuty = 0;
+    let customsEstimateStatus = 'not-required'; // not-required | loading | ready | error
+    let customsEstimateSignature = '';
+    let customsEstimateRequestId = 0;
+
+    function buildCustomsEstimateSignature(country, required) {
+      return JSON.stringify({
+        country: required ? 'USA' : (country || ''),
+        cart: required ? cart.map(item => ({
+          id: item.id,
+          name: item.name,
+          format: getItemFormat(item),
+          type: item.type || 'physical'
+        })) : [],
+        couponCode: required ? appliedCouponCode : ''
+      });
+    }
+
+    async function refreshCustomsDutyEstimate(country) {
+      const required = country === 'USA' && getCartType() === 'physical' && cart.length > 0;
+      const signature = buildCustomsEstimateSignature(country, required);
+
+      if (!required) {
+        // Invalidate any request still in flight for an earlier USA cart.
+        customsEstimateRequestId++;
+        customsEstimateSignature = signature;
+        estimatedCustomsDuty = 0;
+        customsEstimateStatus = 'not-required';
+        return;
+      }
+
+      if (signature === customsEstimateSignature &&
+          ['loading', 'ready', 'error'].includes(customsEstimateStatus)) return;
+
+      customsEstimateSignature = signature;
+      const requestId = ++customsEstimateRequestId;
+      estimatedCustomsDuty = 0;
+      customsEstimateStatus = 'loading';
+
+      try {
+        const response = await fetch(`${WORKER_URL}/estimate-customs-duty`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            country: 'USA',
+            couponCode: appliedCouponCode || null,
+            cart: cart.map(item => ({
+              id: item.id,
+              name: item.name,
+              type: item.type || 'physical',
+              format: item.format || getItemFormat(item)
+            }))
+          })
+        });
+        const data = await response.json();
+        if (!response.ok || !Number.isFinite(Number(data.customsDuty))) {
+          throw new Error(data.error || 'Could not calculate customs estimate');
+        }
+        if (requestId !== customsEstimateRequestId || signature !== customsEstimateSignature) return;
+        estimatedCustomsDuty = Math.max(0, Number(data.customsDuty));
+        customsEstimateStatus = 'ready';
+      } catch (error) {
+        if (requestId !== customsEstimateRequestId || signature !== customsEstimateSignature) return;
+        console.error('Customs estimate error:', error);
+        estimatedCustomsDuty = 0;
+        customsEstimateStatus = 'error';
+      }
+      render();
+    }
 
 
     // ── Pricing helpers ──
@@ -168,9 +288,14 @@
         province = provinceSelect ? provinceSelect.value : '';
       }
       const allowed  = isAllowed(country, province);
+      const needsCustomsEstimate = country === 'USA' && cartType === 'physical' && cart.length > 0;
+      const estimateSignatureNow = buildCustomsEstimateSignature(country, needsCustomsEstimate);
+      const customsEstimateReady = !needsCustomsEstimate ||
+        (customsEstimateStatus === 'ready' && customsEstimateSignature === estimateSignatureNow);
+      const customsDuty = needsCustomsEstimate && customsEstimateReady ? estimatedCustomsDuty : 0;
 
       if (stripeBox) {
-        const show = cart.length > 0 && allowed;
+        const show = cart.length > 0 && allowed && customsEstimateReady;
         stripeBox.style.display = show ? 'block' : 'none';
 
         if (shippingMsg) {
@@ -191,6 +316,13 @@
                 ? `Untracked Canada Post delivery. Shipping: $${getShipping().toFixed(2)} CAD.`
                 : `Tracked delivery. Shipping: $${getShipping().toFixed(2)} USD.`;
           }
+          if (needsCustomsEstimate && !customsEstimateReady) {
+            if (customsEstimateStatus === 'error') {
+              shippingMsg.innerText += ' Unable to calculate the U.S. customs estimate. Please refresh the page and try again.';
+            } else {
+              shippingMsg.innerText += ' Calculating estimated U.S. customs duty…';
+            }
+          }
         }
       }
 
@@ -198,6 +330,7 @@
       cartContainer.innerHTML = '';
 
       if (cart.length === 0) {
+        refreshCustomsDutyEstimate(country);
         cartContainer.innerHTML = '<p>Your cart is empty.</p>';
         if (totalBox) totalBox.innerText = 'Total: $0.00';
         return;
@@ -228,7 +361,7 @@
       const disc = Math.min(appliedDiscount, s);
       const discountedS = Math.max(0, s - disc);
       const tax = computeTax(discountedS, sh);
-      const tot = discountedS + sh + tax;
+      const tot = discountedS + sh + tax + customsDuty;
 
       if (totalBox) {
         const discLine = disc > 0 ? ` − Discount: $${disc.toFixed(2)}` : '';
@@ -237,7 +370,15 @@
             ? `Total: $${tot.toFixed(2)}  (Subtotal: $${s.toFixed(2)}${discLine} + Tax: $${tax.toFixed(2)})`
             : `Total: $${tot.toFixed(2)}  (Subtotal: $${s.toFixed(2)}${discLine})`;
         } else {
-          totalBox.innerText = `Total: $${tot.toFixed(2)} (Subtotal: $${s.toFixed(2)}${discLine} + Shipping: $${sh.toFixed(2)} + Tax: $${tax.toFixed(2)})`;
+          const customsLine = country === 'USA'
+            ? customsEstimateReady
+              ? ` + Estimated U.S. import duty: $${customsDuty.toFixed(2)}`
+              : ' + Estimated U.S. import duty: calculating…'
+            : '';
+          const customsNote = country === 'USA' && customsEstimateReady && customsDuty > 0
+            ? ' (estimate; carrier or broker processing fees are not included)'
+            : '';
+          totalBox.innerText = `Total: $${tot.toFixed(2)} (Subtotal: $${s.toFixed(2)}${discLine} + Shipping: $${sh.toFixed(2)} + Tax: $${tax.toFixed(2)}${customsLine})${customsNote}`;
         }
       }
 
@@ -246,9 +387,14 @@
       if (orderTotalInput)    orderTotalInput.value    = tot.toFixed(2);
       if (orderShippingInput) orderShippingInput.value = sh.toFixed(2);
       if (orderTaxInput)      orderTaxInput.value      = tax.toFixed(2);
+      if (orderCustomsInput)  orderCustomsInput.value  = customsDuty.toFixed(2);
       if (orderProvinceInput) orderProvinceInput.value = province;
       if (orderZipInput)      orderZipInput.value      = zipInput ? zipInput.value : '';
       if (orderCountryInput)  orderCountryInput.value  = country;
+
+      // Starts a server-side estimate when this is a USA physical order.
+      // Worker rates are the single source of truth; checkout recalculates independently.
+      refreshCustomsDutyEstimate(country);
     }
 
     // ── Province options ──
@@ -446,6 +592,15 @@
         return;
       }
 
+      if (country === 'USA' && cartType === 'physical') {
+        const expectedSignature = buildCustomsEstimateSignature(country, true);
+        if (customsEstimateStatus !== 'ready' || customsEstimateSignature !== expectedSignature) {
+          alert('Please wait for the U.S. customs estimate to finish before checking out. If it failed, refresh the page and try again.');
+          render();
+          return;
+        }
+      }
+
       // Require province/state for all digital orders (Canada and USA)
       if (cartType === 'digital' && (country === 'Canada' || country === 'USA') && !province) {
         alert(`Please select your ${country === 'Canada' ? 'province' : 'state'} before proceeding.`);
@@ -479,14 +634,14 @@
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            cart: cart.map(i => ({ id: i.id, name: i.name, image: i.image, type: i.type })),
+            cart: cart.map(i => ({ id: i.id, name: i.name, image: i.image, type: i.type, format: i.format || getItemFormat(i) })),
             currency: currentCurrency,
             country,
             province,
             zip:      zipInput?.value          || '',
             email:    customerEmailInput?.value,
             name:     customerNameInput?.value || '',
-            couponCode: (qs('#couponInput')?.value || '').trim().toUpperCase() || null
+            couponCode: appliedCouponCode || null
           })
         });
 
@@ -513,6 +668,21 @@
       const btn = qs('#stripeCheckoutBtn');
       if (btn) { btn.disabled = false; btn.textContent = 'Pay with Card'; }
     });
+
+    // If the coupon text changes after it was applied, don't silently keep the old discount.
+    const couponInputEl = qs('#couponInput');
+    if (couponInputEl) {
+      couponInputEl.addEventListener('input', () => {
+        const entered = couponInputEl.value.trim().toUpperCase();
+        if (appliedCouponCode && entered !== appliedCouponCode) {
+          appliedCouponCode = '';
+          appliedDiscount = 0;
+          const couponMsg = qs('#couponMsg');
+          if (couponMsg) couponMsg.textContent = 'Apply the edited code to use it.';
+          render();
+        }
+      });
+    }
 
     // Wire up coupon Apply button — validates against the worker before confirming
     const couponBtn = qs('#applyCouponBtn');
@@ -541,6 +711,7 @@
           const data = await res.json();
           if (res.ok && data.valid) {
             appliedDiscount = data.discountAmount || 0;
+            appliedCouponCode = code;
             if (couponMsg) { couponMsg.textContent = `✓ ${data.label} applied!`; couponMsg.style.color = '#27ae60'; }
             couponBtn.textContent = 'Apply';
             couponBtn.style.background = '#222';
@@ -548,6 +719,7 @@
             render();
           } else {
             appliedDiscount = 0;
+            appliedCouponCode = '';
             if (couponMsg) { couponMsg.textContent = `✗ ${data.reason || 'Invalid coupon code.'}`; couponMsg.style.color = '#c0392b'; }
             couponBtn.disabled = false;
             couponBtn.textContent = 'Apply';

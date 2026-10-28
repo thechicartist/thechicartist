@@ -44,6 +44,83 @@ function isDigital(productId) {
   return (productId.startsWith('class') || productId.startsWith('ebook'));
 }
 
+// Customs classification map selected for The Chic Artist's physical product formats.
+// Section 338 additional-duty estimates based on the CBP list effective Sept. 15, 2026.
+// This is the single rate table for both cart estimates and final Stripe checkout. Update only
+// this table when the applicable CBP measures change; re-check classification and applicability.
+// This estimates Section 338 duty only, not carrier/broker fees or every possible import charge.
+// Official guidance: https://content.govdelivery.com/accounts/USDHSCBP/bulletins/429db0c
+const SECTION_338_DUTY_RATE_BY_HTS = Object.freeze({
+  '9701910000': 0.50, // original hand-painted paintings: HTS 9701.91.00
+  '4823908680': 0.50, // hand-painted paper bookmarks: HTS 4823.90.86
+  '4909004000': 0.00  // greeting cards: HTS 4909.00.40 is not on the current Section 338 list
+});
+
+function normalizeProductFormat(value) {
+  const v = String(value || '').toLowerCase().trim().replace(/[_\s]+/g, '-');
+  if (/greeting-?card|(^|-)card($|-)/.test(v)) return 'greeting-card';
+  if (/painting|original|artwork/.test(v)) return 'painting';
+  return v;
+}
+
+function getItemFormat(item) {
+  if (!String(item?.id || '').startsWith('painting')) return '';
+  const name = String(item.name || '');
+  // The product page appends the customer's selected format to the item name.
+  // Prefer that explicit suffix so Worker and cart classification match.
+  if (/\(\s*greeting\s*card\s*\)\s*$/i.test(name)) return 'greeting-card';
+  if (/\(\s*painting\s*\)\s*$/i.test(name)) return 'painting';
+  const explicit = normalizeProductFormat(item.format || item.productFormat || item.customsFormat || '');
+  if (explicit === 'greeting-card' || explicit === 'painting') return explicit;
+  if (/greeting\s*card|\bcard\b/i.test(name)) return 'greeting-card';
+  // Legacy cart entries without a format are treated as original paintings.
+  return 'painting';
+}
+
+function getCustomsCode(item) {
+  const id = String(item?.id || '');
+  if (id.startsWith('bookmark')) return '4823908680';
+  if (id.startsWith('painting')) return getItemFormat(item) === 'greeting-card' ? '4909004000' : '9701910000';
+  return null;
+}
+
+function computeCustomsDuty(items, discount, couponProductTypes, country) {
+  if (country !== 'USA') return 0;
+
+  const eligibleItems = items.filter(item => itemIsEligible(item.id, couponProductTypes));
+  const eligibleSubtotalCents = eligibleItems.reduce((sum, item) => sum + Math.max(0, Math.round(Number(item.price || 0) * 100)), 0);
+  const discountCents = Math.min(Math.max(0, Math.round(Number(discount || 0) * 100)), eligibleSubtotalCents);
+  const eligibleSet = new Set(eligibleItems);
+  const dutyValueCentsByCode = new Map();
+  let discountAssignedCents = 0;
+  let eligibleIndex = 0;
+
+  for (const item of items) {
+    const priceCents = Math.max(0, Math.round(Number(item.price || 0) * 100));
+    let itemDiscountCents = 0;
+    if (discountCents > 0 && eligibleSet.has(item) && eligibleSubtotalCents > 0) {
+      eligibleIndex++;
+      const isLastEligible = eligibleIndex === eligibleItems.length;
+      itemDiscountCents = isLastEligible
+        ? discountCents - discountAssignedCents
+        : Math.round((priceCents / eligibleSubtotalCents) * discountCents);
+      itemDiscountCents = Math.min(itemDiscountCents, priceCents);
+      discountAssignedCents += itemDiscountCents;
+    }
+
+    const code = getCustomsCode(item);
+    if (!code) continue;
+    const netValueCents = Math.max(0, priceCents - itemDiscountCents);
+    dutyValueCentsByCode.set(code, (dutyValueCentsByCode.get(code) || 0) + netValueCents);
+  }
+
+  let dutyCents = 0;
+  for (const [code, valueCents] of dutyValueCentsByCode.entries()) {
+    dutyCents += Math.round(valueCents * (SECTION_338_DUTY_RATE_BY_HTS[code] || 0));
+  }
+  return dutyCents / 100;
+}
+
 // ============================================================
 //  COUPON CODES — edit here to add/remove codes
 //
@@ -60,6 +137,10 @@ function isDigital(productId) {
 //    'CLASSOFF': { type: 'percent', amount: 10, productTypes: ['class'] }
 //    'EBOOKOFF':  { type: 'percent', amount: 15, productTypes: ['physical'], minCart: 20 }
 // ============================================================
+// Global coupon switch. Keep false to disable every coupon at both the API and checkout.
+// To re-enable later, set to true and reveal the coupon entry section in cart.html.
+const COUPONS_ENABLED = false;
+
 const COUPON_CODES = {
   'WELCOME10': { type: 'percent', amount: 10 },
   'CHIC15':    { type: 'percent', amount: 15, minCart: 50 },
@@ -303,6 +384,9 @@ export default {
     if (request.method === 'POST' && url.pathname === '/create-checkout-session') {
       return handleCheckout(request, env);
     }
+    if (request.method === 'POST' && url.pathname === '/estimate-customs-duty') {
+      return handleEstimateCustomsDuty(request, env);
+    }
     if (request.method === 'POST' && url.pathname === '/validate-coupon') {
       return handleValidateCoupon(request, env);
     }
@@ -361,6 +445,9 @@ async function handleValidateCoupon(request, env) {
 
   const { couponCode, subtotal, cartItems } = body;
   if (!couponCode) return corsResponse(JSON.stringify({ valid: false }), 200, env, origin);
+  if (!COUPONS_ENABLED) {
+    return corsResponse(JSON.stringify({ valid: false, reason: 'Coupon codes are currently disabled.' }), 200, env, origin);
+  }
 
   const coupon = COUPON_CODES[couponCode.toUpperCase()];
   if (!coupon) return corsResponse(JSON.stringify({ valid: false, reason: 'Invalid coupon code.' }), 200, env, origin);
@@ -398,6 +485,82 @@ async function handleValidateCoupon(request, env) {
   return corsResponse(JSON.stringify({ valid: true, label, discountAmount }), 200, env, origin);
 }
 
+async function handleEstimateCustomsDuty(request, env) {
+  const origin = request.headers.get('Origin');
+  let body;
+  try { body = await request.json(); }
+  catch { return corsResponse(JSON.stringify({ error: 'Invalid JSON' }), 400, env, origin); }
+
+  const { cart, country, couponCode } = body || {};
+  if (couponCode && !COUPONS_ENABLED) {
+    return corsResponse(JSON.stringify({ error: 'Coupon codes are currently disabled. Please refresh your cart and check out without a coupon.' }), 400, env, origin);
+  }
+  if (!Array.isArray(cart) || cart.length === 0) {
+    return corsResponse(JSON.stringify({ customsDuty: '0.00', currency: 'USD' }), 200, env, origin);
+  }
+
+  // This endpoint estimates the Section 338 additional duty for U.S. physical orders only.
+  if (country !== 'USA') {
+    return corsResponse(JSON.stringify({ customsDuty: '0.00', currency: 'USD' }), 200, env, origin);
+  }
+
+  const cartIsDigital = cart.every(item => isDigital(String(item?.id || '')));
+  const cartIsPhysical = cart.every(item => !isDigital(String(item?.id || '')));
+  if (!cartIsDigital && !cartIsPhysical) {
+    return corsResponse(JSON.stringify({ error: 'Cannot mix digital and physical products' }), 400, env, origin);
+  }
+  if (cartIsDigital) {
+    return corsResponse(JSON.stringify({ customsDuty: '0.00', currency: 'USD' }), 200, env, origin);
+  }
+
+  // Verify prices from the Worker database; never accept browser-supplied prices for duty.
+  const verifiedCart = [];
+  for (const item of cart) {
+    const id = String(item?.id || '');
+    const price = getProductPrice(id);
+    if (price === null) {
+      return corsResponse(JSON.stringify({ error: `Unknown product: ${id}` }), 400, env, origin);
+    }
+    const verifiedItem = {
+      id,
+      name: String(item?.name || id),
+      type: 'physical',
+      price
+    };
+    // Only paintings have a choice of customs format. The name is retained as a
+    // backward-compatible fallback for carts created before the format field existed.
+    if (id.startsWith('painting')) {
+      const format = normalizeProductFormat(item?.format || '');
+      verifiedItem.format = ['painting', 'greeting-card'].includes(format)
+        ? format
+        : getItemFormat({ id, name: verifiedItem.name });
+    }
+    verifiedCart.push(verifiedItem);
+  }
+
+  const subtotal = verifiedCart.reduce((sum, item) => sum + item.price, 0);
+  let discount = 0;
+  let coupon = null;
+  if (couponCode) {
+    coupon = COUPON_CODES[String(couponCode).toUpperCase()];
+    const eligibleBase = coupon?.productTypes
+      ? verifiedCart.filter(item => itemIsEligible(item.id, coupon.productTypes)).reduce((sum, item) => sum + item.price, 0)
+      : subtotal;
+    const result = applyDiscount(eligibleBase, couponCode, verifiedCart);
+    if (result.invalid) {
+      return corsResponse(JSON.stringify({ error: result.reason || `Invalid coupon code: ${couponCode}` }), 400, env, origin);
+    }
+    discount = result.discount;
+  }
+
+  const customsDuty = computeCustomsDuty(verifiedCart, discount, coupon?.productTypes, country);
+  return corsResponse(JSON.stringify({
+    customsDuty: customsDuty.toFixed(2),
+    currency: 'USD',
+    basis: 'Estimated Section 338 additional duty; carrier/broker processing fees are not included.'
+  }), 200, env, origin);
+}
+
 async function handleCheckout(request, env) {
   const origin = request.headers.get('Origin');
   let body;
@@ -405,6 +568,11 @@ async function handleCheckout(request, env) {
   catch { return corsResponse(JSON.stringify({ error: 'Invalid JSON' }), 400, env, origin); }
 
   const { cart, currency, country, province, zip, email, name, couponCode } = body;
+
+  // Enforce coupon disablement server-side, even if a client submits a code manually.
+  if (couponCode && !COUPONS_ENABLED) {
+    return corsResponse(JSON.stringify({ error: 'Coupon codes are currently disabled. Please remove the coupon and try again.' }), 400, env, origin);
+  }
 
   if (!cart || cart.length === 0)
     return corsResponse(JSON.stringify({ error: 'Cart is empty' }), 400, env, origin);
@@ -453,11 +621,11 @@ async function handleCheckout(request, env) {
   }
   const discountedSubtotal = Math.max(0, subtotal - discount);
 
+  const coupon = couponCode ? COUPON_CODES[couponCode.toUpperCase()] : null;
   const shipping = getShipping(country, cartIsDigital);
   const tax      = computeTax(discountedSubtotal, shipping, country, province);
-  const total    = (discountedSubtotal + shipping + tax).toFixed(2);
-
-  const coupon = couponCode ? COUPON_CODES[couponCode.toUpperCase()] : null;
+  const customsDuty = cartIsDigital ? 0 : computeCustomsDuty(verifiedCart, discount, coupon?.productTypes, country);
+  const total    = (discountedSubtotal + shipping + tax + customsDuty).toFixed(2);
 
   // Sum only the eligible items to calculate each item's proportional share
   const eligibleSubtotal = verifiedCart.reduce((s, item) =>
@@ -501,6 +669,15 @@ async function handleCheckout(request, env) {
     quantity: 1
   });
 
+  if (customsDuty > 0) line_items.push({
+    price_data: {
+      currency: effectiveCurrency,
+      product_data: { name: 'Estimated U.S. Customs Duty (Section 338)' },
+      unit_amount: Math.round(customsDuty * 100)
+    },
+    quantity: 1
+  });
+
   // 1. Generate download tokens for any ebook items
   const ebookDownloads = [];
   if (cartIsDigital) {
@@ -519,7 +696,7 @@ async function handleCheckout(request, env) {
   // 2. Build order data (includes download links for thank-you page)
   const verifiedOrderData = {
     items: verifiedCart, total, currency,
-    shipping: shipping.toFixed(2), tax: tax.toFixed(2),
+    shipping: shipping.toFixed(2), tax: tax.toFixed(2), customsDuty: customsDuty.toFixed(2),
     province: province || '', zip: zip || '', country,
     payerEmail: email, payerName: name || '',
     cartType: cartIsDigital ? 'digital' : 'physical',
@@ -534,7 +711,7 @@ async function handleCheckout(request, env) {
     success_url: `${env.ALLOWED_ORIGIN}/thank-you.html?order=${encodedOrder}&session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${env.ALLOWED_ORIGIN}/cart.html`,
     line_items,
-    metadata: { country, province: province || '', email, name: name || '', shipping: String(shipping), tax: tax.toFixed(2), currency, discount: discount.toFixed(2), couponCode: couponCode || '' }
+    metadata: { country, province: province || '', email, name: name || '', shipping: String(shipping), tax: tax.toFixed(2), customsDuty: customsDuty.toFixed(2), currency, discount: discount.toFixed(2), couponCode: couponCode || '' }
   });
 
   // 3. Create Stripe session
@@ -883,7 +1060,7 @@ async function handleApproveReview(request, env) {
 //  PHYSICAL ORDER: Confirmation email sent immediately after payment
 //  POST /send-order-confirmation
 // ============================================================
-async function sendOrderConfirmationEmail(env, { email, name, items, total, shipping, tax, currency, province, country, zip }) {
+async function sendOrderConfirmationEmail(env, { email, name, items, total, shipping, tax, customsDuty = 0, currency, province, country, zip }) {
   const itemsHtml = (items || []).map(i => `
     <tr>
       <td style="padding:10px 0; border-bottom:1px solid #ece8e1; color:#2c2c2c;">${i.name}</td>
@@ -925,6 +1102,10 @@ async function sendOrderConfirmationEmail(env, { email, name, items, total, ship
               <td style="padding:6px 0; color:#888; font-size:0.9rem;">Tax${province ? ` (${province})` : ''}</td>
               <td style="padding:6px 0; text-align:right; font-size:0.9rem;">$${Number(tax).toFixed(2)}</td>
             </tr>
+            ${Number(customsDuty) > 0 ? `<tr>
+              <td style="padding:6px 0; color:#888; font-size:0.9rem;">Estimated U.S. Customs Duty</td>
+              <td style="padding:6px 0; text-align:right; font-size:0.9rem;">$${Number(customsDuty).toFixed(2)}</td>
+            </tr>` : ''}
             <tr>
               <td style="padding:10px 0 0; font-weight:600;">Total Paid</td>
               <td style="padding:10px 0 0; text-align:right; font-weight:600;">$${Number(total).toFixed(2)} ${(currency || 'CAD').toUpperCase()}</td>
