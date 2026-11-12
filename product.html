@@ -411,8 +411,102 @@
   const product = PRODUCTS[productId];
   const main = document.getElementById('productMain');
   const backLink = document.getElementById('backLink');
+  const SITE_ORIGIN = 'https://www.thechicartist.com';
+
+  function setMeta(attribute, key, content) {
+    let meta = document.head.querySelector(`meta[${attribute}="${key}"]`);
+    if (!meta) {
+      meta = document.createElement('meta');
+      meta.setAttribute(attribute, key);
+      document.head.appendChild(meta);
+    }
+    meta.content = content;
+  }
+
+  function setCanonical(url) {
+    let canonical = document.head.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.rel = 'canonical';
+      document.head.appendChild(canonical);
+    }
+    canonical.href = url;
+  }
+
+  function productUrl(id) {
+    const url = new URL('/product', SITE_ORIGIN);
+    url.searchParams.set('id', id);
+    return url.href;
+  }
+
+  function plainProductDescription(item) {
+    const details = item.description
+      .replace(/<[^>]+>/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+    return `${item.name}. ${details}`.slice(0, 155);
+  }
+
+  function absoluteProductImages(item) {
+    return item.images.map((image) => new URL(image, `${SITE_ORIGIN}/`).href);
+  }
+
+  function setProductSeo(item) {
+    const canonicalUrl = productUrl(item.id);
+    const description = plainProductDescription(item);
+    const title = `${item.name} | The Chic Artist`;
+    const images = absoluteProductImages(item);
+
+    document.title = title;
+    setMeta('name', 'description', description);
+    setCanonical(canonicalUrl);
+
+    setMeta('property', 'og:type', 'product');
+    setMeta('property', 'og:title', title);
+    setMeta('property', 'og:description', description);
+    setMeta('property', 'og:url', canonicalUrl);
+    setMeta('property', 'og:image', images[0]);
+
+    setMeta('name', 'twitter:card', 'summary_large_image');
+    setMeta('name', 'twitter:title', title);
+    setMeta('name', 'twitter:description', description);
+    setMeta('name', 'twitter:image', images[0]);
+
+    document.querySelectorAll('script[data-product-schema]').forEach((schema) => schema.remove());
+    const schema = document.createElement('script');
+    schema.type = 'application/ld+json';
+    schema.dataset.productSchema = 'true';
+    schema.textContent = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'Product',
+      name: item.name,
+      description,
+      image: images,
+      sku: item.id,
+      brand: {
+        '@type': 'Brand',
+        name: 'The Chic Artist'
+      },
+      offers: {
+        '@type': 'Offer',
+        url: canonicalUrl,
+        priceCurrency: 'USD',
+        price: String(item.salePrice ?? item.price),
+        availability: item.soldOut
+          ? 'https://schema.org/SoldOut'
+          : 'https://schema.org/InStock'
+      }
+    });
+    document.head.appendChild(schema);
+  }
+
+  function setInvalidProductNoindex() {
+    setMeta('name', 'robots', 'noindex,follow');
+  }
 
   if (!product) {
+    document.title = 'Product Not Found | The Chic Artist';
+    setInvalidProductNoindex();
     main.innerHTML = `
       <div class="product-not-found">
         <h2>Product not found</h2>
@@ -420,22 +514,7 @@
         <a href="bookmarks.html" class="btn btn-dark mt-3">Browse Bookmarks</a>
       </div>`;
   } else {
-    // Update page title
-    document.title = `${product.name} | The Chic Artist`;
-    const plainDesc = `${product.name}. ${product.description.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()}`.slice(0, 155);
-    let md = document.querySelector('meta[name="description"]');
-    if (!md) { md = document.createElement('meta'); md.name = 'description'; document.head.appendChild(md); }
-    md.content = plainDesc;
-    const ld = document.createElement('script');
-    ld.type = 'application/ld+json';
-    ld.textContent = JSON.stringify({
-      '@context': 'https://schema.org', '@type': 'Product',
-      name: product.name, description: plainDesc,
-      image: product.images.map(i => new URL(i, location.href).href),
-      offers: { '@type': 'Offer', priceCurrency: 'USD', price: String(product.salePrice ?? product.price),
-        availability: product.soldOut ? 'https://schema.org/SoldOut' : 'https://schema.org/InStock' }
-    });
-    document.head.appendChild(ld);
+    setProductSeo(product);
 
     const onSale = product.salePrice != null && product.salePrice < product.price;
     const effectivePrice = onSale ? product.salePrice : product.price;
