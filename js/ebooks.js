@@ -25,27 +25,46 @@ document.addEventListener('DOMContentLoaded', () => {
 
     col.innerHTML = `
       <div class="product-item">
-        <a href="product.html?id=${product.id}" class="product-link" aria-label="View ${product.name}">
+
+        <a href="product.html?id=${product.id}"
+          class="product-link"
+          aria-label="View ${product.name}">
+
           <img src="${product.images[0]}"
-               alt="${product.name}"
-               class="img-fluid"
-               id="${product.id}"
-               loading="lazy">
+              alt="${product.name}"
+              class="img-fluid"
+              loading="lazy">
         </a>
+
         <div class="product-overlay">
           <div class="product-overlay-inner">
             ${priceHtml}
-            <a href="product.html?id=${product.id}" class="btn btn-sm btn-outline-dark mb-1">View Details</a>
+
+            <a href="product.html?id=${product.id}"
+              class="btn btn-sm btn-outline-dark mb-1">
+              View Details
+            </a>
+
             <button class="btn btn-sm add-to-cart"
                     data-id="${product.id}"
                     data-name="${product.name}"
                     data-price="${effectivePrice}"
                     data-image="${product.images[0]}"
                     data-type="digital">
-                  Add to Cart
-                </button>
+              Add to Cart
+            </button>
+
           </div>
         </div>
+
+        <div class="ebook-card-description mt-3">
+          <h2 class="h5">${product.name}</h2>
+          <p>${product.seoDescription || ''}</p>
+          <a href="product.html?id=${product.id}">
+            Learn More
+          </a>
+        </div>
+
       </div>
     `;
 

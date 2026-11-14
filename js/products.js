@@ -349,6 +349,7 @@ PRODUCTS['class-cherry-blossom'].soldOut = true;
 addProduct({
   id: 'ebook-watercolor-basics',
   name: 'Watercolour Made Simple: A beginner\'s guide to Watercolor Basics - eBook',
+  seoDescription: 'Learn watercolor painting from scratch with this beginner-friendly guide. Explore watercolor supplies, color mixing, water-to-paint ratios, brush techniques, wet-on-wet, wet-on-dry, layering and lifting.',
   price: 15.99,
   polarPrice:15.99,
   type: 'digital',
@@ -391,6 +392,7 @@ addProduct({
 addProduct({
   id: 'ebook-watercolor-spring-flowers',
   name: 'Spring Flowers in Watercolor: A beginner\'s guide to Loose Floral Painting - eBook',
+  seoDescription: 'Learn to paint beautiful loose watercolor flowers with this beginner-friendly floral guide. Explore spring color palettes, brush techniques, petals, leaves, greenery and step-by-step flower painting tutorials.',
   price: 15.99,
   polarPrice:15.99,
   type: 'digital',
@@ -430,6 +432,7 @@ addProduct({
 addProduct({
   id: 'ebook-all_about_pumpkins',
   name: 'All About Pumpkins: An Autumn Collection of Watercolor Pumpkins - eBook',
+  seoDescription: 'Explore step-by-step watercolor pumpkin tutorials, autumn color palettes, layering, texture techniques and ready-to-trace outlines in this seasonal digital painting guide.',
   price: 10.99,
   salePrice: 10.99,
   polarPrice:10.99,
@@ -472,6 +475,7 @@ Bring the heart of the harvest straight to your studio today—and let the cozy 
 addProduct({
   id: 'ebook-autumn-doodles',
   name: 'Autumn Doodles: A Collection of Autumn-inspired Watercolor Doodles',
+  seoDescription: 'Enjoy a collection of autumn-inspired watercolor doodles. A creative digital painting resource for practicing watercolor and creating seasonal artwork.',
   price: 1.99,
   salePrice: 1.99,
   polarPrice:1.99,
