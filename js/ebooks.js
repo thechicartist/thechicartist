@@ -57,14 +57,6 @@ document.addEventListener('DOMContentLoaded', () => {
           </div>
         </div>
 
-        <div class="ebook-card-description mt-3">
-          <h2 class="h5">${product.name}</h2>
-          <p>${product.seoDescription || ''}</p>
-          <a href="product.html?id=${product.id}">
-            Learn More
-          </a>
-        </div>
-
       </div>
     `;
 
