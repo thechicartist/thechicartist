@@ -1505,3 +1505,42 @@ html {
   .inspiration-card { padding: 32px 24px; }
   .inspiration-row { flex-direction: column; }
 }
+
+/* Homepage SEO Introduction */
+.homepage-intro {
+  padding: 55px 20px 45px !important;
+}
+
+.homepage-intro h1 {
+  max-width: 900px;
+  margin: 0 auto 16px;
+  line-height: 1.4;
+}
+
+.homepage-intro-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #555;
+  line-height: 1.7;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Compact mobile layout */
+@media (max-width: 767px) {
+  .homepage-intro {
+    padding: 25px 18px 20px !important;
+  }
+
+  .homepage-intro h1 {
+    font-size: 1.35rem;
+    line-height: 1.35;
+    margin-bottom: 10px;
+  }
+
+  .homepage-intro-text {
+    font-size: 0.85rem;
+    line-height: 1.55;
+  }
+}
