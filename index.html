@@ -35,17 +35,37 @@
   <meta property="twitter:description" content="Handmade watercolor bookmarks, paintings, and online workshops by The Chic Artist. Shipped across Canada and USA.">
   <meta property="twitter:image" content="https://www.thechicartist.com/images/bookmarks/b129.jpeg">
 
-  <!-- Structured Data: Local Business / Store Schema -->
+
+  <!-- Structured Data: Organization and Website -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "OnlineBusiness",
-    "name": "The Chic Artist",
-    "url": "https://www.thechicartist.com",
-    "logo": "https://www.thechicartist.com/images/favicon.png",
-    "image": "https://www.thechicartist.com/images/bookmarks/b129.jpeg",
-    "description": "Handmade watercolor bookmarks, custom paintings, and interactive online art workshops shipped across Canada and the USA.",
-    "priceRange": "$$"
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://www.thechicartist.com/#organization",
+        "name": "The Chic Artist",
+        "url": "https://www.thechicartist.com/",
+        "logo": "https://www.thechicartist.com/images/logo.png",
+        "description": "Watercolor art, handmade bookmarks, original paintings, custom wedding artwork, eBooks and online workshops.",
+        "sameAs": [
+          "https://www.instagram.com/the.chic.artist/",
+          "https://www.youtube.com/@TheChicArtist",
+          "https://www.facebook.com/neetikaag",
+          "https://www.tiktok.com/@the.chic.artist",
+          "https://thechicartiststudio.etsy.com"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://www.thechicartist.com/#website",
+        "url": "https://www.thechicartist.com/",
+        "name": "The Chic Artist",
+        "publisher": {
+          "@id": "https://www.thechicartist.com/#organization"
+        }
+      }
+    ]
   }
   </script>
 
@@ -197,6 +217,21 @@
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- HOMEPAGE SEO INTRODUCTION -->
+<section class="homepage-intro py-5">
+  <div class="container text-center">
+    <h1>Watercolor Art, Tutorials & Creative Workshops</h1>
+    <p>
+      Welcome to The Chic Artist, the creative studio of watercolor artist
+      and instructor Neetika Agarwal. Explore handmade watercolor bookmarks,
+      original watercolor paintings, custom wedding artwork, and beginner-friendly
+      watercolor eBooks. Discover step-by-step painting tutorials on YouTube
+      and join interactive watercolor workshops to develop your painting skills
+      and creativity.
+    </p>
   </div>
 </section>
 
@@ -369,7 +404,7 @@
 <section id="contact" class="main-content contact-section">
   <div class="container text-center mb-4">
     <div class="container text-center mb-4">
-  <h1>Let's Create Something Beautiful Together</h1>
+  <h2>Let's Create Something Beautiful Together</h2>
   <p>Whether you're here to learn watercolor, collaborate on a project, or simply say hello, I'm just a message away.</p>
 </div>
 
@@ -789,7 +824,7 @@ if (window.YT && window.YT.Player) {
 
     // Most recent paintings first
     const cardKeys = [];
-    for (let i = 42; i >= 1; i--) if (PRODUCTS[`card${i}`]) cardKeys.push(`card${i}`);
+    for (let i = 26; i >= 1; i--) if (PRODUCTS[`painting${i}`]) cardKeys.push(`painting${i}`);
     renderPreview('paintingsArrow', cardKeys);
   });
 </script>
