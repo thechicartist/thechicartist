@@ -20,7 +20,9 @@ function escapeHtml(value) {
 }
 
 function plainDescription(product) {
-  return `${product.name}. ${product.details}`.replace(/\s+/g, ' ').trim().slice(0, 155);
+  const source = product.descriptionHtml || product.details || '';
+  const text = source.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+  return `${product.name}. ${text}`.slice(0, 155);
 }
 
 function canonicalUrl(id) {
@@ -68,6 +70,66 @@ function metadataFor(product) {
       <script type="application/ld+json" data-product-schema>${schema}</script>`
   };
 }
+
+
+function productBodyHtml(product) {
+  const image = new URL(product.images[0], `${CANONICAL_ORIGIN}/`).href;
+  const description = product.descriptionHtml ||
+    `<p>${escapeHtml(product.details || '')}</p>`;
+
+  const price = Number(product.price).toFixed(2);
+  const category = product.id.startsWith('ebook-')
+    ? 'E-Book'
+    : product.id.startsWith('class-')
+      ? 'Online Class'
+      : product.id.startsWith('painting')
+        ? 'Original Painting'
+        : 'Watercolor Bookmark';
+
+  const productType = ['ebook', 'class'].some(type =>
+    product.id.startsWith(`${type}-`)
+  ) ? 'digital' : 'physical';
+
+  const cartButton = product.soldOut
+    ? `<button class="btn-add-cart sold-out" disabled>Sold Out</button>`
+    : `<button
+        class="btn-add-cart add-to-cart"
+        data-id="${escapeHtml(product.id)}"
+        data-name="${escapeHtml(product.name)}"
+        data-price="${price}"
+        data-image="${escapeHtml(product.images[0])}"
+        data-type="${productType}"
+      >Add to Cart</button>`;
+
+  return `
+    <div class="product-detail">
+      <div class="slider-column">
+        <div class="slider-wrapper">
+          <div class="slider-track">
+            <div class="slider-slide">
+              <img
+                src="${escapeHtml(image)}"
+                alt="${escapeHtml(product.name)}"
+                class="slider-img"
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-info">
+        <p class="product-category-tag">${category}</p>
+        <h1>${escapeHtml(product.name)}</h1>
+        <p class="product-price-tag">$${price}</p>
+        ${cartButton}
+        <div class="product-description">
+          ${description}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
 
 function invalidMetadata() {
   return {
@@ -147,6 +209,32 @@ const OTHER_PRODUCTS = {
     price: 15.99,
     images: ['images/ebooks/e1.jpg', 'images/ebooks/e2.jpg', 'images/ebooks/e3.jpg', 'images/ebooks/e4.jpg'],
     details: 'If you’ve ever felt drawn to watercolor but didn’t know where to begin, this book is for you.',
+    descriptionHtml: `
+      <p>If you’ve ever felt drawn to watercolor but didn’t know where to begin, this book is for you.</p>
+
+      <p>This 27 pages digital guide is a gentle, welcoming introduction to watercolor — created especially for beginners who want to paint without pressure, fear, or overwhelm. It’s not a textbook, and it’s not about perfection. It’s about slowing down, understanding the basics, and learning to enjoy the quiet magic of watercolor.</p>
+
+      <p>Inside, I share everything I wish I had known when I first picked up a brush — explained in a warm, simple, and encouraging way. This book is designed to feel like a calm companion you can return to again and again.</p>
+
+      <p>What you’ll find inside:
+      - A soft introduction to watercolor and the mindset behind it
+      - A beginner-friendly overview of supplies (without needing anything fancy)
+      - Understanding color, water ratio, and paint behavior
+      - Getting to know your brushes and basic brush marks
+      - Watercolor techniques like wet-on-wet, wet-on-dry, layering, and lifting
+      - Color mixing, color schemes, and using the color wheel gently
+      - Finding inspiration and painting with imagination
+      - Beautiful visuals, examples, and artwork throughout
+      </p>
+
+      <p>This book focuses on understanding watercolor, not rushing into complicated projects. It builds confidence slowly and naturally — perfect if you’re new, returning after a break, or simply want a softer approach to learning.</p>
+
+      <p>Who this book is for:<br>
+      ✔ Absolute beginners<br>
+      ✔ Anyone feeling intimidated by watercolor<br>
+      ✔ Artists who love a calm, intuitive learning style<br>
+      ✔ Creatives who enjoy visual, gentle instruction</p>
+      `,
     soldOut: false
   },
   'ebook-watercolor-spring-flowers': {
@@ -154,6 +242,23 @@ const OTHER_PRODUCTS = {
     price: 15.99,
     images: ['images/ebooks/e5.jpg', 'images/ebooks/e6.jpg', 'images/ebooks/e7.jpg', 'images/ebooks/e8.jpg'],
     details: 'Learn how to paint beautiful spring flowers with watercolor in a calm, simple, and approachable way.',
+    descriptionHtml: `
+      <p>Learn how to paint beautiful spring flowers with watercolor in a calm, simple, and approachable way.</p>
+
+      <p>This digital book was created to guide you through the gentle process of painting loose watercolor florals. Whether you are completely new to watercolor or looking to develop a softer floral style, this guide will help you understand the basics while enjoying the creative process.</p>
+
+      <p>Inside the book, you’ll find step-by-step demonstrations of popular spring flowers along with simple brush techniques, color guidance, and floral composition tips.</p>
+
+      <p>What You'll Learn:<br>
+      ✔ Understanding watercolor basics<br>
+      ✔ The colors of spring and how to use them<br>
+      ✔ My personal spring palette<br>
+      ✔ Simple brush techniques for petals and leaves<br>
+      ✔ Step-by-step flower tutorials<br>
+      ✔ How to paint stems, greenery, and leaf clusters<br>
+      ✔ Creating simple floral compositions<br>
+      ✔ Turning your florals into small projects</p>
+      `,
     soldOut: false
   },
   'ebook-all_about_pumpkins': {
@@ -161,13 +266,43 @@ const OTHER_PRODUCTS = {
     price: 10.99,
     images: ['images/ebooks/e9.jpg', 'images/ebooks/e10.jpg', 'images/ebooks/e11.jpg', 'images/ebooks/e12.jpg'],
     details: 'Step into a world of crisp autumn air, glowing golden light, and irresistible cozy charm.',
+    descriptionHtml: `
+      <p>Step into a world of crisp autumn air, glowing golden light, and irresistible cozy charm.</p>
+
+      <p>Whether you are an aspiring artist picking up a brush for the first time, a seasoned painter seeking fresh inspiration, or simply someone who adores the quiet beauty of the fall season, this e-book is crafted as a magical sanctuary for your creative soul.</p>
+
+      <p>More than just an instructional guide, this collection is an immersive artistic journey through the harvest patch. Meet a whimsical cast of heirloom pumpkin characters—from the rich, fiery tones of Ignatius to the ghostly alabaster magic of Genevieve and the graceful, sweeping curves of Willoughby. Each chapter celebrates the warmth, nostalgia, and rich textures that make autumn feel like home.</p>
+
+      <p>Why You’ll Fall in Love With This Book:<br>
+      🧡 Step-by-Step Watercolor Tutorials: Clear, encouraging, and delightful instruction suitable for all skill levels.<br>
+      🧡 Ready-to-Trace Master Outlines: Skip the stress of drawing from scratch—simply print or transfer the included sketches directly onto your paper.<br>
+      🧡 Curated Color Palettes & Swatches: Learn the secret to blending glowing underwashes, earthy moss tones, and rich rustic speckles.<br>
+      🧡 Versatile Layering & Texturing Techniques: Master foundational glazing, stippling, and wet-on-wet methods that you can apply to any future watercolor subject—from botanical florals to rich landscapes!<br>
+      🧡 Charming Autumn Lore & Fun Facts: Discover the fascinating history and cozy tales behind classic harvest gourds as you paint.<br>
+      🧡 A Visual Feast for Fall Lovers: Even if you just want to curl up with a hot cup of cider and flip through the gorgeous, vibrant pages, this book brings instant seasonal warmth to your screen.</p>
+
+      <p>Whether you are looking to create handmade greeting paintings, frame your own seasonal wall art, or unwind with a relaxing autumn hobby, All About Pumpkins is your ultimate companion for the season.</p>
+
+      <p>Bring the heart of the harvest straight to your studio today—and let the cozy painting begin!</p>
+      `,
     soldOut: false
   },
   'ebook-autumn-doodles': {
     name: 'Autumn Doodles: A Collection of Autumn-inspired Watercolor Doodles',
     price: 1.99,
     images: ['images/ebooks/e14.jpg', 'images/ebooks/e13.jpg'],
-    details: 'Step into a world of crisp autumn air, glowing golden light, and irresistible cozy charm.',
+    details: 'A collection of autumn-inspired watercolor doodles for creative seasonal painting.',
+    descriptionHtml: `
+      <p>Step into a world of crisp autumn air, glowing golden light, and irresistible cozy charm.</p>
+
+      <p>Whether you are an aspiring artist picking up a brush for the first time, a seasoned painter seeking fresh inspiration, or simply someone who adores the quiet beauty of the fall season, this doodle page is crafted as a magical sanctuary for your creative soul.</p>
+
+      <p>Follow my YouTube video <a href="https://youtu.be/oh2fUv5zyls" target="_blank" rel="noopener">here</a> to color this page along!</p>
+
+      <p>Whether you are looking to create handmade greeting paintings, frame your own seasonal wall art, or unwind with a relaxing autumn hobby, use this page as your creative outlet.</p>
+
+      <p>Bring the heart of the harvest straight to your studio today—and let the cozy painting begin!</p>
+      `,
     soldOut: false
   }
 };
@@ -202,8 +337,25 @@ export default {
 
     const metadata = product ? metadataFor(product) : invalidMetadata();
     return new HTMLRewriter()
-      .on('title', { element(element) { element.setInnerContent(metadata.title); } })
-      .on('head', { element(element) { element.append(metadata.head, { html: true }); } })
+      .on('title', {
+        element(element) {
+          element.setInnerContent(metadata.title);
+        }
+      })
+      .on('head', {
+        element(element) {
+          element.append(metadata.head, { html: true });
+        }
+      })
+      .on('main#productMain', {
+        element(element) {
+          if (product) {
+            element.setInnerContent(productBodyHtml(product), {
+              html: true
+            });
+          }
+        }
+      })
       .transform(response);
   }
 };
