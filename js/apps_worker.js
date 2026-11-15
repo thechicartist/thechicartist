@@ -107,7 +107,6 @@ export default {
 
     // Forward the original request method and relevant headers.
     const headers = new Headers(request.headers);
-    headers.set("Host", new URL(ORIGIN).host);
     headers.set("X-Apps-Proxy", "1");
     headers.delete("cookie");
 
@@ -185,7 +184,7 @@ export default {
 
     // Rewrite links in HTML so app navigation stays on this subdomain.
     if (contentType.includes("text/html")) {
-      const rewriter = new HTMLRewriter()
+      response = new HTMLRewriter()
         .on("a[href]", {
           element(element) {
             rewriteAttribute(element, "href", url.hostname);
