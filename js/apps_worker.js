@@ -169,9 +169,23 @@ export default {
 
     const contentType = response.headers.get("content-type") || "";
 
+    // Add focused search metadata to each app's main landing page.
+    // Supporting pages keep their own existing titles and descriptions.
+    const pageSEO = path === "/ScreenPace" || path === "/ScreenPace/"
+      ? {
+          title: "ScreenPace – Hourly App Limits & Screen Break App for iPhone",
+          description: "Build healthier screen habits with hourly app limits, Focus Hours and private on-device insights. ScreenPace is a screen break app for iPhone."
+        }
+      : path === "/VoxCue" || path === "/VoxCue/"
+        ? {
+            title: "VoxCue – Voice-Activated Teleprompter for iPhone",
+            description: "Record natural videos hands-free with a voice-activated teleprompter for iPhone. VoxCue scrolls your script as you speak, with recording and manual control."
+          }
+        : null;
+
     // Rewrite links in HTML so app navigation stays on this subdomain.
     if (contentType.includes("text/html")) {
-      return new HTMLRewriter()
+      const rewriter = new HTMLRewriter()
         .on("a[href]", {
           element(element) {
             rewriteAttribute(element, "href", url.hostname);
@@ -207,12 +221,25 @@ export default {
             element.remove();
           },
         })
+        .on("title", {
+          element(element) {
+            if (pageSEO) element.setInnerContent(pageSEO.title);
+          },
+        })
+        .on("meta[name='description']", {
+          element(element) {
+            if (pageSEO) element.remove();
+          },
+        })
         .on("head", {
           element(element) {
             const canonical = `${url.origin}${url.pathname}`;
+            const metadata = pageSEO
+              ? `<meta name="description" content="${pageSEO.description}">`
+              : "";
 
             element.append(
-              `<link rel="canonical" href="${canonical}">`,
+              `${metadata}<link rel="canonical" href="${canonical}">`,
               { html: true }
             );
           },
