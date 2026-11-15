@@ -320,6 +320,27 @@ async function getProduct(id, env) {
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+
+    // The Apps Worker uses this header when fetching the original app files.
+    // This prevents the proxy request from being redirected back to itself.
+    const isAppsProxy = request.headers.get('X-Apps-Proxy') === '1';
+
+    if (!isAppsProxy && request.method === 'GET') {
+      const path = url.pathname;
+      const isScreenPace = path === '/ScreenPace' || path.startsWith('/ScreenPace/');
+      const isVoxCue = path === '/VoxCue' || path.startsWith('/VoxCue/');
+
+      if (isScreenPace || isVoxCue) {
+        const destination = new URL(url.toString());
+        destination.protocol = 'https:';
+        destination.hostname = 'apps.thechicartist.com';
+        if (path === '/ScreenPace' || path === '/VoxCue') {
+          destination.pathname = `${path}/`;
+        }
+        return Response.redirect(destination.toString(), 301);
+      }
+    }
+
     const response = await env.ASSETS.fetch(request);
     if (!PRODUCT_PATHS.has(url.pathname) || request.method !== 'GET' || !response.headers.get('content-type')?.includes('text/html')) {
       return response;

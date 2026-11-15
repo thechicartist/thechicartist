@@ -108,6 +108,7 @@ export default {
     // Forward the original request method and relevant headers.
     const headers = new Headers(request.headers);
     headers.set("Host", new URL(ORIGIN).host);
+    headers.set("X-Apps-Proxy", "1");
     headers.delete("cookie");
 
     const originRequest = new Request(originURL.toString(), {
@@ -137,7 +138,10 @@ export default {
       if (location) {
         const redirected = new URL(location, originURL);
 
-        if (redirected.hostname === "thechicartist.com") {
+        if (
+          redirected.hostname === "thechicartist.com" ||
+          redirected.hostname === "www.thechicartist.com"
+        ) {
           if (
             redirected.pathname.startsWith("/ScreenPace/") ||
             redirected.pathname === "/ScreenPace"
@@ -198,6 +202,21 @@ export default {
             rewriteAttribute(element, "action", url.hostname);
           },
         })
+        .on("link[rel='canonical']", {
+          element(element) {
+            element.remove();
+          },
+        })
+        .on("head", {
+          element(element) {
+            const canonical = `${url.origin}${url.pathname}`;
+
+            element.append(
+              `<link rel="canonical" href="${canonical}">`,
+              { html: true }
+            );
+          },
+        })
         .transform(response);
     }
 
@@ -213,7 +232,10 @@ function rewriteAttribute(element, attribute, hostname) {
   try {
     const target = new URL(value, "https://" + hostname);
 
-    if (target.hostname !== "thechicartist.com") return;
+    if (
+      target.hostname !== "thechicartist.com" &&
+      target.hostname !== "www.thechicartist.com"
+    ) return;
 
     if (
       target.pathname.startsWith("/ScreenPace/") ||
