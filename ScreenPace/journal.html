@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>ScreenPace Journal — Screen Time Guides for iPhone</title>
+
+  <meta
+    name="description"
+    content="The ScreenPace Journal: practical guides on hourly screen time limits, stopping doomscrolling, screen detoxes, and staying focused at work on iPhone."
+  >
+  <link rel="canonical" href="https://apps.thechicartist.com/ScreenPace/journal">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="ScreenPace Journal — Screen Time Guides for iPhone">
+  <meta property="og:description" content="Practical guides on hourly screen time limits, doomscrolling, screen detoxes, and focus at work — from ScreenPace.">
+  <meta property="og:url" content="https://apps.thechicartist.com/ScreenPace/journal">
+  <meta property="og:image" content="https://apps.thechicartist.com/ScreenPace/assets/og-screenpace.png">
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "ScreenPace Journal",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "url": "https://apps.thechicartist.com/ScreenPace/scrolling-fun-or-addiction"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "url": "https://apps.thechicartist.com/ScreenPace/hourly-vs-daily-screen-time-limits"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "url": "https://apps.thechicartist.com/ScreenPace/how-to-stop-doomscrolling-iphone"
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "url": "https://apps.thechicartist.com/ScreenPace/screen-time-limits-for-adults-work-focus"
+    },
+    {
+      "@type": "ListItem",
+      "position": 5,
+      "url": "https://apps.thechicartist.com/ScreenPace/screen-detox-app-iphone"
+    }
+  ]
+}
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+
+    :root {
+      --bg: #0B0C0E;
+      --surface: #16181C;
+      --surface-2: #1D2025;
+      --text: #F2F0EA;
+      --text-muted: #9CA3AF;
+      --text-dim: #6B7280;
+      --accent: #FFB648;
+      --accent-dim: rgba(255, 182, 72, 0.12);
+      --border: rgba(255, 255, 255, 0.08);
+      --border-strong: rgba(255, 255, 255, 0.14);
+
+      --font-display: 'Inter', -apple-system,
+        BlinkMacSystemFont, sans-serif;
+
+      --font-mono: 'IBM Plex Mono',
+        'SF Mono', Menlo, monospace;
+
+      --radius: 14px;
+      --radius-sm: 8px;
+      --max-width: 1080px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-display);
+      font-size: 16px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    /* ---------------- NAV ---------------- */
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+
+      background: rgba(11, 12, 14, 0.85);
+      backdrop-filter: blur(10px);
+
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+
+      padding: 18px 24px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      font-weight: 600;
+      font-size: 18px;
+
+      color: var(--text);
+
+      letter-spacing: -0.01em;
+    }
+
+    .brand:hover {
+      text-decoration: none;
+    }
+
+    .brand img {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+
+      font-size: 14px;
+
+      color: var(--text-muted);
+    }
+
+    .nav-links a { color: var(--text-muted); }
+    .nav-links a:hover { color: var(--text); text-decoration: none; }
+
+    .nav-cta {
+      font-size: 14px;
+
+      color: var(--text);
+
+      border: 1px solid var(--border-strong);
+
+      padding: 8px 18px;
+
+      border-radius: 100px;
+
+      transition: border-color 0.15s ease, color 0.15s ease;
+    }
+    .nav-cta:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+    @media (max-width: 720px) {
+      .nav-inner { flex-wrap: wrap; gap: 12px 24px; padding-bottom: 12px; }
+      .nav-links { display: flex; flex-wrap: wrap; gap: 16px; order: 3; flex-basis: 100%; font-size: 13px; }
+    }
+
+    /* ---------------- LAYOUT ---------------- */
+
+    .wrap {
+      max-width: var(--max-width);
+      margin: 0 auto;
+
+      padding: 0 24px;
+    }
+
+    /* ---------------- HERO ---------------- */
+
+    .tips-hero {
+      padding: 92px 0 72px;
+
+      max-width: 760px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+
+      font-family: var(--font-mono);
+
+      font-size: 12px;
+      letter-spacing: 0.12em;
+
+      text-transform: uppercase;
+
+      color: var(--accent);
+
+      margin-bottom: 20px;
+    }
+
+    .eyebrow::before {
+      content: '';
+
+      width: 8px;
+      height: 8px;
+
+      border-radius: 50%;
+
+      background: var(--accent);
+    }
+
+    h1 {
+      font-size: clamp(38px, 6vw, 58px);
+
+      font-weight: 600;
+
+      letter-spacing: -0.025em;
+
+      line-height: 1.06;
+
+      margin: 0 0 22px;
+    }
+
+    .hero-description {
+      font-size: 19px;
+
+      color: var(--text-muted);
+
+      max-width: 650px;
+
+      margin: 0;
+    }
+
+    /* ---------------- ARTICLES ---------------- */
+
+    .articles {
+      border-top: 1px solid var(--border);
+
+      padding: 20px 0 80px;
+    }
+
+    .article-card {
+      display: grid;
+
+      grid-template-columns: 160px 1fr auto;
+
+      gap: 32px;
+
+      align-items: center;
+
+      padding: 32px 0;
+
+      border-bottom: 1px solid var(--border);
+    }
+
+    .article-number {
+      font-family: var(--font-mono);
+
+      font-size: 13px;
+
+      color: var(--accent);
+
+      letter-spacing: 0.08em;
+    }
+
+    .article-content h2 {
+      margin: 0 0 8px;
+
+      font-size: 22px;
+
+      font-weight: 500;
+
+      letter-spacing: -0.01em;
+    }
+
+    .article-content h2 a {
+      color: var(--text);
+    }
+
+    .article-content h2 a:hover {
+      color: var(--accent);
+    }
+
+    .article-content p {
+      margin: 0;
+
+      color: var(--text-muted);
+
+      font-size: 15px;
+
+      max-width: 650px;
+    }
+
+    .article-meta {
+      font-family: var(--font-mono);
+
+      font-size: 12px;
+
+      color: var(--text-dim);
+
+      white-space: nowrap;
+    }
+
+    .article-arrow {
+      margin-left: 8px;
+
+      color: var(--accent);
+
+      font-size: 18px;
+    }
+
+    @media (max-width: 720px) {
+
+      .tips-hero {
+        padding: 64px 0 52px;
+      }
+
+      .article-card {
+        grid-template-columns: 1fr;
+
+        gap: 10px;
+
+        padding: 28px 0;
+      }
+
+      .article-meta {
+        margin-top: 6px;
+      }
+
+    }
+
+    /* ---------------- CTA ---------------- */
+
+    .cta-section {
+      border-top: 1px solid var(--border);
+
+      padding: 72px 0;
+    }
+
+    .cta-box {
+      background: var(--surface);
+
+      border: 1px solid var(--border);
+
+      border-radius: var(--radius);
+
+      padding: 48px;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      gap: 32px;
+    }
+
+    .cta-box h2 {
+      margin: 0 0 8px;
+
+      font-size: 28px;
+
+      font-weight: 500;
+    }
+
+    .cta-box p {
+      margin: 0;
+
+      color: var(--text-muted);
+
+      max-width: 560px;
+    }
+
+    .btn {
+      display: inline-flex;
+
+      align-items: center;
+      justify-content: center;
+
+      padding: 13px 26px;
+
+      border-radius: 100px;
+
+      font-size: 15px;
+
+      font-weight: 500;
+
+      white-space: nowrap;
+
+      background: var(--accent);
+
+      color: #1A1300;
+
+      border: none;
+    }
+
+    .btn:hover {
+      opacity: 0.9;
+
+      text-decoration: none;
+    }
+
+    @media (max-width: 720px) {
+
+      .cta-box {
+        padding: 32px;
+
+        flex-direction: column;
+
+        align-items: flex-start;
+      }
+
+    }
+
+    /* ---------------- FOOTER ---------------- */
+
+    footer {
+      border-top: 1px solid var(--border);
+
+      padding: 48px 0;
+    }
+
+    .footer-grid {
+      display: flex;
+
+      justify-content: space-between;
+
+      align-items: flex-start;
+
+      flex-wrap: wrap;
+
+      gap: 32px;
+    }
+
+    .footer-links {
+      display: flex;
+
+      gap: 28px;
+
+      font-size: 14px;
+
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+    }
+
+    .footer-links a:hover {
+      color: var(--text);
+    }
+
+    .footer-meta {
+      font-size: 13px;
+
+      color: var(--text-dim);
+
+      margin-top: 24px;
+    }
+
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="brand">
+        <img src="assets/screenpace-icon.png" alt="ScreenPace app icon" width="38" height="38">
+        ScreenPace
+      </a>
+      <div class="nav-links">
+        <a href="index.html#features">Features</a>
+        <a href="index.html#how-it-works">How it works</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="support.html">Support</a>
+        <a href="journal.html">Journal</a>
+      </div>
+      <a href="https://apps.apple.com/us/app/screenpace/id6803214789" class="nav-cta">7 days free</a>
+    </div>
+  </nav>
+
+  <div class="wrap">
+
+    <section class="tips-hero">
+      <div class="eyebrow">ScreenPace Journal</div>
+      <h1>
+        Scroll less.
+        <br>
+        Live more.
+      </h1>
+      <p class="hero-description">
+        Practical guides on screen time, scrolling, and focus —
+        written to help, not to lecture.
+      </p>
+    </section>
+
+    <section class="articles">
+
+        <!-- ARTICLE 01 -->
+
+        <article class="article-card">
+
+          <div class="article-number">
+            01 / DIGITAL WELLBEING
+          </div>
+
+          <div class="article-content">
+
+            <h2>
+              <a href="https://apps.thechicartist.com/ScreenPace/scrolling-fun-or-addiction">
+                Scrolling: fun or addiction?
+              </a>
+            </h2>
+
+            <p>
+              How to stay in control — without giving up the fun. A feed can entertain you, connect you, or teach you something new.
+            </p>
+
+          </div>
+
+          <div class="article-meta">
+            <a href="https://apps.thechicartist.com/ScreenPace/scrolling-fun-or-addiction" class="meta-link">
+            6 min read <span class="article-arrow">→</span>
+            </a>
+        </div>
+
+        </article>
+
+        <!-- ARTICLE 02 -->
+
+        <article class="article-card">
+
+          <div class="article-number">
+            02 / HOURLY LIMITS
+          </div>
+
+          <div class="article-content">
+
+            <h2>
+              <a href="https://apps.thechicartist.com/ScreenPace/hourly-vs-daily-screen-time-limits">
+                Hourly vs Daily Screen Time Limits
+              </a>
+            </h2>
+
+            <p>
+              Why an allowance that resets every hour works better than a single daily limit you burn by noon.
+            </p>
+
+          </div>
+
+          <div class="article-meta">
+            <a href="https://apps.thechicartist.com/ScreenPace/hourly-vs-daily-screen-time-limits" class="meta-link">
+            5 min read <span class="article-arrow">→</span>
+            </a>
+        </div>
+
+        </article>
+
+        <!-- ARTICLE 03 -->
+
+        <article class="article-card">
+
+          <div class="article-number">
+            03 / DOOMSCROLLING
+          </div>
+
+          <div class="article-content">
+
+            <h2>
+              <a href="https://apps.thechicartist.com/ScreenPace/how-to-stop-doomscrolling-iphone">
+                How to Stop Doomscrolling on iPhone
+              </a>
+            </h2>
+
+            <p>
+              Practical steps for the hardest habit of all — and what to do when the feed keeps pulling you back.
+            </p>
+
+          </div>
+
+          <div class="article-meta">
+            <a href="https://apps.thechicartist.com/ScreenPace/how-to-stop-doomscrolling-iphone" class="meta-link">
+            5 min read <span class="article-arrow">→</span>
+            </a>
+        </div>
+
+        </article>
+
+        <!-- ARTICLE 04 -->
+
+        <article class="article-card">
+
+          <div class="article-number">
+            04 / FOCUS AT WORK
+          </div>
+
+          <div class="article-content">
+
+            <h2>
+              <a href="https://apps.thechicartist.com/ScreenPace/screen-time-limits-for-adults-work-focus">
+                Screen Time Limits for Adults: Focus at Work
+              </a>
+            </h2>
+
+            <p>
+              Stricter limits during Focus Hours, easier rules outside them — for work, study, and the hours that matter.
+            </p>
+
+          </div>
+
+          <div class="article-meta">
+            <a href="https://apps.thechicartist.com/ScreenPace/screen-time-limits-for-adults-work-focus" class="meta-link">
+            5 min read <span class="article-arrow">→</span>
+            </a>
+        </div>
+
+        </article>
+
+        <!-- ARTICLE 05 -->
+
+        <article class="article-card">
+
+          <div class="article-number">
+            05 / SCREEN DETOX
+          </div>
+
+          <div class="article-content">
+
+            <h2>
+              <a href="https://apps.thechicartist.com/ScreenPace/screen-detox-app-iphone">
+                Screen Detox App for iPhone Without Quitting
+              </a>
+            </h2>
+
+            <p>
+              A calmer detox that keeps the apps you genuinely need — just not available all day.
+            </p>
+
+          </div>
+
+          <div class="article-meta">
+            <a href="https://apps.thechicartist.com/ScreenPace/screen-detox-app-iphone" class="meta-link">
+            5 min read <span class="article-arrow">→</span>
+            </a>
+        </div>
+
+        </article>
+
+    </section>
+
+    <section class="cta-section">
+      <div class="cta-box">
+        <div>
+          <h2>Ready to try hourly limits?</h2>
+          <p>
+            ScreenPace gives distracting apps a small allowance that resets
+            every hour, with Focus Hours and private on-device insights.
+            Free for 7 days, then $4.99 one-time — no subscription.
+          </p>
+        </div>
+        <a class="btn" href="https://apps.apple.com/us/app/screenpace/id6803214789">Try free for 7 days</a>
+      </div>
+    </section>
+
+  </div>
+
+  <footer>
+    <div class="wrap footer-grid">
+      <div>
+        <a href="index.html" class="brand">
+          <img src="assets/screenpace-icon.png" alt="ScreenPace app icon" width="38" height="38">
+          ScreenPace
+        </a>
+        <div class="footer-meta">© 2026 The Chic Artist. All rights reserved.</div>
+      </div>
+      <div class="footer-links">
+        <a href="journal.html">Journal</a>
+        <a href="scrolling-fun-or-addiction.html">Healthy scrolling guide</a>
+        <a href="support.html">Support</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms</a>
+        <a href="https://apps.thechicartist.com/" class="all-apps-link">All Apps</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

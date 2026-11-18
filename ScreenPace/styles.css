@@ -1075,8 +1075,21 @@ details p {
     min-height: 76px;
   }
 
-  .nav-links a:not(.nav-cta) {
-    display: none;
+  .nav-inner {
+    flex-wrap: wrap;
+    gap: 12px 24px;
+    padding-block: 14px;
+  }
+
+  .nav-links {
+    flex-wrap: wrap;
+    gap: 16px;
+    order: 3;
+    flex-basis: 100%;
+  }
+
+  .nav-links a {
+    font-size: 13px;
   }
 
   .hero {
@@ -1482,6 +1495,58 @@ details p {
 
 .article-page .article-disclaimer {
   font-family: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+}
+
+/* Article hero divider + FAQ + More from the journal (added 2026-11-18) */
+.article-page .article-hero {
+  border-bottom: 1px solid var(--line);
+}
+
+.article-page .faq-item {
+  padding: 26px 0;
+  border-top: 1px solid var(--line);
+}
+
+.article-page .faq-item:last-child {
+  border-bottom: 1px solid var(--line);
+}
+
+.article-page .faq-item h3 {
+  margin-bottom: 10px;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+  font-size: 18px;
+  font-weight: 650;
+}
+
+.article-page .faq-item p {
+  margin-bottom: 0;
+}
+
+.article-more ul {
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.article-more li {
+  padding: 18px 0;
+  border-top: 1px solid var(--line);
+}
+
+.article-more li:last-child {
+  border-bottom: 1px solid var(--line);
+}
+
+.article-more a {
+  color: var(--paper);
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+  font-size: 18px;
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.article-more a:hover {
+  color: var(--gold);
 }
 
 @media (max-width: 680px) {

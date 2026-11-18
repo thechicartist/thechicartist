@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, follow">
   <title>Privacy Policy — VoxCue</title>
   <meta name="description" content="VoxCue's privacy policy. VoxCue is built to keep your videos and scripts on your device — read how we handle your data.">
   <link rel="canonical" href="https://apps.thechicartist.com/VoxCue/privacy">
@@ -112,7 +113,8 @@ img, svg { display: block; max-width: 100%; }
 .nav-cta:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
 
 @media (max-width: 720px) {
-  .nav-links { display: none; }
+  .nav-inner { flex-wrap: wrap; gap: 12px 24px; padding-bottom: 12px; }
+  .nav-links { display: flex; flex-wrap: wrap; gap: 16px; order: 3; flex-basis: 100%; font-size: 13px; }
 }
 
 /* ---------- Hero ---------- */
@@ -691,6 +693,7 @@ footer {
         <div class="footer-meta">© 2026 Neetika Agarwal. All rights reserved.</div>
       </div>
       <div class="footer-links">
+        <a href="creator-tips.html">Creator Tips</a>
         <a href="support.html">Support</a>
         <a href="privacy.html">Privacy Policy</a>
         <a href="terms.html">Terms &amp; Conditions</a>

@@ -13,6 +13,9 @@
     if (config.priceLabel) element.textContent = config.priceLabel;
   });
 
+  // supportEmail is "" (no support email is published; contact is via
+  // https://thechicartist.com/#contact). Skip email handling entirely when empty
+  // so no broken mailto: link or raw text is ever rendered.
   document.querySelectorAll("[data-support-email]").forEach((element) => {
     if (!config.supportEmail) return;
     element.textContent = config.supportEmail;

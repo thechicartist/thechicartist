@@ -2,15 +2,16 @@ const ORIGIN = "https://thechicartist.com";
 
 const LOGO = ORIGIN + "/images/the_Chic_Artist_logo_nocolor.png";
 const FAVICON = ORIGIN + "/images/favicon.png";
-const SCREENPACE_ICON = ORIGIN + "/ScreenPace/assets/screenpace-icon.png";
-const VOXCUE_ICON = ORIGIN + "/VoxCue/images/VoxCue.png";
+const SCREENPACE_ICON = "/ScreenPace/assets/screenpace-icon.png";
+const VOXCUE_ICON = "/VoxCue/images/VoxCue.png";
 
 export default {
   async fetch(request) {
     const url = new URL(request.url);
     const path = url.pathname;
 
-    // Sitemap
+    // Sitemap — must match sitemap.xml: content pages only.
+    // Privacy/support/terms are noindex and are intentionally excluded.
     if (path === "/sitemap.xml") {
       const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -24,31 +25,50 @@ export default {
         <loc>https://apps.thechicartist.com/VoxCue/</loc>
       </url>
       <url>
-        <loc>https://apps.thechicartist.com/ScreenPace/privacy</loc>
+        <loc>https://apps.thechicartist.com/VoxCue/creator-tips</loc>
       </url>
       <url>
-        <loc>https://apps.thechicartist.com/ScreenPace/support</loc>
-      </url>
-      <url>
-        <loc>https://apps.thechicartist.com/ScreenPace/terms</loc>
+        <loc>https://apps.thechicartist.com/VoxCue/creator-tips/how-to-use-a-teleprompter</loc>
+        <lastmod>2026-08-12</lastmod>
       </url>
       <url>
         <loc>https://apps.thechicartist.com/ScreenPace/scrolling-fun-or-addiction</loc>
       </url>
       <url>
-        <loc>https://apps.thechicartist.com/VoxCue/privacy</loc>
+        <loc>https://apps.thechicartist.com/ScreenPace/journal</loc>
+        <lastmod>2026-11-18</lastmod>
       </url>
       <url>
-        <loc>https://apps.thechicartist.com/VoxCue/support</loc>
+        <loc>https://apps.thechicartist.com/VoxCue/creator-tips/record-youtube-videos-without-memorizing-your-script</loc>
+        <lastmod>2026-11-18</lastmod>
       </url>
       <url>
-        <loc>https://apps.thechicartist.com/VoxCue/terms</loc>
+        <loc>https://apps.thechicartist.com/VoxCue/creator-tips/teleprompter-app-for-reels-tiktok-iphone</loc>
+        <lastmod>2026-11-18</lastmod>
       </url>
       <url>
-        <loc>https://apps.thechicartist.com/VoxCue/creator-tips</loc>
+        <loc>https://apps.thechicartist.com/VoxCue/creator-tips/how-to-write-a-script-that-sounds-natural</loc>
+        <lastmod>2026-11-18</lastmod>
       </url>
       <url>
-        <loc>https://apps.thechicartist.com/VoxCue/creator-tips/how-to-use-a-teleprompter</loc>
+        <loc>https://apps.thechicartist.com/VoxCue/creator-tips/voice-activated-vs-fixed-speed-teleprompter</loc>
+        <lastmod>2026-11-18</lastmod>
+      </url>
+      <url>
+        <loc>https://apps.thechicartist.com/ScreenPace/hourly-vs-daily-screen-time-limits</loc>
+        <lastmod>2026-11-18</lastmod>
+      </url>
+      <url>
+        <loc>https://apps.thechicartist.com/ScreenPace/how-to-stop-doomscrolling-iphone</loc>
+        <lastmod>2026-11-18</lastmod>
+      </url>
+      <url>
+        <loc>https://apps.thechicartist.com/ScreenPace/screen-time-limits-for-adults-work-focus</loc>
+        <lastmod>2026-11-18</lastmod>
+      </url>
+      <url>
+        <loc>https://apps.thechicartist.com/ScreenPace/screen-detox-app-iphone</loc>
+        <lastmod>2026-11-18</lastmod>
       </url>
     </urlset>`;
 
@@ -63,9 +83,9 @@ export default {
     // Robots.txt
     if (path === "/robots.txt") {
       const robots = `User-agent: *
-    Allow: /
+Allow: /
 
-    Sitemap: https://apps.thechicartist.com/sitemap.xml`;
+Sitemap: https://apps.thechicartist.com/sitemap.xml`;
 
       return new Response(robots, {
         headers: {
@@ -137,7 +157,27 @@ export default {
       if (location) {
         const redirected = new URL(location, originURL);
 
-        if (
+        // A redirect back to this subdomain would loop in the browser:
+        // the worker would proxy it to the origin again, the origin
+        // redirects again, and so on. Fetch the file from the origin
+        // instead, once — and stop with a 502 rather than looping
+        // if the origin redirects a second time.
+        if (redirected.hostname === url.hostname) {
+          const retryURL = new URL(redirected.pathname + redirected.search, ORIGIN);
+          const retry = await fetch(new Request(retryURL.toString(), {
+            method: request.method,
+            headers,
+            redirect: "manual",
+          }));
+
+          if (retry.status >= 300 && retry.status < 400) {
+            return new Response("Unable to load the requested app page.", {
+              status: 502,
+            });
+          }
+
+          response = retry;
+        } else if (
           redirected.hostname === "thechicartist.com" ||
           redirected.hostname === "www.thechicartist.com"
         ) {
@@ -172,13 +212,13 @@ export default {
     // Supporting pages keep their own existing titles and descriptions.
     const pageSEO = path === "/ScreenPace" || path === "/ScreenPace/"
       ? {
-          title: "ScreenPace – Hourly App Limits & Screen Break App for iPhone",
-          description: "Build healthier screen habits with hourly app limits, Focus Hours and private on-device insights. ScreenPace is a screen break app for iPhone."
+          title: "ScreenPace – Hourly App Limits & Screen Time App for iPhone",
+          description: "ScreenPace is an iPhone screen time app with hourly app limits, Focus Hours and private on-device insights. 7 days free, then $4.99 once — no subscription."
         }
       : path === "/VoxCue" || path === "/VoxCue/"
         ? {
-            title: "VoxCue – Voice-Activated Teleprompter for iPhone",
-            description: "Record natural videos hands-free with a voice-activated teleprompter for iPhone. VoxCue scrolls your script as you speak, with recording and manual control."
+            title: "VoxCue – Voice-Activated Teleprompter App for iPhone | The Chic Artist",
+            description: "VoxCue is a voice-activated teleprompter for iPhone. Record hands-free for YouTube and Reels, on-device. 7 days free, then $4.99 one-time — no subscription."
           }
         : null;
 
