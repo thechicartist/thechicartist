@@ -50,7 +50,7 @@ export default {
       </url>
       <url>
         <loc>https://apps.thechicartist.com/VoxCue/creator-tips/how-to-use-a-teleprompter</loc>
-        <lastmod>2026-08-12</lastmod>
+        <lastmod>2026-11-18</lastmod>
       </url>
       <url>
         <loc>https://apps.thechicartist.com/ScreenPace/scrolling-fun-or-addiction</loc>
