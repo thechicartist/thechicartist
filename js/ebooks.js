@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     col.innerHTML = `
       <div class="product-item">
 
-        <a href="product.html?id=${product.id}"
+        <a href="product?id=${product.id}"
           class="product-link"
           aria-label="View ${product.name}">
 
@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="product-overlay-inner">
             ${priceHtml}
 
-            <a href="product.html?id=${product.id}"
+            <a href="product?id=${product.id}"
               class="btn btn-sm btn-outline-dark mb-1">
               View Details
             </a>

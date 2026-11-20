@@ -70,7 +70,7 @@
 
       // Paintings need a format: send to product page unless added from there
       if (btn.dataset.id && btn.dataset.id.startsWith('painting') && !btn.dataset.formatOk) {
-        window.location.href = `product.html?id=${btn.dataset.id}&choose=1`;
+        window.location.href = `product?id=${btn.dataset.id}&choose=1`;
         return;
       }
 
@@ -340,7 +340,7 @@
         const d = document.createElement('div');
         d.className = 'cart-item d-flex align-items-center mb-3';
         d.innerHTML = `
-          <a href="product.html?id=${it.id}">
+          <a href="product?id=${it.id}">
             <img src="${it.image || ''}" alt="${it.name}" width="80" class="me-3 rounded" style="cursor:pointer;">
           </a>
           <div class="flex-grow-1">

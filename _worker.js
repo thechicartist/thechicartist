@@ -325,6 +325,17 @@ export default {
     // This prevents the proxy request from being redirected back to itself.
     const isAppsProxy = request.headers.get('X-Apps-Proxy') === '1';
 
+    // Canonical host is www: send bare-domain requests to www, except for
+    // the Apps Worker's proxy fetches, which must reach the origin as-is.
+    // GET-only, matching the ScreenPace/VoxCue redirect below, so no POST
+    // body is ever lost to a redirect.
+    if (!isAppsProxy && request.method === 'GET' && url.hostname === 'thechicartist.com') {
+      const destination = new URL(url.toString());
+      destination.protocol = 'https:';
+      destination.hostname = 'www.thechicartist.com';
+      return Response.redirect(destination.toString(), 301);
+    }
+
     if (!isAppsProxy && request.method === 'GET') {
       const path = url.pathname;
       const isScreenPace = path === '/ScreenPace' || path.startsWith('/ScreenPace/');
@@ -356,7 +367,13 @@ export default {
       return response;
     }
 
-    const metadata = product ? metadataFor(product) : invalidMetadata();
+    if (!product) {
+      // Removed or unknown product IDs (e.g. legacy cardN IDs) redirect to
+      // the paintings page instead of serving a noindex "Product Not Found" page.
+      return Response.redirect(`${CANONICAL_ORIGIN}/paintings`, 301);
+    }
+
+    const metadata = metadataFor(product);
     return new HTMLRewriter()
       .on('title', {
         element(element) {

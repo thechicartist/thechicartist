@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     col.innerHTML = `
       <div class="product-item">
-        <a href="product.html?id=${product.id}" class="product-link" aria-label="View ${product.name}">
+        <a href="product?id=${product.id}" class="product-link" aria-label="View ${product.name}">
           <img src="${product.images[0]}"
                alt="${product.name}"
                class="img-fluid"
@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="product-overlay-inner">
             <p class="product-price">$${Number(product.price).toFixed(2)}</p>
             ${product.date ? `<p style="font-size:0.75rem; margin:4px 0;">${product.date}</p>` : ''}
-            <a href="product.html?id=${product.id}" class="btn btn-sm btn-outline-dark mb-1">View Details</a>
+            <a href="product?id=${product.id}" class="btn btn-sm btn-outline-dark mb-1">View Details</a>
             ${product.soldOut
               ? `<button class="btn btn-sm" disabled style="opacity:0.5; cursor:not-allowed;">Sold Out</button>`
               : ` <button class="btn btn-sm add-to-cart"
