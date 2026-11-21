@@ -30,6 +30,10 @@ function canonicalUrl(id) {
 }
 
 function metadataFor(product) {
+  // E-books and online classes are delivered digitally (instant download /
+  // online access), so their schema carries 0-day shipping. Physical products
+  // get no shippingDetails here — Merchant Center governs their delivery time.
+  const isDigital = product.id.startsWith('ebook-') || product.id.startsWith('class-');
   const title = `${product.name} | The Chic Artist`;
   const description = plainDescription(product);
   const canonical = canonicalUrl(product.id);
@@ -49,7 +53,22 @@ function metadataFor(product) {
       price: String(product.price),
       availability: product.soldOut
         ? 'https://schema.org/SoldOut'
-        : 'https://schema.org/InStock'
+        : 'https://schema.org/InStock',
+      ...(isDigital ? {
+        shippingDetails: {
+          '@type': 'OfferShippingDetails',
+          shippingDestination: [
+            { '@type': 'DefinedRegion', addressCountry: 'US' },
+            { '@type': 'DefinedRegion', addressCountry: 'CA' }
+          ],
+          shippingRate: { '@type': 'MonetaryAmount', value: '0', currency: 'USD' },
+          deliveryTime: {
+            '@type': 'ShippingDeliveryTime',
+            handlingTime: { '@type': 'QuantitativeValue', minValue: 0, maxValue: 0, unitCode: 'DAY' },
+            transitTime: { '@type': 'QuantitativeValue', minValue: 0, maxValue: 0, unitCode: 'DAY' }
+          }
+        }
+      } : {})
     }
   }).replace(/</g, '\\u003c');
 
@@ -205,14 +224,14 @@ const OTHER_PRODUCTS = {
     soldOut: true
   },
   'ebook-watercolor-basics': {
-    name: "Watercolour Made Simple: A beginner's guide to Watercolor Basics - eBook",
+    name: "Watercolor Made Simple: A beginner's guide to Watercolor Basics - eBook",
     price: 15.99,
     images: ['images/ebooks/e1.jpg', 'images/ebooks/e2.jpg', 'images/ebooks/e3.jpg', 'images/ebooks/e4.jpg'],
     details: 'If you’ve ever felt drawn to watercolor but didn’t know where to begin, this book is for you.',
     descriptionHtml: `
       <p>If you’ve ever felt drawn to watercolor but didn’t know where to begin, this book is for you.</p>
 
-      <p>This 27 pages digital guide is a gentle, welcoming introduction to watercolor — created especially for beginners who want to paint without pressure, fear, or overwhelm. It’s not a textbook, and it’s not about perfection. It’s about slowing down, understanding the basics, and learning to enjoy the quiet magic of watercolor.</p>
+      <p>This 27-page digital guide is a gentle, welcoming introduction to watercolor — created especially for beginners who want to paint without pressure, fear, or overwhelm. It’s not a textbook, and it’s not about perfection. It’s about slowing down, understanding the basics, and learning to enjoy the quiet magic of watercolor.</p>
 
       <p>Inside, I share everything I wish I had known when I first picked up a brush — explained in a warm, simple, and encouraging way. This book is designed to feel like a calm companion you can return to again and again.</p>
 

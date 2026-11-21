@@ -348,7 +348,7 @@ PRODUCTS['class-cherry-blossom'].soldOut = true;
 
 addProduct({
   id: 'ebook-watercolor-basics',
-  name: 'Watercolour Made Simple: A beginner\'s guide to Watercolor Basics - eBook',
+  name: 'Watercolor Made Simple: A beginner\'s guide to Watercolor Basics - eBook',
   seoDescription: 'Learn watercolor painting from scratch with this beginner-friendly guide. Explore watercolor supplies, color mixing, water-to-paint ratios, brush techniques, wet-on-wet, wet-on-dry, layering and lifting.',
   price: 15.99,
   polarPrice:15.99,
@@ -359,7 +359,7 @@ addProduct({
   description: `
   
     <p>If you’ve ever felt drawn to watercolor but didn’t know where to begin, this book is for you.</p>
-    <p>This 27 pages digital guide is a gentle, welcoming introduction to watercolor — created especially for beginners who want to paint without pressure, fear, or overwhelm. It’s not a textbook, and it’s not about perfection. It’s about slowing down, understanding the basics, and learning to enjoy the quiet magic of watercolor.</p>
+    <p>This 27-page digital guide is a gentle, welcoming introduction to watercolor — created especially for beginners who want to paint without pressure, fear, or overwhelm. It’s not a textbook, and it’s not about perfection. It’s about slowing down, understanding the basics, and learning to enjoy the quiet magic of watercolor.</p>
 
     <p>Inside, I share everything I wish I had known when I first picked up a brush — explained in a warm, simple, and encouraging way. This book is designed to feel like a calm companion you can return to again and again.</p>
 
