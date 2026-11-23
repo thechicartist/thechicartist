@@ -1215,7 +1215,10 @@ async function handleSendShippingEmail(request, env) {
 }
 
 function corsResponse(body, status, env, requestOrigin) {
-  const allowedOrigins = [env?.ALLOWED_ORIGIN, 'http://127.0.0.1:5500', 'http://localhost:5500', 'http://127.0.0.1:3000', 'http://localhost:3000'].filter(Boolean);
+  // Both hosts must be allowed: www is the canonical host since the Nov 19
+  // redirect (non-www 301s to www), so every page now calls the worker from
+  // https://www.thechicartist.com. ALLOWED_ORIGIN is still the non-www URL.
+  const allowedOrigins = [env?.ALLOWED_ORIGIN, 'https://www.thechicartist.com', 'http://127.0.0.1:5500', 'http://localhost:5500', 'http://127.0.0.1:3000', 'http://localhost:3000'].filter(Boolean);
   const origin = allowedOrigins.includes(requestOrigin) ? requestOrigin : (env?.ALLOWED_ORIGIN || '*');
   return new Response(body, {
     status,
